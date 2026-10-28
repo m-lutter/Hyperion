@@ -1,0 +1,24 @@
+{
+  "baseline_id": "b051eeea1d4234fc323d08ad058478af361a64c4698aed13861f6f15a7454e8b",
+  "requirements": 373,
+  "activities": 677,
+  "calculation_functions": 109,
+  "activities_with_calculation": 246,
+  "activity_status_counts": {
+    "EVIDENCE_REQUIRED": 431,
+    "MISSING_INPUTS": 227,
+    "CALCULATED": 7,
+    "SCREEN_FAIL": 6,
+    "SCREEN_PASS": 6
+  },
+  "requirement_status_counts": {
+    "OPEN": 367,
+    "FAILED_OR_INVALID": 6
+  },
+  "tests": {
+    "run": 94,
+    "passed": 94,
+    "failed": 0
+  },
+  "source_requirements_sha256": "e38cad242daccb0f7176c85db72c54f86947e6ae232e5e27045afb37f87c023e"
+}

@@ -1,0 +1,40 @@
+{
+  "synchronized_at": "2026-10-28 approximately14:25 America/Chicago",
+  "sync_evidence": "Native OneDrive status: Backed up and synced. Workbooks available on this device; post-sync hashes matched frozen copies.",
+  "files": [
+    {
+      "file": "AE 443 Team A Requirements - Verification Plan.xlsx",
+      "bytes": 521768,
+      "sha256": "e38cad242daccb0f7176c85db72c54f86947e6ae232e5e27045afb37f87c023e"
+    },
+    {
+      "file": "Hyperion Master Sheet.xlsx",
+      "bytes": 787682,
+      "sha256": "b34180086c54f2b196ffae95a212b998767e47139ecef945e0bd768e7e38bc71"
+    },
+    {
+      "file": "loads_v2.xlsx",
+      "bytes": 261780,
+      "sha256": "92dc9ec3c454e023121480fc191573540de3292b2a1a901fac7b6ca1c5b9676f"
+    },
+    {
+      "file": "Mlox-Hlox.xlsx",
+      "bytes": 942923,
+      "sha256": "b8df2e606e9b65e955302c26a2760b93b4631b5dde670d7bb887d80712ca5e31"
+    },
+    {
+      "file": "Structures Sizing.xlsx",
+      "bytes": 20052,
+      "sha256": "f31b2d13aa906850872d49f47392fa6539720688893d748e4d673b131aa601ee"
+    }
+  ],
+  "selection": "Verification Plan governs requirements. New Mlox-Hlox geometry selected; source conflicts are retained explicitly.",
+  "conflicts": [
+    "Fairing length: Mlox-Hlox Vehicle Sizing K9=11.5m vs master Payload D35=14m. Select sizing11.5m; total58.763012739m.",
+    "PERF.2.01 C3=9.8km²/s²[TBR] vs master Trajectory&Orbit K8=7.7058. Evaluate both; neither is silently closed.",
+    "Top-down stage dry mass unchanged; bottom-up component masses changed. Do not use stale cached allocation margins.",
+    "Source bottom-up first-stage total excludes fairing. Source upper total includes431.976225kg PAF versus845kg master hardware sum.",
+    "Master available delta-v14.09993km/s vs current sizing13.4888334km/s vs requirement13.91473km/s[TBR]. Use integrated finite-burn state and explicit reserve accounting.",
+    "CP inches/nose datum, aerodynamic reference geometry, actuator capability and distributed mass stations remain provisional."
+  ]
+}

@@ -11,6 +11,7 @@ __pycache__/
 .ipynb_checkpoints/
 hyperion_exports/
 hyperion_notebook_exports/
+results/
 
 # Local configuration and credentials
 .env

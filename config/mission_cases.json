@@ -1,0 +1,130 @@
+{
+  "central_mu_m3_s2": 1.32712440018e+20,
+  "mu_source": "Shared tmi_porkchop_2033.ipynb MU_SUN constant",
+  "source_provenance": {
+    "earth": {
+      "filename": "earth_2033_2038_horizons.txt",
+      "sha256": "12cc656891f1cd628654631812fbe01dc6e50a7a0ec3e0d56d2579258ef1a702",
+      "target": "earth",
+      "center": "Sun (10)",
+      "frame": "ICRF (equatorial; no ecliptic-to-equatorial rotation required)",
+      "units_in_source": "KM-S",
+      "time_scale": "TDB",
+      "ephemeris": "DE441",
+      "output_type": "GEOMETRIC cartesian states"
+    },
+    "mars": {
+      "filename": "mars_2033_2038_horizons.txt",
+      "sha256": "48d7170987281feb57757da7dc528ea9deb342fb7b3240fdf5660184a99212e0",
+      "target": "mars",
+      "center": "Sun (10)",
+      "frame": "ICRF (equatorial; no ecliptic-to-equatorial rotation required)",
+      "units_in_source": "KM-S",
+      "time_scale": "TDB",
+      "ephemeris": "DE441",
+      "output_type": "GEOMETRIC cartesian states"
+    }
+  },
+  "frame_note": "Input vectors are already equatorial ICRF. A fixed J2000 ecliptic north vector is used only to select the prograde transfer branch; no state rotation was performed.",
+  "branch_selection_obliquity_deg": 23.4392911,
+  "scope": "Three daily departure samples at fixed 274 day TOF, not a comprehensive launch-window optimization.",
+  "cases": [
+    {
+      "departure_label": "2033-04-27 00:00 TDB",
+      "arrival_label": "2034-01-26 00:00 TDB",
+      "time_of_flight_s": 23673600.0,
+      "departure_position_m": [
+        -120881146339.1056,
+        -82360653324.81117,
+        -35699389120.235855
+      ],
+      "arrival_position_m": [
+        151893899759.2209,
+        144802306802.2028,
+        62324284364.44935
+      ],
+      "departure_planet_velocity_m_s": [
+        17276.96831291071,
+        -22058.20300105831,
+        -9560.256841566952
+      ],
+      "arrival_planet_velocity_m_s": [
+        -16526.05562522464,
+        17003.911452690558,
+        8244.829125552214
+      ],
+      "long_way": true,
+      "source_earth_row": "2463714.500000000, A.D. 2033-Apr-27 00:00:00.0000, -1.208811463391056E+08, -8.236065332481118E+07, -3.569938912023585E+07,  1.727696831291071E+01, -2.205820300105831E+01, -9.560256841566952E+00,",
+      "source_mars_row": "2463988.500000000, A.D. 2034-Jan-26 00:00:00.0000,  1.518938997592209E+08,  1.448023068022028E+08,  6.232428436444935E+07, -1.652605562522464E+01,  1.700391145269056E+01,  8.244829125552215E+00,"
+    },
+    {
+      "departure_label": "2033-04-28 00:00 TDB",
+      "arrival_label": "2034-01-27 00:00 TDB",
+      "time_of_flight_s": 23673600.0,
+      "departure_position_m": [
+        -119370813413.366,
+        -84254414543.13576,
+        -36520162482.794304
+      ],
+      "arrival_position_m": [
+        150458905343.8867,
+        146264590226.7991,
+        63033686087.3923
+      ],
+      "departure_planet_velocity_m_s": [
+        17683.50867559237,
+        -21777.70867336663,
+        -9438.6406931885
+      ],
+      "arrival_planet_velocity_m_s": [
+        -16691.07727971451,
+        16845.042694224412,
+        8176.406796012781
+      ],
+      "long_way": true,
+      "source_earth_row": "2463715.500000000, A.D. 2033-Apr-28 00:00:00.0000, -1.193708134133660E+08, -8.425441454313576E+07, -3.652016248279431E+07,  1.768350867559237E+01, -2.177770867336663E+01, -9.438640693188500E+00,",
+      "source_mars_row": "2463989.500000000, A.D. 2034-Jan-27 00:00:00.0000,  1.504589053438867E+08,  1.462645902267991E+08,  6.303368608739230E+07, -1.669107727971451E+01,  1.684504269422441E+01,  8.176406796012781E+00,"
+    },
+    {
+      "departure_label": "2033-04-29 00:00 TDB",
+      "arrival_label": "2034-01-28 00:00 TDB",
+      "time_of_flight_s": 23673600.0,
+      "departure_position_m": [
+        -117825602232.5327,
+        -86123644454.27283,
+        -37330303323.45541
+      ],
+      "arrival_position_m": [
+        149009738820.9819,
+        147713096082.764,
+        63737150274.37844
+      ],
+      "departure_planet_velocity_m_s": [
+        18084.279774699058,
+        -21490.37916018203,
+        -9314.146618485838
+      ],
+      "arrival_planet_velocity_m_s": [
+        -16854.1124230503,
+        16684.99005098613,
+        8107.387878252636
+      ],
+      "long_way": true,
+      "source_earth_row": "2463716.500000000, A.D. 2033-Apr-29 00:00:00.0000, -1.178256022325327E+08, -8.612364445427282E+07, -3.733030332345541E+07,  1.808427977469906E+01, -2.149037916018203E+01, -9.314146618485838E+00,",
+      "source_mars_row": "2463990.500000000, A.D. 2034-Jan-28 00:00:00.0000,  1.490097388209819E+08,  1.477130960827640E+08,  6.373715027437844E+07, -1.685411242305030E+01,  1.668499005098613E+01,  8.107387878252636E+00,"
+    }
+  ],
+  "TMI_screens": {
+    "coast_duration_s": 600.0,
+    "coast_duration_basis": "Illustrative screening assumption; no finalized coast/restart timeline supplied.",
+    "target_C3_km2_s2": [
+      7.7058,
+      9.8
+    ],
+    "target_basis": [
+      "Current master source case",
+      "Verification requirement under review"
+    ],
+    "max_burn_duration_s": 900.0
+  }
+}
