@@ -1,0 +1,135 @@
+# VEHICLE: edit physical hardware, mass, geometry and aerodynamic interpretation here.
+# Units are in each key. SI is used internally; angles labeled deg are degrees.
+# Source: inputs/requirements/source_manifest.json, synced 28 Oct 2026.
+# Values retain source precision so the baseline flight does not change.
+# The notebooks show all values and the choices below before running.
+
+
+# Stage 1 dry mass excludes the separately modeled fairing.
+# Stage 2 dry mass already includes its adapter; do not add it again.
+# When changing propellant, update the stage propellant_kg and its tank
+# loaded_mass_kg values together. Their totals must agree; the loader allows
+# numerical source roundoff, then rejects inconsistent inventories before a run.
+[vehicle]
+diameter_m = 5.4
+payload_kg = 4313
+fairing_kg = 2155.27825
+fairing_length_m = 11.5
+payload_cg_above_fairing_base_m = 4.5
+payload_length_m = 6.0
+payload_radius_m = 1.5
+fairing_cg_above_base_m = 6.5
+payload_station_m = 51.76301273945498
+
+# Lengths and tank stations use the stage base as datum.
+# Propellant is loaded mass; residual and startup debits are applied by the model.
+# Gimbal travel/rate and engine pivots are assumptions.
+# exit_area_m2 = 0 explicitly disables nozzle pressure correction.
+[[vehicle.stages]]
+name = "Stage 1"
+dry_mass_kg = 28518.455236898277
+residual_kg = 12225.67377549231
+isp_s = 350
+thrust_N = 6765000
+min_throttle = 0.4
+length_m = 32.625292661945515
+startup_propellant_kg = 2956.4335752961897
+propellant_kg = 422704.5665338655
+engine_pivot_m = 1.5
+gimbal_limit_deg = 5.0
+gimbal_rate_deg_s = 5.0
+exit_area_m2 = 0.0
+reference_pressure_Pa = 101325.0
+
+# Equivalent cylindrical liquid column for center-of-mass/inertia evolution.
+# Loaded component mass is also reused in the tank-volume checks.
+[[vehicle.stages.tanks]]
+name = "LOX"
+loaded_mass_kg = 330812.2694612861
+bottom_m = 4.050000000000001
+height_m = 12.76130694351566
+
+# Equivalent cylindrical liquid column for center-of-mass/inertia evolution.
+# Loaded component mass is also reused in the tank-volume checks.
+[[vehicle.stages.tanks]]
+name = "fuel"
+loaded_mass_kg = 91892.29707257946
+bottom_m = 18.161306943515658
+height_m = 10.413985718429851
+
+# Lengths and tank stations use the stage base as datum.
+# Propellant is loaded mass; residual and startup debits are applied by the model.
+# Gimbal travel/rate and engine pivots are assumptions.
+# exit_area_m2 = 0 explicitly disables nozzle pressure correction.
+[[vehicle.stages]]
+name = "Stage 2"
+dry_mass_kg = 7898.353461875517
+residual_kg = 1917.145794837057
+isp_s = 451
+thrust_N = 890000
+min_throttle = 0.5
+length_m = 26.137720077509464
+startup_propellant_kg = 301.843504114127
+propellant_kg = 66123.84912685309
+engine_pivot_m = 2.0
+gimbal_limit_deg = 5.0
+gimbal_rate_deg_s = 5.0
+exit_area_m2 = 0.0
+reference_pressure_Pa = 0.0
+
+# Equivalent cylindrical liquid column for center-of-mass/inertia evolution.
+# Loaded component mass is also reused in the tank-volume checks.
+[[vehicle.stages.tanks]]
+name = "LOX"
+loaded_mass_kg = 56677.58496587408
+bottom_m = 1.8000000000000003
+height_m = 3.007888642401638
+
+# Equivalent cylindrical liquid column for center-of-mass/inertia evolution.
+# Loaded component mass is also reused in the tank-volume checks.
+[[vehicle.stages.tanks]]
+name = "fuel"
+loaded_mass_kg = 9446.264160979013
+bottom_m = 6.157888642401639
+height_m = 6.679831435107824
+
+# The CSV is interpolated by Mach and AoA.
+# CP units/datum and source export reference geometry need confirmation.
+[aero]
+file = "inputs/aerodynamics.csv"
+reference_area_m2 = 22.902210444669596
+cp_station_offset_m = 0.0
+cp_units = "inches converted to m"
+cp_datum = "nose; RASAero-format inference"
+outside_domain_policy = "endpoint hold AND flag every sample"
+post_separation_policy = "reuse full vehicle coefficients; unvalidated proxy"
+
+# Display-only explanation; selected values are read from the paths below.
+[[choices]]
+label = "Vehicle geometry"
+values = ["vehicle.fairing_length_m", "vehicle.diameter_m"]
+basis = "Selected sizing geometry. The master Payload sheet still gives a 14 m fairing; reconcile with CAD and the aero export."
+
+# Display-only explanation; selected values are read from the paths below.
+[[choices]]
+label = "CP interpretation"
+values = ["aero.cp_units", "aero.cp_datum"]
+basis = "Inches are tentative user confirmation; datum is inferred and remains unverified."
+
+# Display-only explanation; selected values are read from the paths below.
+[[choices]]
+label = "Aerodynamic reference"
+values = ["aero.reference_area_m2", "aero.outside_domain_policy", "aero.post_separation_policy"]
+basis = "Source export geometry is unverified. Flag out-of-domain and separated-vehicle proxy samples."
+
+# Display-only explanation; selected values are read from the paths below.
+[[choices]]
+label = "Stage 1 control capability"
+values = ["vehicle.stages.0.gimbal_limit_deg", "vehicle.stages.0.gimbal_rate_deg_s"]
+basis = "Assumed actuator capability, not approved hardware performance."
+
+# Display-only explanation; selected values are read from the paths below.
+[[choices]]
+label = "Stage 2 control capability"
+values = ["vehicle.stages.1.gimbal_limit_deg", "vehicle.stages.1.gimbal_rate_deg_s"]
+basis = "Assumed actuator capability, not approved hardware performance."

@@ -1,0 +1,110 @@
+calculation,required_inputs,description
+integrated_tmi,"coast_duration_s, restart_propellant_kg, target_c3_km2_s2, max_burn_duration_s","Reuse or run the ascent, then continue from its actual orbital-speed cutoff."
+finite_burn_tmi,"cutoff_row, config, coast_duration_s, restart_propellant_kg, target_c3_km2_s2, max_burn_duration_s","Continue an ascent-cutoff state through coast, restart, and finite TMI."
+lambert,"departure_position_m, arrival_position_m, time_of_flight_s, central_mu_m3_s2",Zero-revolution universal-variable solution; endpoints share one inertial frame.
+lambert_window,"cases, central_mu_m3_s2",Evaluate supplied ephemeris/date pairs; no fabricated planet ephemerides.
+relative_separation,"position_a_m, velocity_a_m_s, position_b_m, velocity_b_m_s, mass_a_kg, mass_b_kg, impulse_on_a_N_s, duration_s, required_center_clearance_m",Propagate both released bodies with equal/opposite impulse and gravity.
+rocket_equation,"initial_mass_kg, final_mass_kg, isp_s",
+propellant_budget,"loaded_mass_kg, burns_kg, startup_kg, boiloff_kg, trapped_residual_kg, required_reserve_kg",
+payload_sweep,payload_masses_kg,Rerun the shared ascent for each supplied payload; no mass rescaling shortcut.
+finite_tmi_payload_sweep,"payload_masses_kg, coast_duration_s, restart_propellant_kg, target_c3_km2_s2, max_burn_duration_s",Repeat both shared 6DOF ascent and departure for each requested payload mass.
+tmi_cutoff_sensitivity,"cutoff_row, config, burn_durations_s, coast_duration_s, restart_propellant_kg, target_c3_km2_s2","Sweep prescribed TMI shutdown times, still stopping at propellant residual."
+separation_monte_carlo,"samples, seed, position_covariance_m2, velocity_covariance_m2, impulse_covariance_N2_s2, separation_inputs",Sample supplied joint state/impulse covariance; record invalid cases as failures.
+nozzle,"chamber_pressure_Pa, chamber_temperature_K, gas_constant_J_kg_K, heat_capacity_ratio, throat_area_m2, exit_area_m2, ambient_pressure_Pa, velocity_efficiency",Calorically perfect isentropic nozzle; chamber chemistry/pump cycle excluded.
+thrust_sum,"per_engine_thrust_N, engine_count",Installed thrust in N for identical engines at the supplied operating point.
+thrust_to_weight,"installed_thrust_N, liftoff_mass_kg, local_gravity_m_s2",Compare installed thrust with liftoff weight using the supplied local gravity.
+mass_fraction,"propellant_mass_kg, wet_stage_mass_kg",Propellant fraction of the complete wet stage; both masses in kg.
+thrust_flow,"thrust_N, isp_s",Propellant flow in kg/s from thrust in N and specific impulse in seconds.
+integrate_consumption,"time_s, thrust_N, isp_s",Integrate supplied piecewise-linear thrust/flow; no constant-Isp shortcut.
+throttle_response,"command_time_s, command_fraction, time_constant_s, delay_s, slew_limit_per_s, initial_fraction, full_thrust_N, sample_step_s","First-order response with zero-order-held command, delay, and rate limit."
+hydraulic_network,"mass_flow_kg_s, density_kg_m3, dynamic_viscosity_Pa_s, segments, upstream_pressure_Pa, elevation_rise_m, gravity_m_s2",Series incompressible Darcy-Weisbach + local-loss screen at supplied flow.
+loading_time,"target_mass_kg, initial_mass_kg, delivery_mass_flow_kg_s, loss_mass_flow_kg_s",
+liquid_ullage,"tank_volume_m3, loaded_liquid_mass_kg, liquid_density_kg_m3",
+pressurant_inventory,"tank_pressure_Pa, initial_ullage_m3, final_ullage_m3, ullage_temperature_K, gas_constant_J_kg_K, storage_volume_m3, storage_initial_pressure_Pa, storage_final_pressure_Pa, storage_initial_temperature_K, storage_final_temperature_K","Ideal-gas, constant-pressure/isothermal receiving ullage inventory screen."
+ullage_transient,"time_s, ullage_volume_m3, inflow_kg_s, outflow_kg_s, heat_input_W, inlet_temperature_K, initial_mass_kg, initial_temperature_K, gas_constant_J_kg_K, heat_capacity_cv_J_kg_K",Lumped ideal-gas open-system d(m cv T)/dt = Q + min cp Tin - mout cp T - p dV/dt.
+boiloff_inventory,"initial_liquid_mass_kg, heat_leak_W, latent_heat_J_kg, duration_s, replenishment_kg_s",Saturated-liquid heat leak converted to boiloff; no sensible-heating assumption hidden.
+trapped_inventory,"trapped_volumes_m3, liquid_density_kg_m3, cutoff_flow_kg_s, cutoff_delay_s",
+chilldown,"wall_mass_kg, wall_heat_capacity_J_kg_K, initial_wall_temperature_K, coolant_temperature_K, heat_transfer_coefficient_W_m2_K, area_m2, duration_s, coolant_latent_heat_J_kg","Lumped wall cooling to a prescribed coolant bath, with heat-equivalent evaporation."
+tank_geometry,"inner_radius_m, cylinder_length_m, dome_height_m, dome_count, dome_shape, loaded_liquid_mass_kg, liquid_density_kg_m3",Cylinder plus explicitly selected ellipsoidal or spherical-cap dome geometry.
+feed_transient,"time_s, mass_flow_kg_s, tank_gas_pressure_Pa, axial_acceleration_m_s2, initial_liquid_mass_kg, tank_cross_section_m2, density_kg_m3, dynamic_viscosity_Pa_s, vapor_pressure_Pa, segments","Depleting liquid head, prescribed feed flow inertia, and series pressure loss."
+mixture_flow_transient,"time_s, total_command_kg_s, command_oxidizer_fuel_ratio, fuel_time_constant_s, oxidizer_time_constant_s, initial_fuel_flow_kg_s, initial_oxidizer_flow_kg_s",Two first-order feed responses to a common total-flow and mixture command.
+shutdown_surge,"density_kg_m3, wave_speed_m_s, initial_flow_velocity_m_s, final_flow_velocity_m_s, line_length_m, closure_time_s, initial_pressure_Pa",Joukowsky rapid-closure pressure-rise bound with applicability flag.
+fill_hydraulics,"target_mass_kg, initial_mass_kg, delivery_mass_flow_kg_s, loss_mass_flow_kg_s, density_kg_m3, dynamic_viscosity_Pa_s, segments, upstream_pressure_Pa, elevation_rise_m, gravity_m_s2",Combine constant-rate loading inventory with pressure needed at that same rate.
+section_stress,"axial_force_n, bending_y_nm, bending_z_nm, shear_y_n, shear_z_n, torque_nm, area_m2, iy_m4, iz_m4, torsion_j_m4, shear_area_y_m2, shear_area_z_m2, sample_yz_m, yield_allowable_pa, ultimate_allowable_pa, yield_factor, ultimate_factor",Prismatic section about principal centroidal axes; Saint-Venant circular torsion.
+tank_stress,"radius_m, thickness_m, pressure_pa, axial_force_n, bending_moment_nm, torque_nm, yield_allowable_pa, joint_efficiency, load_factor",Thin closed-end cylinder membrane plus axial bending; extrema at both fibers.
+buckling,"youngs_modulus_pa, poisson_ratio, radius_m, thickness_m, length_m, area_m2, min_second_moment_m4, effective_length_factor, shell_knockdown, column_knockdown, compressive_force_n, load_factor",Independent ideal axial shell and Euler-column screens with supplied KDFs.
+buckling_eigenvalue,"stiffness_n_m, destabilizing_geometric_stiffness_n_m, load_factor",K v = lambda G v; G is supplied for one reference destabilizing load case.
+joint_strength,"fastener_tension_n, fastener_shear_n, fastener_tensile_area_m2, fastener_shear_area_m2, bearing_diameter_m, plate_thickness_m, tension_allowable_pa, shear_allowable_pa, bearing_allowable_pa, weld_force_n, weld_effective_throat_area_m2, weld_allowable_pa, preload_n, joint_stiffness_fraction, load_factor",Per-fastener loads from an external load distribution; equal load not assumed.
+fe_static,"stiffness_n_m, force_n, constrained_dofs",Supplied assembled linear FE matrix; fixed constraints are exact elimination.
+modal,"stiffness_n_m, mass_kg",Boundary-condition-reduced matrices; mass-normalized real modes.
+fe_transient,"times_s, stiffness_n_m, mass_kg, damping_ns_m, force_n, initial_displacement_m, initial_velocity_m_s",M u''+C u'+K u=f-M gamma a_base; u is relative to prescribed base.
+base_psd_response,"frequency_hz, base_acceleration_psd_m2_s4_hz, stiffness_n_m, mass_kg, damping_ns_m, base_influence","One-sided base-acceleration PSD through linear multi-DOF FRF, trapezoid in Hz."
+shock_response_spectrum,"times_s, acceleration_m_s2, natural_frequencies_hz, damping_ratio",Absolute-acceleration SRS of zero-initial-state SDOF oscillators.
+fatigue_damage,"stress_history_pa, sn_amplitude_pa, sn_cycles, damage_limit","Rainflow closed cycles plus residual half cycles, log-log S-N Miner damage."
+fracture_margin,"tensile_stress_pa, flaw_depth_m, geometry_factor, toughness_pa_sqrt_m, load_factor",
+temperature_allowable,"temperature_k, table_temperature_k, table_allowable_pa",
+thermal_strain,"alpha_per_k, temperature_change_k, length_m, youngs_modulus_pa, area_m2, restraint_fraction",
+thermal_network,"times_s, heat_capacity_j_k, conductance_w_k, initial_temperature_k, heat_input_w, ambient_temperature_k, ambient_conductance_w_k, emissivity_area_m2",C dT/dt=sum Gij(Tj-Ti)+Q+H(Tamb-T)+eps*A*sigma(Tamb^4-T^4).
+multilayer_conduction,"times_s, thickness_m, conductivity_w_m_k, density_kg_m3, specific_heat_j_kg_k, area_m2, initial_temperature_k, left_temperature_k, right_temperature_k, left_h_w_m2_k, right_h_w_m2_k, heat_input_w",One finite-volume node per layer; half-layer series resistances at interfaces.
+vent_pressure,"times_s, volume_m3, initial_pressure_pa, initial_temperature_k, ambient_pressure_pa, ambient_temperature_k, vent_area_m2, discharge_coefficient, gas_constant_j_kg_k, heat_capacity_ratio, heat_input_w",Rigid perfectly mixed ideal-gas volume with bidirectional compressible orifice.
+deformation_clearance,"nominal_gap_m, displacement_toward_gap_m, tolerance_stack_m, required_clearance_m",Gap-normal displacement/history including both bodies; worst-case additive tolerances.
+load_resultant,"forces_n, application_points_m, free_moments_nm, reference_point_m",Correlated simultaneous force case; vectors share a common Cartesian frame.
+support_reactions,"applied_forces_n, application_points_m, applied_moments_nm, support_points_m, support_directions, support_stiffness_n_m, reference_point_m","Rigid body's scalar directional spring supports, linear minimum strain energy."
+inertial_loads,"masses_kg, positions_m, reference_point_m, reference_acceleration_m_s2, angular_velocity_rad_s, angular_acceleration_rad_s2",D'Alembert forces at discrete rigidly attached masses; gravity is a separate applied load.
+surface_loads,"patch_pressure_pa, patch_areas_m2, outward_normals, patch_centroids_m, reference_point_m",Pressure positive into a surface with supplied outward unit normal.
+combine_load_cases,"case_forces_n, case_moments_nm, combination_coefficients",Linear combinations of explicitly correlated source cases; no statistical independence assumed.
+thermoelastic_static,"stiffness_n_m, mechanical_force_n, constrained_dofs, temperature_k, stress_free_temperature_k, thermal_force_n_k, stress_recovery_pa_m, thermal_stress_recovery_pa_k",Supplied FE equivalent thermal-load/recovery matrices include constitutive and expansion data.
+coupled_load_modal,"times_s, stiffness_n_m, mass_kg, damping_ns_m, force_n, initial_displacement_m, initial_velocity_m_s",
+section_joint_strength,"section_inputs, joints",Composite strength screen; joint loads must come from an evidenced load distribution.
+temperature_strength,"temperature_k, stress_demand_pa, table_temperature_k, table_allowable_pa, load_factor",
+corrosion_loss,"initial_thickness_m, corrosion_rate_m_s, oxidation_loss_m, exposure_time_s, required_remaining_thickness_m",Uniform linear recession screen; supplied rates must be exposure/material specific.
+impulse_momentum,"mass_kg, inertia_kg_m2, linear_impulse_ns, angular_impulse_nms, impulse_offset_m",Instantaneous rigid-body velocity changes about the center of mass.
+pendulum_slosh,"times_s, slosh_mass_kg, pendulum_length_m, restoring_acceleration_m_s2, damping_ratio, support_acceleration_m_s2, initial_angle_rad, initial_rate_rad_s",Planar equivalent pendulum with nonlinear sin/cos and viscous damping.
+pressure_psd_response,"frequency_hz, exterior_pressure_psd_pa2_hz, pressure_transmission_amplitude, load_area_vector_m2, stiffness_n_m, mass_kg, damping_ns_m",Fully coherent pressure input through SUPPLIED acoustic transmission and FE force distribution.
+inertia_and_stress,"inertial_inputs, applied_forces_n, application_points_m, applied_moments_nm, section_properties","Section-cut D'Alembert balance, with all distal masses/applied forces supplied."
+strength_fracture,"temperature_k, equivalent_stress_pa, tensile_stress_pa, table_temperature_k, table_allowable_pa, table_toughness_pa_sqrt_m, flaw_depth_m, geometry_factor, load_factor",
+degraded_strength,"base_allowable_pa, retained_strength_fractions, stress_demand_pa, load_factor","Scenario sweep of supplied retained strength, no degradation-rate prediction."
+burst_capacity,"radius_m, thickness_m, material_ultimate_pa, weld_efficiency, penetration_stress_factor, required_pressure_pa, load_factor","Thin-cylinder hoop-strength burst screen, with supplied joint efficiency and local Kt."
+systems_rf_link,"tx_positions_m, rx_position_m, frequency_hz, tx_power_w, tx_gain_dbi, rx_gain_dbi, loss_db, noise_temperature_k, bit_rate_bps, required_ebn0_db, minimum_elevation_deg","Free-space RF link and ground antenna visibility; positions ECEF m, gains dBi, losses dB."
+systems_satellite_visibility,"receiver_positions_m, satellite_positions_m, minimum_elevation_deg, earth_radius_m","GNSS geometry at simultaneous epochs; ECEF m arrays [T,3] and [T,S,3], mask degrees."
+systems_telemetry,"streams, link_rate_bps, coding_rate, protocol_efficiency, propagation_delay_s, processing_delay_s","Packet budget; streams contain packet_bits and packets_per_s; times s, link rate bits/s."
+systems_power_energy,"loads, capacity_wh, usable_fraction, distribution_efficiency, reserve_fraction, transfer_time_s, allowed_transfer_time_s","Electrical energy budget; loads contain power_w, duration_s, duty_fraction; capacity Wh, transfer times s."
+systems_dc_circuit,"source_voltage_v, source_resistance_ohm, conductor_resistance_ohm_m, one_way_length_m, load_current_a, ampacity_a, fault_path_resistance_ohm, protection_trip_current_a, protection_clearing_s, allowed_clearing_s","Resistive two-wire DC voltage drop, heating, bolted fault and supplied clearing time; SI units."
+systems_timing,"stages_s, deadline_s, jitter_s","Worst-case serial event/umbilical/command timing; stage durations, deadline and additive jitter in s."
+systems_state_machine,"initial_state, events, transitions, forbidden_states","Evaluate explicit transition/guard logic; events {time_s,event,signals}, transitions {from,event,to,guards}."
+systems_launch_commit,"measurements, rules","Evaluate supplied launch/environment predicates; rules {name,measurement,operator,limit}; units must match."
+systems_navigation,"transition_matrix, process_covariance, measurement_matrix, measurement_covariance, initial_covariance, initial_bias, steps, samples, seed",Discrete linear Kalman covariance/bias propagation and final Gaussian Monte Carlo; use consistent state units.
+systems_frequency_margins,"frequency_hz, open_loop_real, open_loop_imag","Sampled SISO open-loop gain/phase crossover margins; frequencies Hz, complex loop gain dimensionless."
+systems_linear_feedback,"a_matrix, b_matrix, feedback_gain, initial_state, duration_s, sample_interval_s","Continuous linear state-feedback free response xdot=(A-BK)x; duration/sample interval s, caller state units."
+systems_fault_tree,"event_probabilities, tree",Exact Boolean fault-tree probability under independent basic events; tree has AND/OR/NOT children or event name.
+systems_fmea,"failures, event_probabilities, tree",Analyst FMEA risk-priority rankings (severity*occurrence*detection) plus independent-event fault tree.
+systems_critical_path,tasks,"Precedence-network early/late dates and float; tasks {id,duration_days,predecessors}, durations days."
+systems_cost,"development_cost, first_unit_cost, learning_curve_fraction, quantity, per_launch_operations_cost, overhead_fraction, price_margin_fraction","Unit learning-curve recurring/development cost; common currency, quantity integer, learning slope at each production doubling."
+systems_transport_clearance,"vehicle_envelope_m, route_envelopes_m, payload_mass_kg, capacity_kg, clearance_allowance_m","Axis-aligned route envelope and transporter capacity; envelopes [width,height,length] m, masses kg."
+systems_lift,"mass_kg, cg_position_m, support_positions_m, sling_angles_deg, dynamic_factor, sling_ratings_n","Two-point static lift/transport support reactions and sling tension; CG/support stations m, angles from vertical degrees, ratings N."
+systems_tolerance,"nominal_clearance_m, signed_contributions_m, absolute_tolerances_m, required_clearance_m",Worst-case interval clearance/tolerance stack; all lengths m. RSS also reported for independent centered tolerance terms.
+systems_concentration,"volume_m3, ventilation_m3_s, inlet_concentration, initial_concentration, source_per_s, duration_s, concentration_limit","Perfectly mixed vapor/particle balance; concentrations amount/m^3, source amount/s, constant ventilation m^3/s."
+systems_humidity,"dry_air_mass_kg, dry_air_flow_kg_s, inlet_humidity_ratio, initial_humidity_ratio, moisture_source_kg_s, duration_s, pressure_pa, temperature_k","Mixed dry-air water mass balance; humidity ratio kg water/kg dry air; fixed air mass, pressure Pa and temperature K."
+systems_thermal,"thermal_capacity_j_k, conductance_w_k, initial_temperature_k, ambient_temperature_k, heat_input_w, duration_s","Single-node transient heat balance C*dT/dt=Q+UA*(Tamb-T); C J/K, UA W/K, temperatures K, duration s."
+systems_weather_separation,"event_positions_m, flight_path_m, event_ages_s, exclusion_distance_m, waiting_time_s",Lightning/storm event distance to polyline and elapsed-time screen; common Cartesian frame m and ages s.
+systems_pressure_trend,"time_s, pressure_pa, forecast_horizon_s","Least-squares pressure trend and linear projection; time s, pressure Pa, future horizon s."
+systems_actuator,"time_s, command, initial_position, time_constant_s, rate_limit_per_s, lower_limit, upper_limit","First-order, rate/position-limited actuator with zero-order-held commands; times s, positions/commands in common units."
+systems_hold_down,"weight_n, thrust_n, lateral_force_n, overturning_moment_nm, support_radius_m, support_count","Rigid equally spaced circular hold-down vertical reactions; N, N*m, m. Applied overturning about one diameter."
+systems_power_network,"energy_inputs, circuit_inputs",Combined energy/duration and DC terminal-voltage budget; nested input contracts are power_energy and dc_circuit.
+systems_state_logic,"state_inputs, timing_inputs, fault_inputs","Combined deterministic event/interlock sequence, worst-case timing and independent-event fault tree; nested contracts explicit."
+systems_safety_decision,"rule_inputs, fault_inputs",Supplied launch predicates plus independent-event hazard fault tree; does not authorize launch.
+systems_rf_telemetry,"link_inputs, telemetry_inputs",Combined free-space RF/visibility and packet bandwidth/latency budgets; nested contracts rf_link_budget and telemetry_budget.
+systems_handling,"clearance_inputs, lift_inputs, tolerance_inputs","Transport/mating/handling envelope, two-point support loads and tolerance stack; nested contracts explicit, m/kg/N."
+systems_ground_hydraulics,"network_inputs, transfer_mass_kg, storage_capacity_kg, inventory_kg, flow_direction, density_kg_m3, wave_speed_m_s, velocity_change_m_s, permitted_pressure_pa","Ground fill/drain time, storage inventory and Darcy pressure loss plus instantaneous Joukowsky surge; SI units."
+systems_wind_loads,"height_m, wind_speed_m_s, density_kg_m3, projected_area_m2, drag_coefficient, section_modulus_m3, allowable_stress_pa","Static wind-strip force, base/shear bending and section stress; height m, velocity m/s, rho kg/m^3, areas m^2, Z m^3, stress Pa."
+systems_radiation,"time_s, energy_mev, differential_flux_m2_s_mev, shielding_transfer_matrix, dose_response_gy_m2, allowable_dose_gy","Transport using a supplied spectral response matrix then integrate dose; flux /m^2/s/MeV, energy MeV, response Gy*m^2."
+systems_rolling_sphere,"mast_height_m, sphere_radius_m, object_distance_m, object_height_m","Single isolated mast rolling-sphere protected envelope over flat ground; dimensions m, heights <= sphere radius."
+systems_environment,"thermal_inputs, humidity_inputs, particle_inputs, heat_load_w, supply_temperature_k, maximum_temperature_k, air_density_kg_m3, air_heat_capacity_j_kg_k","Combined lumped thermal, moisture/particle balances and steady sensible-heat conditioning airflow; SI units."
+systems_schedule_resources,"tasks, resource_rates_per_day, initial_inventory, fixed_consumption","Critical-path schedule and resource inventory; common amount units per resource, rates amount/day, task durations days."
+systems_loop_response,"feedback_inputs, frequency_inputs, cases_initial_state",Linear closed-loop eigenvalues/recovery sensitivity and sampled SISO margins; nested contracts plus initial-state cases.
+systems_risk_scores,risks,"Cost/schedule risk expected-exposure ranking; records id, probability, cost_impact, delay_days in common currency and days."
+systems_pressure_forecast,"trend_inputs, forecast_pressure_pa, observed_pressure_pa","Pressure trend plus paired forecast-observation RMSE/bias/correlation; pressures Pa, trend times s."
+systems_swept_handling,"clearance_inputs, vehicle_yaw_deg, lift_inputs, tolerance_inputs",Sampled yaw-rotated rigid envelope and two-support axle/load screen; clearance/lift contracts plus yaw degrees per route box.
+flight_summary,context,Extract requirement-facing measurements from one shared trajectory run.
+ascent_dispersions,"context, cases","Rerun six-DOF cases; explicit overrides and seed, no invented dispersions."
+sourced_sizing,"context, tanks, component_mass_kg, allocated_mass_kg",Recompute tank volumes/ullage and bottom-up dry mass against allocations.

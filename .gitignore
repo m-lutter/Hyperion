@@ -7,11 +7,9 @@ __pycache__/
 .mypy_cache/
 .ruff_cache/
 
-# Notebook checkpoints and optional generated exports
+# Local notebook checkpoints and calculation caches
 .ipynb_checkpoints/
-hyperion_exports/
-hyperion_notebook_exports/
-results/
+.cache/
 
 # Local configuration and credentials
 .env

@@ -1,0 +1,191 @@
+{
+  "peaks": {
+    "q_Pa": {
+      "t_s": 63.400000000000006,
+      "q_Pa": 17886.383885276126,
+      "altitude_m": 7787.3024913473055,
+      "mach": 0.8337364771716083,
+      "alpha_deg": 0.30758412254430684,
+      "mass_kg": 409096.8465041373,
+      "aero_out_of_domain": 0.0,
+      "aero_configuration_proxy": 0.0
+    },
+    "qalpha_Pa_deg": {
+      "t_s": 46.6,
+      "qalpha_Pa_deg": 31724.25956247065,
+      "altitude_m": 4077.470224512741,
+      "mach": 0.5839956512803409,
+      "alpha_deg": 2.1769611465981153,
+      "mass_kg": 437794.10805624747,
+      "aero_out_of_domain": 0.0,
+      "aero_configuration_proxy": 0.0
+    },
+    "axial_g": {
+      "t_s": 217.76283066391605,
+      "axial_g": 5.688414309665541,
+      "altitude_m": 78223.8526276229,
+      "mach": 12.830242395866117,
+      "alpha_deg": 2.273409666396752,
+      "mass_kg": 121234.60985111918,
+      "aero_out_of_domain": 0.0,
+      "aero_configuration_proxy": 0.0
+    },
+    "lateral_g": {
+      "t_s": 220.96283066391598,
+      "lateral_g": 0.017886830232128868,
+      "altitude_m": 80173.68512474,
+      "mach": 12.985624394986583,
+      "alpha_deg": 3.4348562091712873,
+      "mass_kg": 79947.16130014435,
+      "aero_out_of_domain": 0.0,
+      "aero_configuration_proxy": 1.0
+    },
+    "normal_force_N": {
+      "t_s": 46.6,
+      "normal_force_N": 25361.57748217391,
+      "altitude_m": 4077.470224512741,
+      "mach": 0.5839956512803409,
+      "alpha_deg": 2.1769611465981153,
+      "mass_kg": 437794.10805624747,
+      "aero_out_of_domain": 0.0,
+      "aero_configuration_proxy": 0.0
+    },
+    "axial_aero_force_N": {
+      "t_s": 76.4,
+      "axial_aero_force_N": 161675.9456237603,
+      "altitude_m": 11291.113133794628,
+      "mach": 1.050595726374188,
+      "alpha_deg": 0.11929797798133664,
+      "mass_kg": 388581.98284072644,
+      "aero_out_of_domain": 0.0,
+      "aero_configuration_proxy": 0.0
+    },
+    "aero_moment_Nm": {
+      "t_s": 46.6,
+      "aero_moment_Nm": 892656.5259736174,
+      "altitude_m": 4077.470224512741,
+      "mach": 0.5839956512803409,
+      "alpha_deg": 2.1769611465981153,
+      "mass_kg": 437794.10805624747,
+      "aero_out_of_domain": 0.0,
+      "aero_configuration_proxy": 0.0
+    },
+    "required_moment_Nm": {
+      "t_s": 46.6,
+      "required_moment_Nm": 1104477.0604739566,
+      "altitude_m": 4077.470224512741,
+      "mach": 0.5839956512803409,
+      "alpha_deg": 2.1769611465981153,
+      "mass_kg": 437794.10805624747,
+      "aero_out_of_domain": 0.0,
+      "aero_configuration_proxy": 0.0
+    },
+    "thrust_N": {
+      "t_s": 0.0,
+      "thrust_N": 6765000.0,
+      "altitude_m": 18.20060259755701,
+      "mach": 0.025246839497423495,
+      "alpha_deg": 90.00000000000001,
+      "mass_kg": 528757.0690341962,
+      "aero_out_of_domain": 1.0,
+      "aero_configuration_proxy": 0.0
+    },
+    "gimbal_total_deg": {
+      "t_s": 220.96283066391598,
+      "gimbal_total_deg": 0.9327744819356336,
+      "altitude_m": 80173.68512474,
+      "mach": 12.985624394986583,
+      "alpha_deg": 3.4348562091712873,
+      "mass_kg": 79947.16130014435,
+      "aero_out_of_domain": 0.0,
+      "aero_configuration_proxy": 1.0
+    }
+  },
+  "checks": {
+    "axial_acceleration_pass": true,
+    "lateral_acceleration_pass": true,
+    "nominal_moment_inequality_all_samples": false,
+    "nominal_moment_ratio_requirement_all_samples": false,
+    "moment_demand_within_capacity_powered": true,
+    "circular_200km_target_screen_pass": true,
+    "validated_control_authority": false,
+    "significant_q_table_domain_pass": false,
+    "powered_moment_ratio_requirement_pass": true
+  },
+  "events": [
+    {
+      "event": "liftoff",
+      "t_s": 0.0
+    },
+    {
+      "event": "MECO",
+      "t_s": 217.76283066391605
+    },
+    {
+      "event": "stage_separation",
+      "t_s": 219.76283066391605,
+      "shed_mass_kg": 40744.12901239058,
+      "cg_shift_m": 8.324391034804584,
+      "upper_delta_v_m_s": 0.5,
+      "lower_delta_v_m_s": -0.9877555710449827
+    },
+    {
+      "event": "stage2_ignition",
+      "t_s": 219.76283066391605
+    },
+    {
+      "event": "fairing_jettison",
+      "t_s": 271.3584361112862,
+      "shed_mass_kg": 2155.278250000003
+    },
+    {
+      "event": "orbital_speed_cutoff",
+      "t_s": 472.67634608135404
+    },
+    {
+      "event": "end_coast",
+      "t_s": 502.67634608135404
+    }
+  ],
+  "duration_s": 502.67634608135404,
+  "initial_mass_kg": 528757.0690341962,
+  "ideal_remaining_delta_v_m_s": 2887.1973102249503,
+  "reference_TMI_delta_v_m_s": 3570.5,
+  "min_moment_ratio_above_1Nm": 0.0,
+  "min_powered_moment_ratio_above_1Nm": 9.4713276174637,
+  "worst_ratio2_margin_Nm": -12765.977280404073,
+  "coast_peak_aero_moment_Nm": 6382.988640202037,
+  "additional_coast_moment_for_ratio2_Nm": 12765.977280404073,
+  "aero_outside_table_samples": 1545,
+  "aero_outside_table_above_100Pa_samples": 133,
+  "post_separation_aero_proxy_samples": 1418,
+  "separation_average_acceleration_g": 0.10197162129779283,
+  "peak_aero_outside_table_q_Pa": 5415.408409841294,
+  "cutoff_state": {
+    "t_s": 472.67634608135404,
+    "altitude_m": 200259.3659287244,
+    "inertial_speed_m_s": 7788.334326948488,
+    "vertical_speed_m_s": -0.8674523965615322,
+    "osculating_perigee_m": 199527.5509260781,
+    "osculating_apogee_m": 200991.3439663276,
+    "prop2_kg": 14928.211650312873,
+    "ideal_dv_m_s": 9708.042458913415,
+    "steering_loss_m_s": 1410.8194550723235,
+    "gimbal_loss_m_s": 0.028949728561676966,
+    "drag_loss_m_s": 19.731470276690608,
+    "gravity_loss_m_s": 897.5246391585439
+  },
+  "assumptions": [
+    "Full-vehicle aero export geometry/reference area is unverified. CP inches from nose is inferred from RASAero and tentative user confirmation.",
+    "Gimbal cone, rate, actuator response and all engines gimballed are design assumptions, not approved hardware capabilities.",
+    "RCS authority is limited to the configured moments. Powered-off control can fail; central-axis TVC cannot control roll.",
+    "Equivalent tank columns, dry cylindrical masses, engine pivots, payload/fairing mass stations inferred within supplied dimensions.",
+    "Fairing allocated from stage1 dry budget; adapter allocated inside upper-stage dry budget.",
+    "Upper-stage and bare vehicle reuse full-stack aero table; all such samples are flagged.",
+    "Deterministic legacy wind magnitude plus assumed eastward direction/taper, not a measured launch sounding.",
+    "Fixed source thrust and Isp: nozzle exit area absent, pressure correction disabled explicitly.",
+    "Separation impulse/delay are assumptions; no shock, flex, buffet, slosh, collision or stage-return analysis.",
+    "The ascent uses the configured provisional parking target. Integrated TMI continues that state through coast and restart; payload deployment needs a separate study.",
+    "Selected sizing geometry conflicts with master Payload fairing geometry. Mass stations need CAD reconciliation, and aero export geometry is unverified."
+  ]
+}

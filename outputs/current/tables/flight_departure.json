@@ -1,0 +1,38 @@
+{
+  "status": "residual_propellant_limit",
+  "target_C3_reached": false,
+  "target_C3_km2_s2": 9.8,
+  "achieved_C3_km2_s2": -12.253672265725537,
+  "C3_margin_km2_s2": -22.053672265725538,
+  "elapsed_from_ascent_cutoff_s": 663.5496025980476,
+  "remaining_propellant_kg": 1917.145794837042,
+  "required_residual_kg": 1917.145794837057,
+  "consumed_propellant_kg": 13011.06585547583,
+  "TMI_ideal_delta_v_m_s": 2837.731796475433,
+  "events": [
+    {
+      "event": "ascent_cutoff",
+      "t_s": 472.6763460813541
+    },
+    {
+      "event": "TMI_restart",
+      "t_s": 1072.676346081354,
+      "startup_propellant_kg": 301.843504114127
+    },
+    {
+      "event": "residual_propellant_limit",
+      "t_s": 1136.2259486794017
+    }
+  ],
+  "maximum_axial_g": 5.799867850964148,
+  "maximum_lateral_g": 0.010111669142757958,
+  "axial_acceleration_screen_pass": true,
+  "lateral_acceleration_screen_pass": true,
+  "powered_tracking_capacity_screen_pass": true,
+  "assumptions": [
+    "Same shared 6DOF dynamics, atmosphere, moving mass, actuator and acceleration limits.",
+    "Prograde departure guidance; no optimizer or planetary encounter matching.",
+    "Supplied instantaneous restart propellant debit; no ignition shock or boiloff model.",
+    "Source gimbal hardware and coast-control limitations remain applicable."
+  ]
+}

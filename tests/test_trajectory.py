@@ -11,7 +11,7 @@ import math
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from hyperion.trajectory import (
+from model.trajectory import (
     np,
     Rotation,
     matrix,
@@ -285,7 +285,7 @@ BASELINE_CONFIG = {
         "payload_station_m": 51.76301273945498,
     },
     "aero": {
-        "file": "data/aero_lookup.csv",
+        "file": "inputs/aerodynamics.csv",
         "reference_area_m2": 22.902210444669596,
         "cp_station_offset_m": 0.0,
         "cp_units": "inches converted to m",

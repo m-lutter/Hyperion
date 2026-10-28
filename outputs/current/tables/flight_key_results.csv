@@ -1,0 +1,9 @@
+Quantity,Value,Unit,Limit,Result
+AoA at max-Qalpha,2.176961146598116,deg,4.0,SCREEN_PASS
+Maximum axial acceleration,5.688414309665541,g,6.0,SCREEN_PASS
+Maximum lateral acceleration,0.0178868302321288,g,2.0,SCREEN_PASS
+Maximum dynamic pressure,17886.383885276126,Pa,—,CALCULATED
+Maximum Qalpha,31724.25956247065,Pa deg,—,CALCULATED
+Steering loss,1410.8194550723235,m/s,—,CALCULATED
+Minimum powered control margin,253760.4853518316,N m,>= 0,SCREEN_PASS
+Minimum all-phase control margin,-12765.977280404071,N m,>= 0,SCREEN_FAIL

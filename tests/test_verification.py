@@ -5,7 +5,7 @@ from pathlib import Path
 from unittest.mock import patch
 import pandas as pd
 
-from hyperion.verification import (
+from model.verification import (
     acceptance,
     activities,
     catalog,
@@ -104,7 +104,7 @@ class EvidenceTests(unittest.TestCase):
             ]
         )
         with patch(
-            "hyperion.verification.load_requirements", return_value=[requirement]
+            "model.verification.load_requirements", return_value=[requirement]
         ):
             self.assertEqual(requirement_status(rows).iloc[0].status, "OPEN")
             duplicate = pd.concat([rows, rows])

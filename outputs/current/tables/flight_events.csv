@@ -1,0 +1,8 @@
+event,t_s,shed_mass_kg,cg_shift_m,upper_delta_v_m_s,lower_delta_v_m_s
+liftoff,0.0,,,,
+MECO,217.76283066391605,,,,
+stage_separation,219.76283066391605,40744.12901239058,8.324391034804584,0.5,-0.9877555710449827
+stage2_ignition,219.76283066391605,,,,
+fairing_jettison,271.3584361112862,2155.278250000003,,,
+orbital_speed_cutoff,472.67634608135404,,,,
+end_coast,502.67634608135404,,,,

@@ -1,0 +1,19 @@
+Result,Value,Units
+Maximum Q,17.886383885276125,kPa
+Maximum Qα,31.72425956247065,kPa·deg
+AoA at maximum Qα,2.176961146598116,deg
+Peak axial acceleration,5.688414309665541,g
+Peak lateral acceleration,0.0178868302321288,g
+Liftoff thrust / weight,1.3046407480463487,ratio
+Smallest powered control margin,253.7604853518316,kN·m
+Smallest ascent margin including staging coast,-12.765977280404071,kN·m
+Steering loss,1410.8194550723235,m/s
+Drag loss,19.731470276690608,m/s
+Gravity loss,897.5246391585439,m/s
+Target departure C3,9.8,km²/s²
+Achieved departure C3,-12.253672265725537,km²/s²
+Departure C3 margin,-22.053672265725538,km²/s²
+Peak departure axial acceleration,5.799867850964148,g
+Peak departure lateral acceleration,0.010111669142757958,g
+Smallest departure control margin including coast,-1.4718030534934656e-07,kN·m
+Propellant after departure,1917.145794837042,kg

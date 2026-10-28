@@ -3,7 +3,7 @@
 import math
 import unittest
 import numpy as np
-from hyperion.propulsion import (
+from model.propulsion import (
     nozzle,
     integrate_consumption,
     hydraulic_network,

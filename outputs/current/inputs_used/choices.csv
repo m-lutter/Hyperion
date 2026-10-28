@@ -1,0 +1,15 @@
+Choice,Selection,Basis
+Vehicle geometry,fairing_length_m: 11.5 m; diameter_m: 5.4 m,Selected sizing geometry. The master Payload sheet still gives a 14 m fairing; reconcile with CAD and the aero export.
+CP interpretation,cp_units: inches converted to m; cp_datum: nose; RASAero-format inference,Inches are tentative user confirmation; datum is inferred and remains unverified.
+Aerodynamic reference,reference_area_m2: 22.902210444669596 m²; outside_domain_policy: endpoint hold AND flag every sample; post_separation_policy: reuse full vehicle coefficients; unvalidated proxy,Source export geometry is unverified. Flag out-of-domain and separated-vehicle proxy samples.
+Stage 1 control capability,gimbal_limit_deg: 5.0 deg; gimbal_rate_deg_s: 5.0 deg/s,"Assumed actuator capability, not approved hardware performance."
+Stage 2 control capability,gimbal_limit_deg: 5.0 deg; gimbal_rate_deg_s: 5.0 deg/s,"Assumed actuator capability, not approved hardware performance."
+Departure baseline,coast_duration_s: 600 s; restart_propellant_kg: 301.843504114127 kg; target_c3_km2_s2: 9.8 km²/s²,The verification target is provisional. The master target is retained as a separate comparison case; neither is a solved encounter.
+Integrator,method: RK45; rtol: 2e-07; max_step_s: 0.4 s,Quaternion rigid-body 6DOF with discrete stage and fairing events; no flexible dynamics.
+Atmosphere and wind,wind_reference_m_s: 7.62 m/s; wind_toward_deg_east_of_north: 90.0; temperature_offset_K: 0.0 K; density_scale: 1.0,Layered standard atmosphere and a deterministic wind profile; no measured launch sounding.
+Coast and roll control,rcs_moment_Nm: 0.0 N m; roll_rcs_moment_Nm: 0.0 N m; control_ratio: 2.0,Evaluate all phases. No central-axis TVC roll authority is available.
+Actuator response,actuator_time_constant_s: 0.15 s,Assumed first-order response; requires hardware confirmation.
+Separation,delay_s: 2.0 s; upper_delta_v_m_s: 0.5 m/s; impulse_duration_s: 0.5 s,"Rigid-body impulse screen only; shock, flex, collision and returned-stage trajectories need separate work."
+Parking orbit,target_altitude_m: 200000.0 m,Provisional circular ascent target.
+Angle of attack goal,max_qalpha_aoa_deg: 4.0 deg; aoa_command_limit_deg: 2 deg,The first value is the user goal at peak Qalpha; the second is the guidance command cap.
+Tank thickness trade,pressure_pa: 599999.7644445464 Pa; yield_allowable_pa: 296474563.606224 Pa; load_factor: 1.25,"Source pressure/material values from Structures Sizing.xlsx; yield factor from STR.3.SYS.03. Pressure-only yield screen, conditional on material and joint applicability."

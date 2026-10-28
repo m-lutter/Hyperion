@@ -1,0 +1,26 @@
+[
+  {
+    "notebook": "01_Simulation.ipynb",
+    "code_cells": 10,
+    "figures": 6,
+    "seconds": 14.97,
+    "errors": 0,
+    "baseline_id": "cd2bd6e7315dd45ab4e37afe92f4f024d12459a074629a79319e9809b605d83d"
+  },
+  {
+    "notebook": "02_Engineering_Checks.ipynb",
+    "code_cells": 10,
+    "figures": 1,
+    "seconds": 3.44,
+    "errors": 0,
+    "baseline_id": "cd2bd6e7315dd45ab4e37afe92f4f024d12459a074629a79319e9809b605d83d"
+  },
+  {
+    "notebook": "03_Verification.ipynb",
+    "code_cells": 7,
+    "figures": 0,
+    "seconds": 10.15,
+    "errors": 0,
+    "baseline_id": "cd2bd6e7315dd45ab4e37afe92f4f024d12459a074629a79319e9809b605d83d"
+  }
+]

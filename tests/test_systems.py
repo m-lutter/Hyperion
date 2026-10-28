@@ -6,14 +6,14 @@ from pathlib import Path
 import unittest
 
 import numpy as np
-from hyperion import systems as s
+from model import systems as s
 
 
 class SystemsTests(unittest.TestCase):
     def setUp(self):
         self.examples = json.loads(
             (
-                Path(__file__).resolve().parents[1] / "config/systems_examples.json"
+                Path(__file__).resolve().parents[1] / "model/examples/systems_examples.json"
             ).read_text()
         )
 

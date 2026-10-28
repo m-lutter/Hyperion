@@ -5,3 +5,7 @@
 *.py text eol=lf
 .gitignore text eol=lf
 .gitattributes text eol=lf
+*.png binary
+
+# Keep saved results and input snapshots byte-for-byte consistent with their hashes.
+outputs/** -text whitespace=cr-at-eol

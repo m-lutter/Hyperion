@@ -6,7 +6,7 @@ import unittest
 import numpy as np
 from scipy.integrate import solve_ivp
 from scipy.spatial.transform import Rotation
-from hyperion.mission import (
+from model.mission import (
     lambert,
     relative_separation,
     finite_burn_tmi,
@@ -15,7 +15,7 @@ from hyperion.mission import (
     separation_monte_carlo,
     tmi_cutoff_sensitivity,
 )
-from hyperion.trajectory import Simulation, load_config, MU, RE
+from model.trajectory import Simulation, load_config, MU, RE
 
 
 class MissionChecks(unittest.TestCase):

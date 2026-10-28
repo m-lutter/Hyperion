@@ -1,0 +1,249 @@
+# CHECKS: numerical acceptance rules and explicitly labeled engineering studies.
+# calculations = defaults shared by notebooks and the verification runner.
+# activities = requirement-specific overrides and acceptance rules (IDs unchanged).
+# studies = optional trade settings; they do not automatically close requirements.
+# Example teaching cases are in model/examples/ and are never baseline evidence.
+#
+# Reuse a saved value with { ref = "vehicle.stages.1.startup_propellant_kg" }.
+# Paths use section names and zero-based list indexes. Optional scale multiplies
+# a numeric reference (e.g. diameter * 0.5); no expressions or Python are evaluated.
+# References to requirement IDs with dots are avoided; use shared calculations.
+#
+# Acceptance rules retain their source and provisional status. Passing a numerical
+# screen does not establish qualification or resolve unverified assumptions.
+
+# Both launch thrust-to-weight activities cite PERF.2.05.
+[shared]
+minimum_liftoff_thrust_to_weight = 1.2
+
+[calculations]
+
+[calculations.flight_summary]
+inputs = {  }
+basis = "Current integrated 6DOF ascent; provisional aero/actuator/geometry inputs. No qualification claim."
+
+[calculations.lambert_window]
+basis = "Three source Horizons samples; no daily launch-window optimization or site-access proof."
+
+# Sourced orbital vectors appear once, with provenance, in requirements/mission_cases.json.
+[calculations.lambert_window.inputs]
+cases = { ref = "mission_cases.cases" }
+central_mu_m3_s2 = { ref = "mission_cases.central_mu_m3_s2" }
+
+[calculations.integrated_tmi]
+inputs = { ref = "departure" }
+basis = "The saved coast and restart debit are screening assumptions. Shared 6DOF prograde TMI; no Mars encounter targeting."
+
+# Edit the active departure case in flight.toml. Both notebooks and verification
+# read that one definition; the acceptance rule below stays with its requirement.
+
+[[calculations.integrated_tmi.acceptance]]
+metric = "C3_margin_km2_s2"
+operator = ">="
+limit = 0
+units = "km^2/s^2"
+source = "PERF.2.01; target under review"
+
+[calculations.sourced_sizing]
+basis = "Current Mlox-Hlox Vehicle Sizing G4:H5,F19:G20,B31:C32; Vehicle Mass E29/E44 totals plus fairing2155.27825kg and adapter replacement845−431.976225kg. Bottom-up totals retained to source precision."
+
+# Bottom-up component totals and top-down dry allocations retain source precision.
+# Stage 1 allocation includes the fairing; stage 2 includes its adapter.
+[calculations.sourced_sizing.inputs]
+component_mass_kg = [22660.75475, 7783.826274999999]
+allocated_mass_kg = [30673.733486898276, { ref = "vehicle.stages.1.dry_mass_kg" }]
+
+# Tank volume and liquid density come from sizing; loaded mass follows vehicle.toml.
+[[calculations.sourced_sizing.inputs.tanks]]
+name = "Stage1 methane"
+volume_m3 = 217.89130309106147
+loaded_mass_kg = { ref = "vehicle.stages.0.tanks.1.loaded_mass_kg" }
+density_kg_m3 = 451.256
+
+# Tank volume and liquid density come from sizing; loaded mass follows vehicle.toml.
+[[calculations.sourced_sizing.inputs.tanks]]
+name = "Stage1 LOX"
+volume_m3 = 271.65014776921635
+loaded_mass_kg = { ref = "vehicle.stages.0.tanks.0.loaded_mass_kg" }
+density_kg_m3 = 1237.8
+
+# Tank volume and liquid density come from sizing; loaded mass follows vehicle.toml.
+[[calculations.sourced_sizing.inputs.tanks]]
+name = "Stage2 hydrogen"
+volume_m3 = 132.37091586155606
+loaded_mass_kg = { ref = "vehicle.stages.1.tanks.1.loaded_mass_kg" }
+density_kg_m3 = 75.13
+
+# Tank volume and liquid density come from sizing; loaded mass follows vehicle.toml.
+[[calculations.sourced_sizing.inputs.tanks]]
+name = "Stage2 LOX"
+volume_m3 = 48.27530928221121
+loaded_mass_kg = { ref = "vehicle.stages.1.tanks.0.loaded_mass_kg" }
+density_kg_m3 = 1237.8
+
+[activities]
+
+[activities."PERF.2.05.A01"]
+inputs = {  }
+basis = "Requirement numeric screen only; model-validation and open source conflicts remain."
+
+[[activities."PERF.2.05.A01".acceptance]]
+metric = "liftoff_thrust_to_weight"
+operator = ">="
+limit = { ref = "checks.shared.minimum_liftoff_thrust_to_weight" }
+units = "1"
+source = "PERF.2.05"
+
+[activities."PERF.2.06.A01"]
+inputs = {  }
+basis = "Requirement numeric screen only; model-validation and open source conflicts remain."
+
+[[activities."PERF.2.06.A01".acceptance]]
+metric = "max_axial_g"
+operator = "<="
+limit = { ref = "limits.axial_g" }
+units = "g"
+source = "PERF.2.06"
+
+[activities."PERF.2.13.A02"]
+inputs = {  }
+basis = "Requirement numeric screen only; model-validation and open source conflicts remain."
+
+[[activities."PERF.2.13.A02".acceptance]]
+metric = "minimum_control_ratio_margin_Nm"
+operator = ">="
+limit = 0
+units = "N m"
+source = "PERF.2.13 available>=2*aerodynamic moment for all phases"
+
+[activities."PERF.2.35.A02"]
+inputs = {  }
+basis = "Requirement numeric screen only; model-validation and open source conflicts remain."
+
+[[activities."PERF.2.35.A02".acceptance]]
+metric = "fineness_ratio"
+operator = ">="
+limit = 10
+units = "1"
+source = "PERF.2.35"
+
+[[activities."PERF.2.35.A02".acceptance]]
+metric = "fineness_ratio"
+operator = "<="
+limit = 20
+units = "1"
+source = "PERF.2.35"
+
+[activities."PROP.3.SYS.03.A01"]
+inputs = {  }
+basis = "Requirement numeric screen only; model-validation and open source conflicts remain."
+
+[[activities."PROP.3.SYS.03.A01".acceptance]]
+metric = "liftoff_thrust_to_weight"
+operator = ">="
+limit = { ref = "checks.shared.minimum_liftoff_thrust_to_weight" }
+units = "1"
+source = "PERF.2.05 parent"
+
+[activities."PERF.2.32.A02"]
+inputs = { ref = "checks.calculations.sourced_sizing.inputs" }
+basis = "Current Mlox-Hlox Vehicle Sizing G4:H5,F19:G20,B31:C32; Vehicle Mass E29/E44 totals plus fairing2155.27825kg and adapter replacement845−431.976225kg. Bottom-up totals retained to source precision."
+
+[[activities."PERF.2.32.A02".acceptance]]
+metric = "minimum_dry_mass_margin_kg"
+operator = ">="
+limit = 0
+units = "kg"
+source = "PERF.2.32; source top-down allocations"
+
+[activities."PROP.3.SYS.04.A02"]
+basis = "3 source Raptor3 engines at2255kN each; source sea-level basis remains to be substantiated."
+
+[activities."PROP.3.SYS.04.A02".inputs]
+# Current configuration: three engines share the selected total stage thrust.
+# If engine count changes, update engine_count and this reciprocal scale together.
+per_engine_thrust_N = { ref = "vehicle.stages.0.thrust_N", scale = 0.3333333333333333 }
+engine_count = 3
+
+[[activities."PROP.3.SYS.04.A02".acceptance]]
+metric = "installed_thrust_N"
+operator = ">="
+limit = 11000000
+units = "N"
+source = "PROP.3.SYS.04 [TBR-PROP-02]"
+
+[activities."PROP.3.SYS.05.A02"]
+basis = "1 source BE-3U at890kN vacuum thrust; preliminary sizing input."
+
+[activities."PROP.3.SYS.05.A02".inputs]
+# Current configuration: one engine provides the selected upper-stage thrust.
+per_engine_thrust_N = { ref = "vehicle.stages.1.thrust_N" }
+engine_count = 1
+
+[[activities."PROP.3.SYS.05.A02".acceptance]]
+metric = "installed_thrust_N"
+operator = ">="
+limit = 890000
+units = "N"
+source = "PROP.3.SYS.05 [TBR-PROP-03]"
+
+[activities."PROP.3.TANK.02.A01"]
+inputs = { ref = "checks.calculations.sourced_sizing.inputs" }
+basis = "Current Mlox-Hlox Vehicle Sizing G4:H5,F19:G20,B31:C32; Vehicle Mass E29/E44 totals plus fairing2155.27825kg and adapter replacement845−431.976225kg. Bottom-up totals retained to source precision."
+
+[[activities."PROP.3.TANK.02.A01".acceptance]]
+metric = "minimum_ullage_fraction"
+operator = ">="
+limit = 0.04
+units = "fraction"
+source = "PROP.3.TANK.02 [TBR-PROP-36]"
+
+[studies]
+
+[studies.tank_thickness]
+basis = "Pressure-only trade from Structures Sizing.xlsx, Tank Sizing!B3:D8 and Material Properties!B3:H3 (Al2219). The yield factor comes from STR.3.SYS.03; its separate ultimate factor is not evaluated here. Radius follows the selected vehicle. Material applicability, temperature, joints and combined flight loads still need review; this trade alone closes no activity."
+thicknesses_mm = [1, 2, 3, 4, 5, 6]
+
+# Source pressure = 87.0226084737 psi; Al2219 yield strength = 43,000 psi.
+# Converted once with 1 psi = 6894.757293168 Pa. The vehicle diameter sets the radius.
+[studies.tank_thickness.inputs]
+radius_m = { ref = "vehicle.diameter_m", scale = 0.5 }
+pressure_pa = 599999.7644445464
+axial_force_n = 0
+bending_moment_nm = 0
+torque_nm = 0
+yield_allowable_pa = 296474563.606224
+joint_efficiency = 1
+load_factor = 1.25
+
+[studies.departure_targets]
+basis = "Compare the sourced master case with the provisional verification target using the same coast/restart inputs. An energy screen does not prove a Mars intercept."
+
+[[studies.departure_targets.targets]]
+label = "Master source case"
+target_c3_km2_s2 = { ref = "mission.target_C3_km2_s2" }
+
+[[studies.departure_targets.targets]]
+label = "Verification target under review"
+target_c3_km2_s2 = { ref = "departure.target_c3_km2_s2" }
+
+[studies.flight_review]
+max_qalpha_aoa_deg = 4.0
+basis = "User design goal at max-Qalpha; separate from the guidance AoA command limit."
+
+[studies.solver_refinement]
+enabled = false
+rtol_scale = 0.1
+max_step_scale = 0.5
+output_step_s = 0.05
+basis = "Optional numerical sensitivity study; compare to the baseline and retain its input changes with results."
+
+[[choices]]
+label = "Angle of attack goal"
+values = ["checks.studies.flight_review.max_qalpha_aoa_deg", "guidance.aoa_command_limit_deg"]
+basis = "The first value is the user goal at peak Qalpha; the second is the guidance command cap."
+
+[[choices]]
+label = "Tank thickness trade"
+values = ["checks.studies.tank_thickness.inputs.pressure_pa", "checks.studies.tank_thickness.inputs.yield_allowable_pa", "checks.studies.tank_thickness.inputs.load_factor"]
+basis = "Source pressure/material values from Structures Sizing.xlsx; yield factor from STR.3.SYS.03. Pressure-only yield screen, conditional on material and joint applicability."
