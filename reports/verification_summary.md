@@ -1,36 +1,52 @@
-# Verification execution, 28 October 2026
+# Verification results — 28 October 2026
 
-OneDrive was confirmed **Backed up and synced**. The current Verification Plan source hash is recorded in `data/source_manifest.json`.
+The register covers **373 requirements and 677 activities**. It uses the inputs
+synced from OneDrive on 28 October; source files and hashes are listed in
+[source_manifest.json](../data/source_manifest.json).
 
-The register contains **373 requirements / 677 activities**. **109 reusable calculation functions** are available, with **246 activity assignments**. Remaining activities use the external evidence validation route; this is not a claim that all specialist analyses or physical tests have been performed.
+**109 calculation functions** are assigned to **246 activities**. The remaining
+activities need external analysis, test, inspection, or demonstration evidence.
+No requirement is closed by a calculation alone.
 
-| Activity result | Count |
-|---|---:|
-| EVIDENCE_REQUIRED | 431 |
-| MISSING_INPUTS | 227 |
-| CALCULATED | 7 |
-| SCREEN_FAIL | 6 |
-| SCREEN_PASS | 6 |
+## What needs attention
 
-**No requirement is closed by a numerical screen alone.** All requirements remain open or have failed/invalid evidence until complete reviewed evidence and resolved TBD/TBR values are supplied.
+| Finding | Current result | Next step |
+|---|---|---|
+| Ascent loads | AoA is **2.177° at maximum Qα**; axial/lateral rigid-body acceleration checks pass | Validate aero inputs and coupled structural loads |
+| Coast control | No RCS authority is allocated, so engine-off control fails | Define coast-control capability and rerun |
+| Departure energy | The 600 s coast/restart study runs out of usable propellant at **C3 = −12.254 km²/s²** | Revisit propulsion and the departure plan; both the 7.7058 and provisional 9.8 targets are missed |
+| First-stage thrust | **6,765 kN**, below the provisional **11,000 kN** limit | Reconcile the engine selection and requirement |
+| Tank ullage | Source stage-1 LOX volume misses the provisional **4%** free-volume requirement | Reconcile volume, loaded mass, density, and limit |
 
-## Governing findings
+The tank-thickness study in notebook 02 is a pressure-only design comparison.
+It does not establish the installed tank's strength.
 
-- The updated ascent has AoA **2.177° at max-Qα**, and its axial/lateral rigid-body acceleration screens pass.
-- All-phase controllability fails during engine-off coast; no RCS authority is allocated.
-- The 600 s coast/restart prograde TMI screen is propellant limited at **C3 −12.253672 km²/s²**. Both the master 7.7058 and provisional requirement 9.8 targets fail.
-- Installed first-stage thrust **6,765 kN** is below provisional **11,000 kN**.
-- The source stage1 LOX tank does not provide the provisional **4% ullage** with the source loaded mass and density.
-- A 1–6 mm pressure-only tank sweep is recomputed in notebook02. It is a source design trade, not an installed-tank strength result.
+## Work remaining
 
-## Validation
+| Activity result | Count | Action |
+|---|---:|---|
+| `EVIDENCE_REQUIRED` | 431 | Add reviewed records |
+| `MISSING_INPUTS` | 227 | Supply the listed design inputs |
+| `CALCULATED` | 7 | Supply approved acceptance criteria |
+| `SCREEN_FAIL` | 6 | Investigate the failed checks |
+| `SCREEN_PASS` | 6 | Validate assumptions and review evidence |
 
-**94 analytical, adverse-input, evidence-integrity and trajectory regression tests passed.** Five notebooks executed without errors and saved seven inline figures. See `notebook_execution.json` for per-notebook timing and baseline identity.
+Requirement totals are **367 open** and **6 failed or invalid**. Open TBD/TBR
+values prevent closure. See [activity_results.csv](activity_results.csv) for the
+exact missing arguments and [requirement_status.csv](requirement_status.csv) for
+each requirement's status.
 
-Tests cover conservation, independent Lambert endpoint propagation, RK45 accounting independent of output spacing, actuator response, FE/modal/thermal analytical cases, source-state rejection, current/frozen trajectory behavior and incomplete/stale evidence rejection.
+Specialist FEA/CFD, detailed thermochemistry, hardware tests, launch-site timing,
+and Mars departure-vector targeting still require their own inputs and evidence.
+Reduced models do not replace those activities.
 
-## Open work
+## Checks performed
 
-See `activity_results.csv` for exact missing arguments and evidence routes. Source TBD/TBR values, CAD meshes and tolerances, material allowables, measured spectra, pressure/controller details, sensor/radio/battery selections, operational rules, hardware test data and reviewed specialist model outputs remain necessary. Nonlinear FEA, detailed thermochemistry/CFD, exact launch-site windows and vector-targeted Mars injection are not replaced by these reduced models.
+- **94 tests passed**, including analytical physics cases and evidence checks.
+- **Five notebooks executed without errors**, saving seven figures.
+- The readability refactor preserves every published numerical screen and status
+  count. It also matched 193 calculation calls and all 40 system examples against
+  the previous code.
 
-Baseline fingerprint: `b051eeea1d4234fc323d08ad058478af361a64c4698aed13861f6f15a7454e8b`.
+Execution details are in [notebook_execution.json](notebook_execution.json).
+The exact model version is recorded in [verification_run.json](verification_run.json).

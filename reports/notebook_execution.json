@@ -3,40 +3,40 @@
     "notebook": "Hyperion_6DOF_RK45_Annotated.ipynb",
     "code_cells": 6,
     "figures": 5,
-    "seconds": 18.23,
+    "seconds": 18.53,
     "errors": 0,
-    "baseline_id": "b051eeea1d4234fc323d08ad058478af361a64c4698aed13861f6f15a7454e8b"
+    "baseline_id": "2f1afa0b958fc0d2a1499c7f3abae0f9a3a2a8caf278aa2efd957a2644544211"
   },
   {
     "notebook": "01_Mission_and_Propulsion_Verification.ipynb",
     "code_cells": 5,
     "figures": 1,
-    "seconds": 9.11,
+    "seconds": 9.37,
     "errors": 0,
-    "baseline_id": "b051eeea1d4234fc323d08ad058478af361a64c4698aed13861f6f15a7454e8b"
+    "baseline_id": "2f1afa0b958fc0d2a1499c7f3abae0f9a3a2a8caf278aa2efd957a2644544211"
   },
   {
     "notebook": "02_Structures_Thermal_and_Separation.ipynb",
     "code_cells": 4,
     "figures": 1,
-    "seconds": 3.36,
+    "seconds": 3.38,
     "errors": 0,
-    "baseline_id": "b051eeea1d4234fc323d08ad058478af361a64c4698aed13861f6f15a7454e8b"
+    "baseline_id": "2f1afa0b958fc0d2a1499c7f3abae0f9a3a2a8caf278aa2efd957a2644544211"
   },
   {
     "notebook": "03_Avionics_Operations_and_Program.ipynb",
     "code_cells": 4,
     "figures": 0,
-    "seconds": 3.22,
+    "seconds": 2.83,
     "errors": 0,
-    "baseline_id": "b051eeea1d4234fc323d08ad058478af361a64c4698aed13861f6f15a7454e8b"
+    "baseline_id": "2f1afa0b958fc0d2a1499c7f3abae0f9a3a2a8caf278aa2efd957a2644544211"
   },
   {
     "notebook": "04_Verification_Register.ipynb",
-    "code_cells": 4,
+    "code_cells": 5,
     "figures": 0,
     "seconds": 9.59,
     "errors": 0,
-    "baseline_id": "b051eeea1d4234fc323d08ad058478af361a64c4698aed13861f6f15a7454e8b"
+    "baseline_id": "2f1afa0b958fc0d2a1499c7f3abae0f9a3a2a8caf278aa2efd957a2644544211"
   }
 ]

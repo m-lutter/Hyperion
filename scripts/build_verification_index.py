@@ -1,16 +1,34 @@
-"""Regenerate the activity index and calculation input contracts."""
+"""Regenerate the activity list and the inputs needed by each calculation."""
+
 from pathlib import Path
 import sys
-ROOT=Path(__file__).resolve().parents[1]
-sys.path.insert(0,str(ROOT))
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
 from hyperion.verification import activities, catalog, input_contracts
 
-table=activities()
-functions,_=catalog()
-table['code_route']=table.kernel.map(lambda k:
-    f'{functions[k].__module__}.{functions[k].__name__}' if isinstance(k,str)
-    else 'hyperion.verification.check_evidence / measured_limits')
-table['route_type']=table.kernel.map(lambda k:'calculation' if isinstance(k,str) else 'external evidence validation')
-table.to_csv(ROOT/'data/activities.csv',index=False)
-input_contracts().to_csv(ROOT/'data/calculation_inputs.csv',index=False)
-print(f'Indexed {len(table)} activities; {table.kernel.notna().sum()} have calculation assignments.')
+
+def main():
+    table = activities()
+    functions, _ = catalog()
+    code_routes = []
+    route_types = []
+    for kernel in table.kernel:
+        if isinstance(kernel, str):
+            function = functions[kernel]
+            code_routes.append(f"{function.__module__}.{function.__name__}")
+            route_types.append("calculation")
+        else:
+            code_routes.append("hyperion.verification.check_evidence / measured_limits")
+            route_types.append("external evidence validation")
+    table["code_route"] = code_routes
+    table["route_type"] = route_types
+    table.to_csv(ROOT / "data/activities.csv", index=False)
+    input_contracts().to_csv(ROOT / "data/calculation_inputs.csv", index=False)
+    assigned = table.kernel.notna().sum()
+    print(f"Indexed {len(table)} activities; {assigned} have calculation assignments.")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,4 +1,5 @@
 """Reuse a flight run only when model, data, configuration and outputs match."""
+
 import hashlib
 import json
 from pathlib import Path
@@ -14,33 +15,61 @@ def _digest(path):
 
 
 def fingerprint():
-    return {str(p.relative_to(ROOT)): _digest(p) for p in
-            [ROOT / "hyperion/trajectory.py", ROOT / "config/trajectory.json", ROOT / "data/aero_lookup.csv"]}
+    """Hash the model, selected configuration and aerodynamic lookup table."""
+    return {
+        str(p.relative_to(ROOT)): _digest(p)
+        for p in [
+            ROOT / "hyperion/trajectory.py",
+            ROOT / "config/trajectory.json",
+            ROOT / "data/aero_lookup.csv",
+        ]
+    }
 
 
 def current_flight(recompute=False):
-    """Return (history, summary, Simulation), recomputing if any fingerprint differs."""
+    """Return ``(history, summary, simulation)`` for the current ascent inputs.
+
+    Reuse saved results only if every input and output file still matches its
+    recorded hash. Set ``recompute=True`` to force a fresh integration.
+    """
     folder = ROOT / "results/flight_cache"
     record_path = folder / "fingerprint.json"
     expected = fingerprint()
     if not recompute and record_path.exists():
         record = json.loads(record_path.read_text())
-        valid = record.get("inputs") == expected and all(
+        inputs_match = record.get("inputs") == expected
+        outputs_match = inputs_match and all(
             (folder / name).is_file() and _digest(folder / name) == digest
-            for name, digest in record.get("outputs", {}).items())
-        if valid and set(record.get("outputs", {})) == {"trajectory.csv", "summary.json"}:
-            frame = pd.read_csv(folder / "trajectory.csv")
+            for name, digest in record.get("outputs", {}).items()
+        )
+        outputs_complete = outputs_match and set(record.get("outputs", {})) == {
+            "trajectory.csv",
+            "summary.json",
+        }
+        if inputs_match and outputs_match and outputs_complete:
+            history = pd.read_csv(folder / "trajectory.csv")
             summary = json.loads((folder / "summary.json").read_text())
-            sim = Simulation(load_config())
-            sim.events = summary["events"]
-            sim.rows = frame.to_dict("records")
-            _, sim.load_cases = summarize(frame, sim.events, sim.c)
-            return frame, summary, sim
+            simulation = Simulation(load_config())
+            simulation.events = summary["events"]
+            simulation.rows = history.to_dict("records")
+            _, simulation.load_cases = summarize(
+                history, simulation.events, simulation.c
+            )
+            return history, summary, simulation
+
+    # A missing or changed file invalidates the cache as a whole.
     context = run_trajectory()
+    history, summary, _ = context
     folder.mkdir(parents=True, exist_ok=True)
-    context[0].to_csv(folder / "trajectory.csv", index=False)
-    (folder / "summary.json").write_text(json.dumps(context[1], indent=2), encoding="utf-8")
-    record = {"inputs": expected, "outputs": {name: _digest(folder / name)
-              for name in ["trajectory.csv", "summary.json"]}}
+    history.to_csv(folder / "trajectory.csv", index=False)
+    (folder / "summary.json").write_text(
+        json.dumps(summary, indent=2), encoding="utf-8"
+    )
+    record = {
+        "inputs": expected,
+        "outputs": {
+            name: _digest(folder / name) for name in ["trajectory.csv", "summary.json"]
+        },
+    }
     record_path.write_text(json.dumps(record, indent=2), encoding="utf-8")
     return context

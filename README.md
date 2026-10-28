@@ -1,27 +1,29 @@
 # Hyperion
 
-Integrated 6DOF rocket trajectory and requirements-verification tools for the
-Hyperion senior design project. Requirements and design inputs were synchronized
-with OneDrive on **28 October 2026**.
+Rocket trajectory and verification calculations for the Hyperion senior design
+project. The current inputs and requirements were synced with OneDrive on
+**28 October 2026**.
 
-## Notebooks
+## Start here
 
-| Notebook | Purpose |
+Open the **[Verification register](04_Verification_Register.ipynb)** for results,
+failures, and missing work. Open the **[Integrated trajectory](Hyperion_6DOF_RK45_Annotated.ipynb)**
+for flight plots and loads. In Jupyter, choose **Run â†’ Run All Cells**.
+
+| Notebook | What you can do |
 |---|---|
-| [Integrated trajectory](Hyperion_6DOF_RK45_Annotated.ipynb) | Current rigid-body RK45 ascent, inputs, position/attitude/AoA/Mach/thrust/gimbal plots and governing loads |
-| [Mission and propulsion](01_Mission_and_Propulsion_Verification.ipynb) | Same 6DOF state continued through coast/restart/TMI; source Horizons Lambert cases and propulsion calculations |
-| [Structures, thermal and separation](02_Structures_Thermal_and_Separation.ipynb) | Correlated trajectory loads, source pressure-sizing trade and structural/thermal model inputs |
-| [Avionics, operations and program](03_Avionics_Operations_and_Program.ipynb) | Communication, electrical, control, sequencing, ground operations, cost and schedule calculations |
-| [Verification register](04_Verification_Register.ipynb) | Every requirement/activity, calculation results, missing inputs and reviewed evidence status |
+| [Integrated trajectory](Hyperion_6DOF_RK45_Annotated.ipynb) | Check inputs; plot the 6DOF/RK45 ascent, Mach, loads, and control margins |
+| [Mission and propulsion](01_Mission_and_Propulsion_Verification.ipynb) | Continue through coast, restart, and departure; compare source transfer dates |
+| [Structures, thermal, and separation](02_Structures_Thermal_and_Separation.ipynb) | Get flight load cases, compare tank thicknesses, and find analysis inputs |
+| [Avionics, operations, and program](03_Avionics_Operations_and_Program.ipynb) | Try sequence logic and find subsystem calculations and activities |
+| [Verification register](04_Verification_Register.ipynb) | Run all available checks, inspect a requirement, and export the work list |
 
-The notebooks are concise views of shared Python code. There is one authoritative
-trajectory implementation in `hyperion/trajectory.py`; configuration and aero
-data are ordinary files. No notebook contains encoded source data or duplicated
-model code. Clone the **whole repository**, then run the notebooks in order.
+Each notebook can run on its own. They share one trajectory model; saved flight
+results are reused only while the code, inputs, and output files still match.
 
-## Run
+## Install and run
 
-Use Python **3.12 or newer**:
+Clone the **whole repository** and use Python **3.12 or newer**:
 
 ```sh
 git clone https://github.com/m-lutter/Hyperion.git
@@ -29,21 +31,15 @@ cd Hyperion
 python -m venv .venv
 ```
 
-Windows PowerShell:
-
-```powershell
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe -m jupyterlab
-```
-
-macOS/Linux:
+Activate the environment in PowerShell with `.\.venv\Scripts\Activate.ps1`, or
+on macOS/Linux with `source .venv/bin/activate`. Then:
 
 ```sh
-.venv/bin/python -m pip install -r requirements.txt
-.venv/bin/python -m jupyterlab
+python -m pip install -r requirements.txt
+python -m jupyterlab
 ```
 
-In the activated environment:
+To run without opening Jupyter:
 
 ```sh
 python -m unittest discover -s tests
@@ -51,83 +47,68 @@ python scripts/execute_notebooks.py
 python -m hyperion.verify --out results/current
 ```
 
-`results/` is local generated output. The flight cache is reused only when the
-model, configuration, aero data **and output hashes** match. Set `RECOMPUTE=True`
-in the trajectory notebook to force a new run.
+Generated files go in `results/`. Published results are in [reports/](reports/).
 
-## Inputs and traceability
+## Change inputs
 
-- [`config/trajectory.json`](config/trajectory.json): vehicle, atmosphere/wind,
-  guidance, limits, actuators, separation and RK45 settings.
-- [`data/aero_lookup.csv`](data/aero_lookup.csv): Mach/AoA interpolation data.
-- [`data/requirements.json`](data/requirements.json): all **373** requirements,
-  exact activity wording, source cells, methods and open parameters.
-- [`data/activities.csv`](data/activities.csv): all **677** activities and their
-  calculation or external-evidence validation route.
-- [`data/calculation_inputs.csv`](data/calculation_inputs.csv): required arguments
-  and documentation for each reusable calculation.
-- [`config/verification_inputs.json`](config/verification_inputs.json): supplied
-  activity inputs, numerical acceptance criteria and their basis. Activity-ID
-  entries override shared calculation inputs.
-- [`data/source_manifest.json`](data/source_manifest.json): source file hashes,
-  synchronization evidence and unresolved source conflicts.
-- [`evidence/README.md`](evidence/README.md): test, inspection, demonstration and
-  specialist-analysis record format.
+| Change | Edit |
+|---|---|
+| Vehicle, wind, guidance, acceleration limits, staging, solver | [config/trajectory.json](config/trajectory.json) |
+| Mach/AoA coefficients | [data/aero_lookup.csv](data/aero_lookup.csv) |
+| Activity inputs, acceptance limits, and source references | [config/verification_inputs.json](config/verification_inputs.json) |
+| Departure dates and planetary states | [config/mission_cases.json](config/mission_cases.json) |
+| Reviewed test or analysis records | [evidence/records.json](evidence/records.json); see the [evidence guide](evidence/README.md) |
 
-Synchronized spreadsheets stay outside the repository and are never edited.
-After a later revision, confirm OneDrive says **Backed up and synced**, then run:
+Use the units in each input name. Find a calculation's required arguments in
+[calculation_inputs.csv](data/calculation_inputs.csv). In verification inputs,
+an activity ID overrides shared inputs for its calculation. Notebook study
+settings apply only to that notebook unless you also update the saved inputs.
+
+## Understand the results
+
+The register contains **373 requirements and 677 activities**. There are **109
+calculation functions**, assigned to **246 activities**. Other activities need
+external analysis, test, inspection, or demonstration records.
+
+- `SCREEN_PASS` / `SCREEN_FAIL`: the calculation meets / misses a supplied limit.
+- `CALCULATED`: a result exists, but no acceptance rule was supplied.
+- `MISSING_INPUTS` / `EVIDENCE_REQUIRED`: more data or a reviewed record is needed.
+
+**A passing calculation does not close a requirement.** Every activity needs
+current, reviewed passing evidence; unresolved TBD/TBR values also prevent closure.
+The [verification report](reports/verification_summary.md) explains the current findings.
+Example inputs in `config/systems_examples.json` are excluded from verification.
+
+The model reaches roughly **199.5 Ã— 201.0 km** with **2.177Â° AoA at maximum QÎ±**.
+Axial/lateral acceleration and powered control checks pass. Departure energy,
+coast control, provisional first-stage thrust, and tank ullage checks still fail.
+The fairing-length conflict, CP datum, aero geometry, and actuator assumptions
+remain unresolved. Flexible loads, shock, thermal survival, restart qualification,
+and separation clearance need additional evidence.
+
+## Update the requirements
+
+Confirm OneDrive says **Backed up and synced**, then import the revised workbook:
 
 ```sh
 python scripts/import_requirements.py "path/to/AE 443 Team A Requirements - Verification Plan.xlsx"
 python scripts/build_verification_index.py
 ```
 
-Reconcile changed vehicle inputs before rerunning. Importing requirements does not
-silently change the vehicle or fetch shared-drive edits.
+The importer only reads the workbook. It does not sync OneDrive or update vehicle
+inputs. Review source conflicts in [source_manifest.json](data/source_manifest.json),
+reconcile changed inputs, and rerun the calculations. Original requirement wording
+and source cells are preserved in [requirements.json](data/requirements.json).
 
-## Evidence scope
+## Work on the code
 
-Every activity has an executable route: a parameterized calculation where
-implemented, or validation of the actual external evidence package. **Code
-coverage is not verification closure.** Specialist nonlinear FEA/CFD, detailed
-engine thermochemistry, CAD collision models and hardware qualification need
-their own model/test artifacts. Supplied-matrix finite element functions require
-validated geometry, properties, boundary conditions and load mapping.
+The notebooks explain the studies; `hyperion/` contains the reusable functions:
 
-`SCREEN_PASS`/`SCREEN_FAIL` compare results with explicit sourced limits.
-`CALCULATED` has no approved acceptance criterion. `MISSING_INPUTS` and
-`EVIDENCE_REQUIRED` stay open. Only a complete set of current, reviewed passing
-records can close a requirement; open TBD/TBR values prevent closure.
+- `trajectory.py`, `plotting.py`: flight equations and plots.
+- `mission.py`, `propulsion.py`, `structures.py`, `systems.py`: subject calculations.
+- `flight_evidence.py`, `verification.py`: flight checks and evidence status.
+- `workspace.py`, `verify.py`: saved flight results and the command-line run.
 
-`config/systems_examples.json` contains illustrative fixtures, excluded from the
-default evidence run. Physical test results are never inferred from simulation.
-
-## Current findings
-
-- Updated sizing uses an **11.5 m fairing / 58.763 m vehicle**. The master payload
-  tab still says 14 m; the conflict remains open.
-- Ascent reaches about **199.5 × 201.0 km**. AoA at max-Qα is **2.177°**, with
-  max-Qα **31.724 kPa·deg**. Axial/lateral rigid-body screens pass.
-- Powered control margin passes; all-phase control fails in coast because no RCS
-  authority is allocated.
-- The 600 s coast/restart/prograde finite-TMI screen reaches residual inventory
-  at **C3 ≈ −12.254 km²/s²**. Both master target **7.7058** and requirement target
-  **9.8** fail. Coast duration and restart debit are explicit screening assumptions;
-  this energy check does not solve departure-vector targeting.
-- Installed first-stage thrust is **6,765 kN**, below the provisional **11,000 kN**
-  requirement. Source tank volumes also need the explicit ullage check.
-
-CP datum, aero reference geometry, post-separation coefficients, actuator
-capabilities and mass stations remain provisional. The rigid-body model does not
-certify coupled loads, shock, flexibility, slosh, thermal survival, restart or no
-recontact. Additional models make those analyses reproducible when the required
-design data are supplied.
-
-See [`reports/verification_summary.md`](reports/verification_summary.md) and
-[`reports/notebook_execution.json`](reports/notebook_execution.json) for execution results.
-
-## Contributing
-
-Pull before editing and work on a branch. Update inputs/code, rerun affected tests
-and notebooks, and review evidence changes before pushing. Never turn missing data
-into zero or reuse an old evidence record without confirming its baseline.
+Pull before editing. Keep changes on a branch, run affected tests, and rerun the
+notebooks before publishing. Preserve missing values as missing; do not replace
+them with zero or reuse reviewed evidence without checking its version.

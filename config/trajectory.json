@@ -190,8 +190,8 @@
     "Deterministic legacy wind magnitude plus assumed eastward direction/taper, not a measured launch sounding.",
     "Fixed source thrust and Isp: nozzle exit area absent, pressure correction disabled explicitly.",
     "Separation impulse/delay are assumptions; no shock, flex, buffet, slosh, collision or stage-return analysis.",
-    "200 km circular orbit is a provisional interpretation of the 200 km EPO target. TMI/restart and payload deployment not simulated.",
-    "Current source conflict: Mlox-Hlox Vehicle Sizing K9=11.5 m fairing and master Summary E19=58.763 m total selected; master Payload D35 still says14m. Existing mass stations retained, pending CAD reconciliation. Aero export geometry unverified."
+    "The ascent targets a provisional 200 km circular parking orbit. mission.integrated_tmi continues that state through coast and restart; payload deployment needs a separate study.",
+    "Source conflict: Mlox-Hlox Vehicle Sizing K9 gives an 11.5 m fairing and master Summary E19 gives a 58.763 m vehicle; these values are selected. Master Payload D35 still gives 14 m. Mass stations need CAD reconciliation, and aero export geometry is unverified."
   ],
   "mission": {
     "launch_site": "Kennedy Space Center",

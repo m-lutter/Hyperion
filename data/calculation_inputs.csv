@@ -11,10 +11,10 @@ finite_tmi_payload_sweep,"payload_masses_kg, coast_duration_s, restart_propellan
 tmi_cutoff_sensitivity,"cutoff_row, config, burn_durations_s, coast_duration_s, restart_propellant_kg, target_c3_km2_s2","Sweep prescribed TMI shutdown times, still stopping at propellant residual."
 separation_monte_carlo,"samples, seed, position_covariance_m2, velocity_covariance_m2, impulse_covariance_N2_s2, separation_inputs",Sample supplied joint state/impulse covariance; record invalid cases as failures.
 nozzle,"chamber_pressure_Pa, chamber_temperature_K, gas_constant_J_kg_K, heat_capacity_ratio, throat_area_m2, exit_area_m2, ambient_pressure_Pa, velocity_efficiency",Calorically perfect isentropic nozzle; chamber chemistry/pump cycle excluded.
-thrust_sum,"per_engine_thrust_N, engine_count",
-thrust_to_weight,"installed_thrust_N, liftoff_mass_kg, local_gravity_m_s2",
-mass_fraction,"propellant_mass_kg, wet_stage_mass_kg",
-thrust_flow,"thrust_N, isp_s",
+thrust_sum,"per_engine_thrust_N, engine_count",Installed thrust in N for identical engines at the supplied operating point.
+thrust_to_weight,"installed_thrust_N, liftoff_mass_kg, local_gravity_m_s2",Compare installed thrust with liftoff weight using the supplied local gravity.
+mass_fraction,"propellant_mass_kg, wet_stage_mass_kg",Propellant fraction of the complete wet stage; both masses in kg.
+thrust_flow,"thrust_N, isp_s",Propellant flow in kg/s from thrust in N and specific impulse in seconds.
 integrate_consumption,"time_s, thrust_N, isp_s",Integrate supplied piecewise-linear thrust/flow; no constant-Isp shortcut.
 throttle_response,"command_time_s, command_fraction, time_constant_s, delay_s, slew_limit_per_s, initial_fraction, full_thrust_N, sample_step_s","First-order response with zero-order-held command, delay, and rate limit."
 hydraulic_network,"mass_flow_kg_s, density_kg_m3, dynamic_viscosity_Pa_s, segments, upstream_pressure_Pa, elevation_rise_m, gravity_m_s2",Series incompressible Darcy-Weisbach + local-loss screen at supplied flow.
@@ -105,6 +105,6 @@ systems_loop_response,"feedback_inputs, frequency_inputs, cases_initial_state",L
 systems_risk_scores,risks,"Cost/schedule risk expected-exposure ranking; records id, probability, cost_impact, delay_days in common currency and days."
 systems_pressure_forecast,"trend_inputs, forecast_pressure_pa, observed_pressure_pa","Pressure trend plus paired forecast-observation RMSE/bias/correlation; pressures Pa, trend times s."
 systems_swept_handling,"clearance_inputs, vehicle_yaw_deg, lift_inputs, tolerance_inputs",Sampled yaw-rotated rigid envelope and two-support axle/load screen; clearance/lift contracts plus yaw degrees per route box.
-flight_summary,context,"SI flight extrema, acceleration, control, propellant and numerical coverage."
+flight_summary,context,Extract requirement-facing measurements from one shared trajectory run.
 ascent_dispersions,"context, cases","Rerun six-DOF cases; explicit overrides and seed, no invented dispersions."
 sourced_sizing,"context, tanks, component_mass_kg, allocated_mass_kg",Recompute tank volumes/ullage and bottom-up dry mass against allocations.

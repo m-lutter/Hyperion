@@ -1,39 +1,59 @@
-# Evidence records
+# Add verification evidence
 
-The calculations produce preliminary design evidence. Hardware tests, inspections,
-CAD checks and specialist models need their actual reviewed artifacts. Every
-activity has a stable identifier in `data/activities.csv`; no activity disappears
-because a model or an acceptance threshold is missing.
+Use this folder for reviewed tests, inspections, demonstrations, and specialist
+analyses. A simulation example is not a hardware test result.
 
-Copy evidence files into this folder and add a record keyed by activity ID to
-`records.json`. Keep large/proprietary artifacts outside the public repository;
-run the same checks in a private local checkout if necessary. Empty records stay
-`EVIDENCE_REQUIRED`. Never enter a test pass for a simulated example.
+## Add a record
 
-Each record requires:
+1. Find the activity ID and exact wording in [activities.csv](../data/activities.csv).
+2. Put the evidence file in this folder. Include its procedure, conditions, results,
+   and acceptance limits. For external FEA/CFD, include model assumptions and
+   convergence checks.
+3. Add an entry keyed by that activity ID to [records.json](records.json), using
+   the fields below.
+4. Run the [Verification register](../04_Verification_Register.ipynb) again.
 
-- `activity_id`: the exact activity being reviewed.
-- `file` and `sha256`: repository-relative evidence path and SHA-256 hash.
-- `reviewer` and `date`: responsible reviewer and ISO date.
-- `configuration_id`: the current content fingerprint returned by
-  `hyperion.verification.baseline_id()`; older evidence remains `STALE_EVIDENCE`.
-- `activity_text`: exact current activity wording from the register.
-- `acceptance_criteria`: the actual limits, units and requirement/source reference.
-- `scope`: procedure, environment, instrumentation/model validation and coverage.
-- `result`: `pass` or `fail`, determined by the responsible reviewer.
+| Field | What to enter |
+|---|---|
+| `activity_id` | The activity being reviewed |
+| `activity_text` | Its exact current wording |
+| `file` | Evidence path relative to the repository, such as `evidence/test-report.pdf` |
+| `sha256` | SHA-256 hash of that file |
+| `reviewer`, `date` | Reviewer name and date in `YYYY-MM-DD` format |
+| `configuration_id` | Current version fingerprint from `baseline_id()` |
+| `acceptance_criteria` | Limits, units, and requirement/source references |
+| `scope` | Procedure, environment, instrumentation/model validation, and activities covered |
+| `result` | The reviewer's decision: `pass` or `fail` |
 
-The importer verifies completeness, ID and file integrity. It cannot determine
-whether an engineering review or physical test was performed correctly. A reviewed
-record only closes its own activity. A requirement with an open TBD/TBR remains open.
+Get the version fingerprint and file hash from Python in the repository:
 
-Numerical test/analysis results can use `measurement_template.csv`. Call
-`hyperion.verification.measured_limits(path)` to calculate every row's result.
-It rejects missing values, absent limits and duplicate case/quantity keys. Units,
-limits and criterion references must be supplied explicitly; it does not convert
-units or infer unprovided test coverage. Include this processed result and the
-raw data in the reviewed evidence package.
+```python
+from pathlib import Path
+from hashlib import sha256
+from hyperion.verification import baseline_id
 
-For external FEA/CFD/combustion/radiation tools, export their numerical results and
-mesh/material/boundary-condition/convergence report. The matrix-based finite
-element and thermal kernels in this repository can calculate with supplied model
-matrices. They do not generate a validated vehicle mesh from CAD automatically.
+print("Configuration:", baseline_id())
+print("File hash:", sha256(Path("evidence/test-report.pdf").read_bytes()).hexdigest())
+```
+
+The checker validates the record, file hash, activity wording, and version. It
+cannot judge the quality of the engineering review. Changed evidence becomes
+invalid or stale; a passing record covers only its named activity. A requirement
+stays open until all its activities pass review and its TBD/TBR values are resolved.
+
+## Check measured values
+
+Copy [measurement_template.csv](measurement_template.csv) and enter one row per
+case and quantity. Supply a value, unit, at least one limit, and the limit's source.
+Then run:
+
+```python
+from hyperion.verification import measured_limits
+
+results = measured_limits("evidence/measurements.csv")
+print(results)
+```
+
+This checks each row against its limits. It does not convert units or establish
+test coverage. Include the raw data and checked results in the reviewed record.
+Keep proprietary or large files in a private checkout; this repository is public.
