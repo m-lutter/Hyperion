@@ -52,7 +52,8 @@ values visible. Examples in `model/examples/` are excluded from the design check
 
 ## Install and run
 
-Clone the whole repository and use Python **3.12 or newer**:
+Clone the whole repository and use Python **3.12**. The numerical packages are
+pinned to the versions used for the saved results:
 
 ```sh
 git clone https://github.com/m-lutter/Hyperion.git
