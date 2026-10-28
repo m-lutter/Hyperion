@@ -43,10 +43,10 @@ class SharedInputs(unittest.TestCase):
                              "diameter_m = 6.2")
         self.replace_setting("vehicle.toml", f"startup_propellant_kg = {startup}",
                              "startup_propellant_kg = 123.0")
-        self.assertEqual(load_study("tank_thickness", self.inputs)["inputs"]["radius_m"], 3.1)
         checks = load_checks(self.inputs)
         self.assertEqual(checks["integrated_tmi"]["inputs"]["restart_propellant_kg"], 123.0)
         flight = load_config(self.inputs)
+        self.assertEqual(flight["vehicle"]["diameter_m"], 6.2)
         sizing = checks["sourced_sizing"]["inputs"]
         self.assertEqual(sizing["tanks"][0]["loaded_mass_kg"],
                          flight["vehicle"]["stages"][0]["tanks"][1]["loaded_mass_kg"])
@@ -106,7 +106,7 @@ class SharedInputs(unittest.TestCase):
             self.assertTrue(table["Source"].str.contains(".toml", regex=False).all())
             self.assertFalse(any(isinstance(value, (dict, list)) for value in table["Value"]))
         self.assertIn("activities.PERF.2.06.A01.acceptance.0.limit", displayed)
-        self.assertIn("studies.tank_thickness.inputs.radius_m", displayed)
+        self.assertIn("studies.flight_review.max_qalpha_aoa_deg", displayed)
 
     def test_mission_vectors_are_reused_and_studies_are_not_evidence(self):
         checks = load_checks(self.inputs)

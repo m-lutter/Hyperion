@@ -1,4 +1,4 @@
-"""Connect each verification activity to a calculation or reviewed evidence.
+"""Connect assigned verification activities to explicit calculations and evidence.
 
 Calculations are design evidence, never automatic hardware qualification.  A
 result can only be SCREEN_PASS when an explicit, sourced acceptance rule exists.
@@ -8,10 +8,10 @@ Inspection, demonstration and physical test records are checked separately.
 from __future__ import annotations
 
 import hashlib
-import importlib
 import inspect
 import json
 from pathlib import Path
+import tomllib
 
 import numpy as np
 import pandas as pd
@@ -19,6 +19,9 @@ import pandas as pd
 from .inputs import load_checks, load_config
 
 ROOT = Path(__file__).resolve().parents[1]
+CALCULATIONS = (
+    "flight_summary", "integrated_tmi", "lambert_window", "sourced_sizing", "thrust_sum",
+)
 
 
 def load_requirements():
@@ -50,49 +53,110 @@ def baseline_id():
 
 
 def catalog():
-    """Explicit activity-to-calculation assignments; no text similarity scoring."""
-    functions = {}
-    assignments = {}
-    for name in ("mission", "propulsion", "structures", "systems", "flight_evidence"):
-        module = importlib.import_module(f"model.{name}")
-        for key, function in module.FUNCTIONS.items():
-            if key in functions:
-                raise ValueError(f"Duplicate calculation key: {key}")
-            functions[key] = function
-        for activity, key in module.KERNEL_ACTIVITIES.items():
-            # A later flight-specific assignment takes precedence over a general model.
-            assignments[activity.rstrip(".").strip().casefold()] = key
-    return functions, assignments
+    """Return the five assigned calculations, without scanning module registries.
+
+    The empty second item preserves the historical tuple interface. Activity
+    routing comes exclusively from inputs/verification.toml.
+    """
+    from .flight_evidence import flight_summary, sourced_sizing
+    from .mission import integrated_tmi, lambert_window
+    from .propulsion import thrust_sum
+
+    return {
+        "flight_summary": flight_summary,
+        "integrated_tmi": integrated_tmi,
+        "lambert_window": lambert_window,
+        "sourced_sizing": sourced_sizing,
+        "thrust_sum": thrust_sum,
+    }, {}
 
 
-def activities():
-    """One row per activity, retaining each requirement's original wording."""
-    _, assignments = catalog()
-    rows = []
-    for requirement in load_requirements():
-        for number, activity in enumerate(requirement["activities"], 1):
-            kernel = assignments.get(activity.rstrip(".").strip().casefold())
-            rows.append(
-                {
-                    "activity_id": f"{requirement['id']}.A{number:02d}",
-                    "requirement_id": requirement["id"],
-                    "domain": requirement["domain"],
-                    "activity": activity,
-                    "kernel": kernel,
-                    "methods": " / ".join(requirement["methods"]),
-                    "source": requirement["source_ref"],
-                    "statement": requirement["statement"],
-                    "open_parameters": ", ".join(requirement["open_parameters"]),
-                }
+def load_scope(scope_file=None):
+    """Read the explicit assignment list; source prose never selects a route."""
+    path = Path(scope_file) if scope_file is not None else ROOT / "inputs/verification.toml"
+    with path.open("rb") as stream:
+        scope = tomllib.load(stream)
+    if not isinstance(scope.get("description"), str) or not scope["description"].strip():
+        raise ValueError("Verification scope needs a nonempty description.")
+    entries = scope.get("activities")
+    if not isinstance(entries, list) or not entries:
+        raise ValueError("Verification scope needs at least one [[activities]] entry.")
+    seen = set()
+    for entry in entries:
+        if not isinstance(entry, dict):
+            raise ValueError("Each verification scope entry must be a table.")
+        for key in ("activity_id", "calculation", "expected_activity", "artifact", "coverage"):
+            if not isinstance(entry.get(key), str) or not entry[key].strip():
+                raise ValueError(f"Verification scope entry needs nonempty {key}.")
+        identifier = entry["activity_id"]
+        if identifier in seen:
+            raise ValueError(f"Duplicate scoped activity ID: {identifier}")
+        seen.add(identifier)
+        if entry["calculation"] not in CALCULATIONS:
+            raise ValueError(
+                f"Unknown calculation route {entry['calculation']!r} for {identifier}."
             )
-    return pd.DataFrame(rows)
+    return scope
 
 
-def input_contracts():
-    """List the required arguments and purpose of every calculation."""
+def validate_scope(requirements, scope_file=None):
+    """Resolve exact activity IDs and reject source wording that has changed.
+
+    This also validates a full workbook before the importer writes its selected
+    requirements. Unassigned workbook activities are retained as closure context
+    inside those requirement records, but are never added to the run.
+    """
+    scope = load_scope(scope_file)
+    source = {}
+    seen_requirements = set()
+    for requirement in requirements:
+        identifier = requirement["id"]
+        if identifier in seen_requirements:
+            raise ValueError(f"Duplicate source requirement ID: {identifier}")
+        seen_requirements.add(identifier)
+        for number, activity in enumerate(requirement["activities"], 1):
+            source[f"{identifier}.A{number:02d}"] = requirement, activity
+    rows = []
+    for entry in scope["activities"]:
+        identifier = entry["activity_id"]
+        if identifier not in source:
+            raise ValueError(f"Unknown scoped activity ID: {identifier}")
+        requirement, activity = source[identifier]
+        if entry["expected_activity"] != activity:
+            raise ValueError(
+                f"Scoped activity wording mismatch for {identifier}: "
+                f"expected {entry['expected_activity']!r}; source is {activity!r}. "
+                "Review the assignment against the current workbook."
+            )
+        rows.append({
+            "activity_id": identifier,
+            "requirement_id": requirement["id"],
+            "domain": requirement["domain"],
+            "activity": activity,
+            "kernel": entry["calculation"],
+            "artifact": entry["artifact"],
+            "coverage": entry["coverage"],
+            "methods": " / ".join(requirement["methods"]),
+            "source": requirement["source_ref"],
+            "statement": requirement["statement"],
+            "open_parameters": ", ".join(requirement["open_parameters"]),
+            "source_file": requirement.get("source_file", ""),
+            "source_sha256": requirement.get("source_sha256", ""),
+        })
+    return rows
+
+
+def activities(scope_file=None):
+    """Return only assigned rows, with exact current source wording and coverage."""
+    return pd.DataFrame(validate_scope(load_requirements(), scope_file))
+
+
+def input_contracts(scope_file=None):
+    """List required arguments for the calculations selected in the scope."""
     functions, _ = catalog()
     rows = []
-    for key, function in functions.items():
+    for key in dict.fromkeys(activities(scope_file).kernel):
+        function = functions[key]
         required_inputs = []
         for name, parameter in inspect.signature(function).parameters.items():
             has_default = parameter.default is not inspect.Parameter.empty
@@ -112,9 +176,9 @@ def input_contracts():
     return pd.DataFrame(rows)
 
 
-def activity_index():
-    """Link every activity to its calculation or external-evidence validator."""
-    table = activities()
+def activity_index(scope_file=None):
+    """Link each assigned activity to its explicit calculation route."""
+    table = activities(scope_file)
     functions, _ = catalog()
     code_routes = []
     route_types = []
@@ -254,13 +318,14 @@ def acceptance(metrics, rules):
     return all(outcomes) if outcomes else None
 
 
-def evaluate(input_file=None, evidence_file=None, context=None):
-    """Run every activity, reporting missing inputs and external evidence honestly.
+def evaluate(input_file=None, evidence_file=None, context=None, scope_file=None):
+    """Run only assigned activities, retaining acceptance and evidence checks.
 
     Inputs are keyed by activity ID (specific) or calculation name (shared).
     A shared result is cached only for the identical kernel/arguments/criteria.
     Context carries the one integrated flight run; never read stale result CSVs.
     """
+    selected = activities(scope_file)
     functions, _ = catalog()
     inputs = load_checks(input_file)
     evidence_path = Path(evidence_file or ROOT / "inputs/evidence/records.json")
@@ -272,7 +337,7 @@ def evaluate(input_file=None, evidence_file=None, context=None):
     details = {}
     cache = {}
     current_baseline = baseline_id()
-    for activity in activities().to_dict("records"):
+    for activity in selected.to_dict("records"):
         activity_id = activity["activity_id"]
         kernel = activity["kernel"]
         record = evidence.get(activity_id)
@@ -361,11 +426,27 @@ def evaluate(input_file=None, evidence_file=None, context=None):
     return pd.DataFrame(rows), details
 
 
-def requirement_status(results):
-    """Never promote a calculation screen to closed requirement verification."""
+def requirement_status(results, scope_file=None):
+    """Summarize assigned coverage separately from whole-requirement closure.
+
+    Only requirements represented by assigned results appear. Even reviewed
+    assigned work cannot close a requirement with other source activities.
+    """
+    selected = activities(scope_file)
+    results = results[results.activity_id.isin(selected.activity_id)]
+    requirements = {row["id"]: row for row in load_requirements()}
     rows = []
-    for requirement in load_requirements():
-        group = results[results.requirement_id == requirement["id"]]
+    for identifier in results.requirement_id.drop_duplicates():
+        if identifier not in requirements:
+            raise ValueError(f"Unknown result requirement ID: {identifier}")
+        requirement = requirements[identifier]
+        group = results[results.requirement_id == identifier]
+        assigned = set(selected.loc[selected.requirement_id == identifier, "activity_id"])
+        complete_assigned = (
+            set(group.activity_id) == assigned
+            and len(group) == len(assigned)
+            and bool(assigned)
+        )
         failed = group.status.isin(
             [
                 "SCREEN_FAIL",
@@ -395,6 +476,11 @@ def requirement_status(results):
                 "domain": requirement["domain"],
                 "status": status,
                 "activities": len(group),
+                "assigned_activities": len(assigned),
+                "complete_assigned_set": complete_assigned,
+                "assigned_reviewed_complete": bool(
+                    complete_assigned and group.status.eq("REVIEWED_PASS").all()
+                ),
                 "expected_activities": len(expected),
                 "complete_activity_set": complete,
                 "calculated": int(calculated.sum()),
@@ -405,12 +491,16 @@ def requirement_status(results):
     return pd.DataFrame(rows)
 
 
-def export(results, details, output_dir):
-    """Save status tables and calculation results, with long histories in CSV files."""
+def export(results, details, output_dir, scope_file=None):
+    """Save only assigned results, with long calculation histories in CSV files."""
+    selected_ids = set(activities(scope_file).activity_id)
+    results = results[results.activity_id.isin(selected_ids)]
+    result_ids = set(results.activity_id)
+    details = {key: value for key, value in details.items() if key in result_ids}
     output = Path(output_dir)
     output.mkdir(parents=True, exist_ok=True)
     results.to_csv(output / "activity_results.csv", index=False)
-    requirement_status(results).to_csv(output / "requirement_status.csv", index=False)
+    requirement_status(results, scope_file).to_csv(output / "requirement_status.csv", index=False)
     compact = {}
     histories = {}
     for activity_id, result in details.items():

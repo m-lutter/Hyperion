@@ -6,7 +6,7 @@ These are design calculations. A passing screen does not close a requirement or 
 
 ## Simulation
 
-Saved 2026-10-28T21:24:56.337607+00:00
+Saved 2026-10-28T22:11:56.501667+00:00
 
 | Quantity | Value | Unit | Limit | Result |
 | --- | --- | --- | --- | --- |
@@ -29,50 +29,53 @@ Plots: [trajectory](plots/flight_trajectory.png) · [loads](plots/flight_loads.p
 
 ## Engineering checks
 
-Saved 2026-10-28T21:25:00.103845+00:00
+Saved 2026-10-28T22:12:00.339547+00:00
 
 Saved studies:
 
 - [tank ullage](tables/engineering_tank_ullage.csv) — 4 rows
 - [mass allocation](tables/engineering_mass_allocation.csv) — 2 rows
+- [installed thrust](tables/engineering_installed_thrust.csv) — 2 rows
 - [load cases](tables/engineering_load_cases.csv) — 9 rows
 - [control demand](tables/engineering_control_demand.csv) — 5 rows
-- [tank thickness](tables/engineering_tank_thickness.csv) — 6 rows
 - [mission window](tables/engineering_mission_window.csv) — 3 rows
-- [needed inputs](tables/engineering_needed_inputs.csv) — 6 rows
 
 Study results use the assumptions displayed in the notebook and saved inputs. Missing inputs and failed checks remain open in Verification.
 
-Plots: [tank thickness](plots/engineering_tank_thickness.png)
+Plots: [tank ullage](plots/engineering_tank_ullage.png)
 
 ## Verification
 
-Saved 2026-10-28T21:25:10.170065+00:00
+Saved 2026-10-28T22:12:09.933548+00:00
+
+**19 assigned activities · 5 calculation routes.** Results saved for 19 of those activities. This is Hyperion's assigned numerical contribution; the complete shared-drive workbook remains authoritative.
+
+[Assignment manifest](inputs_used/verification.toml) · [Activity coverage and code routes](tables/activities.csv) · [Results](tables/activity_results.csv) · [Named follow-up work](inputs_used/verification_gaps.csv)
 
 | Activity status | Count |
 | --- | --- |
-| EVIDENCE_REQUIRED | 431 |
-| MISSING_INPUTS | 227 |
 | CALCULATED | 7 |
-| SCREEN_FAIL | 6 |
-| SCREEN_PASS | 6 |
+| SCREEN_PASS | 7 |
+| SCREEN_FAIL | 5 |
 
-| Requirement status | Count |
-| --- | --- |
-| OPEN | 367 |
-| FAILED_OR_INVALID | 6 |
+Failed or invalid assigned activities:
 
-[All activity results](tables/activity_results.csv) · [Requirement status](tables/requirement_status.csv)
-
-Failed or invalid activities:
-
-| activity_id | status | detail |
+| Activity | Status | Result |
 | --- | --- | --- |
-| MIS.0.01.A01 | SCREEN_FAIL | The saved coast and restart debit are screening assumptions. Shared 6DOF prograde TMI; no Mars encounter targeting. |
-| SYS.1.02.A01 | SCREEN_FAIL | The saved coast and restart debit are screening assumptions. Shared 6DOF prograde TMI; no Mars encounter targeting. |
-| SYS.1.09.A02 | SCREEN_FAIL | The saved coast and restart debit are screening assumptions. Shared 6DOF prograde TMI; no Mars encounter targeting. |
-| PERF.2.13.A02 | SCREEN_FAIL | Requirement numeric screen only; model-validation and open source conflicts remain. |
-| PROP.3.SYS.04.A02 | SCREEN_FAIL | 3 source Raptor3 engines at2255kN each; source sea-level basis remains to be substantiated. |
-| PROP.3.TANK.02.A01 | SCREEN_FAIL | Current Mlox-Hlox Vehicle Sizing G4:H5,F19:G20,B31:C32; Vehicle Mass E29/E44 totals plus fairing2155.27825kg and adapter replacement845−431.976225kg. Bottom-up totals retained to source precision. |
+| MIS.0.01.A01 | SCREEN_FAIL | C3_margin_km2_s2: -22.0537 km^2/s^2; required >= 0 |
+| SYS.1.02.A01 | SCREEN_FAIL | C3_margin_km2_s2: -22.0537 km^2/s^2; required >= 0 |
+| SYS.1.09.A02 | SCREEN_FAIL | C3_margin_km2_s2: -22.0537 km^2/s^2; required >= 0 |
+| PERF.2.13.A02 | SCREEN_FAIL | minimum_control_ratio_margin_Nm: -12766 N m; required >= 0 |
+| PROP.3.TANK.02.A01 | SCREEN_FAIL | minimum_ullage_fraction: 0.0161675 fraction; required >= 0.04 |
 
-SCREEN_PASS means the stated calculation criterion passed. Only complete, current, reviewed evidence can produce REVIEWED_COMPLETE. Missing or stale evidence never passes.
+Assigned analysis coverage:
+
+| Artifact | Activities | Coverage |
+| --- | --- | --- |
+| Integrated ascent, coast and TMI simulation model | 3 | Finite-burn departure energy and propellant screen. Prograde guidance does not establish an Earth–Mars encounter or injection-vector accuracy. |
+| Lambert launch-window and departure-geometry model | 1 | Three supplied state pairs. A daily launch-window sweep, launch-site access and optimization remain planned. |
+| Rigid-body flight, loads and control report | 10 | Nominal rigid-body ascent with simulated state and assumed actuator limits. Flexible modes, estimator errors, hardware response and dispersed cases are outside this result. Departure attitude/control histories are reported separately in Simulation. Whole-mission control verification remains partial. |
+| Source mass, liquid-volume and ullage budget | 3 | Sizing-source arithmetic. CAD geometry, component boundaries and mass allocations still require reconciliation. |
+| Installed stage thrust calculation | 2 | Nominal installed-thrust arithmetic using saved engine inputs. Engine-cycle/nozzle performance and supplier acceptance remain separate. |
+
+[Parent-requirement coverage](tables/requirement_status.csv) records assigned coverage separately from all source activities. SCREEN_PASS means the stated calculation criterion passed. Only complete, current, reviewed evidence for every source activity, with open parameters resolved, can produce REVIEWED_COMPLETE. Missing or stale evidence never passes.

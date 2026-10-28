@@ -15,9 +15,9 @@ import warnings
 
 import pandas as pd
 
-from .inputs import choices_table, input_tables, load_config, load_study
+from .inputs import choices_table, input_tables, load_checks, load_config, load_study
 from .verification import (
-    ROOT, _plain, activity_index, baseline_id, export, input_contracts, requirement_status,
+    ROOT, _plain, acceptance, activity_index, baseline_id, export, input_contracts,
 )
 
 DEFAULT_OUTPUT = ROOT / "outputs/current"
@@ -324,12 +324,16 @@ def save_engineering(tables, figures=None, output_dir=None, expected_inputs=None
 
 
 def save_verification(results, details, output_dir=None, expected_inputs=None):
-    """Save every activity, numerical detail and requirement status without closing screens."""
+    """Save the assigned analyses, their coverage and results without claiming full verification."""
     output, manifest = _prepare(output_dir, expected_inputs)
     tables = output / "tables"
+    index = activity_index()
+    contracts = input_contracts()
+    results = results[results.activity_id.isin(index.activity_id)].copy()
+    details = {key: value for key, value in details.items() if key in set(results.activity_id)}
     export(results, details, tables)
-    activity_index().to_csv(tables / "activities.csv", index=False)
-    input_contracts().to_csv(tables / "calculation_inputs.csv", index=False)
+    index.to_csv(tables / "activities.csv", index=False)
+    contracts.to_csv(tables / "calculation_inputs.csv", index=False)
     files = [f"tables/{name}" for name in (
         "activity_results.csv", "requirement_status.csv", "calculation_results.json",
         "activities.csv", "calculation_inputs.csv",
@@ -337,12 +341,46 @@ def save_verification(results, details, output_dir=None, expected_inputs=None):
     compact = json.loads((tables / "calculation_results.json").read_text(encoding="utf-8"))
     files += sorted({f"tables/{result['history_csv']}" for result in compact.values() if "history_csv" in result})
     counts = results.status.value_counts().rename_axis("Activity status").reset_index(name="Count")
-    requirements = requirement_status(results)
-    requirement_counts = requirements.status.value_counts().rename_axis("Requirement status").reset_index(name="Count")
     failing = results[results.status.isin(["SCREEN_FAIL", "REVIEWED_FAIL", "INVALID_INPUTS", "INVALID_EVIDENCE"])]
-    summary = _markdown(counts) + "\n\n" + _markdown(requirement_counts)
-    summary += "\n\n[All activity results](tables/activity_results.csv) · [Requirement status](tables/requirement_status.csv)"
+    summary = (
+        f"**{len(index)} assigned activities · {len(contracts)} calculation routes.** "
+        f"Results saved for {results.activity_id.nunique()} of those activities. "
+        "This is Hyperion's assigned numerical contribution; the complete shared-drive workbook remains authoritative.\n\n"
+        "[Assignment manifest](inputs_used/verification.toml) · "
+        "[Activity coverage and code routes](tables/activities.csv) · "
+        "[Results](tables/activity_results.csv) · "
+        "[Named follow-up work](inputs_used/verification_gaps.csv)\n\n"
+        + _markdown(counts)
+    )
     if not failing.empty:
-        summary += "\n\nFailed or invalid activities:\n\n" + _markdown(failing[["activity_id", "status", "detail"]])
-    summary += "\n\nSCREEN_PASS means the stated calculation criterion passed. Only complete, current, reviewed evidence can produce REVIEWED_COMPLETE. Missing or stale evidence never passes."
+        checks = load_checks()
+        failure_rows = []
+        for row in failing.to_dict("records"):
+            measurements = []
+            specification = checks.get(row["activity_id"], checks.get(row.get("kernel"), {}))
+            for rule in specification.get("acceptance", []):
+                try:
+                    if acceptance(details[row["activity_id"]], [rule]):
+                        continue
+                    value = details[row["activity_id"]]
+                    for key in rule["metric"].split("."):
+                        value = value[key]
+                    measurements.append(f"{rule['metric']}: {value:.6g} {rule['units']}; required {rule['operator']} {rule['limit']:.6g}")
+                except (KeyError, TypeError, ValueError):
+                    continue
+            failure_rows.append({
+                "Activity": row["activity_id"], "Status": row["status"],
+                "Result": "; ".join(measurements) or row["detail"],
+            })
+        summary += "\n\nFailed or invalid assigned activities:\n\n" + _markdown(pd.DataFrame(failure_rows))
+    coverage = index.groupby("artifact", sort=False).agg(
+        Activities=("activity_id", "count"),
+        Coverage=("coverage", lambda values: " ".join(dict.fromkeys(values))),
+    ).rename_axis("Artifact").reset_index()
+    summary += "\n\nAssigned analysis coverage:\n\n" + _markdown(coverage)
+    summary += (
+        "\n\n[Parent-requirement coverage](tables/requirement_status.csv) records assigned coverage separately from all source activities. "
+        "SCREEN_PASS means the stated calculation criterion passed. Only complete, current, reviewed evidence for every source activity, "
+        "with open parameters resolved, can produce REVIEWED_COMPLETE. Missing or stale evidence never passes."
+    )
     return _finish(output, manifest, "verification", files, summary)

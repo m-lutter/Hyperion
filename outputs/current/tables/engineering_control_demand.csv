@@ -1,6 +1,6 @@
 Result,Value,Units
 Peak demanded control moment,1104.4770604739567,kN·m
 Peak total gimbal angle,0.9327744819356336,deg
-Smallest powered control margin,253.7604853518316,kN·m
-Smallest all-phase control margin,-12.765977280404071,kN·m
-Additional coast control required,12.765977280404073,kN·m
+Smallest powered ascent margin,253.7604853518316,kN·m
+Smallest ascent margin including coast,-12.765977280404071,kN·m
+Additional staging-coast control required,12.765977280404073,kN·m

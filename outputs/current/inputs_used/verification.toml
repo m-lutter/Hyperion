@@ -1,0 +1,138 @@
+# Hyperion owns these numerical contributions to the verification workbook.
+# Each ID is checked against the exact activity wording when imported/run.
+# Add an assignment only when its calculation and expected artifact belong here.
+# An assigned numerical result does not close the entire parent requirement.
+description = "Assigned trajectory, performance, control and source-sizing analyses"
+
+[[activities]]
+activity_id = "MIS.0.01.A01"
+calculation = "integrated_tmi"
+expected_activity = "Integrated trajectory simulation from launch to TMI."
+artifact = "Integrated ascent, coast and TMI simulation model"
+coverage = "Finite-burn departure energy and propellant screen. Prograde guidance does not establish an Earth–Mars encounter or injection-vector accuracy."
+
+[[activities]]
+activity_id = "MIS.0.01.A02"
+calculation = "lambert_window"
+expected_activity = "Earth-Mars Lambert launch-window sweep."
+artifact = "Lambert launch-window and departure-geometry model"
+coverage = "Three supplied state pairs. A daily launch-window sweep, launch-site access and optimization remain planned."
+
+[[activities]]
+activity_id = "SYS.1.02.A01"
+calculation = "integrated_tmi"
+expected_activity = "Integrated ascent, coast and finite-burn TMI simulation."
+artifact = "Integrated ascent, coast and TMI simulation model"
+coverage = "Finite-burn departure energy and propellant screen. Prograde guidance does not establish an Earth–Mars encounter or injection-vector accuracy."
+
+[[activities]]
+activity_id = "SYS.1.08.A01"
+calculation = "flight_summary"
+expected_activity = "Six-DOF closed-loop flight simulation."
+artifact = "Rigid-body flight, loads and control report"
+coverage = "Nominal rigid-body ascent with simulated state and assumed actuator limits. Flexible modes, estimator errors, hardware response and dispersed cases are outside this result."
+
+[[activities]]
+activity_id = "SYS.1.09.A02"
+calculation = "integrated_tmi"
+expected_activity = "Integrated finite-burn trajectory simulation."
+artifact = "Integrated ascent, coast and TMI simulation model"
+coverage = "Finite-burn departure energy and propellant screen. Prograde guidance does not establish an Earth–Mars encounter or injection-vector accuracy."
+
+[[activities]]
+activity_id = "SYS.1.16.A01"
+calculation = "flight_summary"
+expected_activity = "Six-DOF closed-loop attitude simulation."
+artifact = "Rigid-body flight, loads and control report"
+coverage = "Departure attitude/control histories are reported separately in Simulation. Whole-mission control verification remains partial."
+
+[[activities]]
+activity_id = "PERF.2.05.A01"
+calculation = "flight_summary"
+expected_activity = "Installed-thrust and liftoff-weight balance."
+artifact = "Rigid-body flight, loads and control report"
+coverage = "Nominal rigid-body ascent with simulated state and assumed actuator limits. Flexible modes, estimator errors, hardware response and dispersed cases are outside this result."
+
+[[activities]]
+activity_id = "PERF.2.06.A01"
+calculation = "flight_summary"
+expected_activity = "Rigid-body axial acceleration simulation."
+artifact = "Rigid-body flight, loads and control report"
+coverage = "Nominal rigid-body ascent with simulated state and assumed actuator limits. Flexible modes, estimator errors, hardware response and dispersed cases are outside this result."
+
+[[activities]]
+activity_id = "PERF.2.13.A02"
+calculation = "flight_summary"
+expected_activity = "Control and aerodynamic moment balance."
+artifact = "Rigid-body flight, loads and control report"
+coverage = "Nominal rigid-body ascent with simulated state and assumed actuator limits. Flexible modes, estimator errors, hardware response and dispersed cases are outside this result."
+
+[[activities]]
+activity_id = "PERF.2.32.A02"
+calculation = "sourced_sizing"
+expected_activity = "Stage dry-mass rollup."
+artifact = "Source mass, liquid-volume and ullage budget"
+coverage = "Sizing-source arithmetic. CAD geometry, component boundaries and mass allocations still require reconciliation."
+
+[[activities]]
+activity_id = "PERF.2.35.A02"
+calculation = "flight_summary"
+expected_activity = "Vehicle length-to-diameter calculation."
+artifact = "Rigid-body flight, loads and control report"
+coverage = "Nominal rigid-body ascent with simulated state and assumed actuator limits. Flexible modes, estimator errors, hardware response and dispersed cases are outside this result."
+
+[[activities]]
+activity_id = "PROP.3.SYS.03.A01"
+calculation = "flight_summary"
+expected_activity = "Sea-level thrust-to-weight calculation."
+artifact = "Rigid-body flight, loads and control report"
+coverage = "Nominal rigid-body ascent with simulated state and assumed actuator limits. Flexible modes, estimator errors, hardware response and dispersed cases are outside this result."
+
+[[activities]]
+activity_id = "PROP.3.SYS.04.A02"
+calculation = "thrust_sum"
+expected_activity = "First-stage engine thrust summation."
+artifact = "Installed stage thrust calculation"
+coverage = "Nominal installed-thrust arithmetic using saved engine inputs. Engine-cycle/nozzle performance and supplier acceptance remain separate."
+
+[[activities]]
+activity_id = "PROP.3.SYS.05.A02"
+calculation = "thrust_sum"
+expected_activity = "Upper-stage engine thrust summation."
+artifact = "Installed stage thrust calculation"
+coverage = "Nominal installed-thrust arithmetic using saved engine inputs. Engine-cycle/nozzle performance and supplier acceptance remain separate."
+
+[[activities]]
+activity_id = "PROP.3.SYS.16.A01"
+calculation = "flight_summary"
+expected_activity = "First-stage propellant-consumption integration."
+artifact = "Rigid-body flight, loads and control report"
+coverage = "Nominal rigid-body ascent with simulated state and assumed actuator limits. Flexible modes, estimator errors, hardware response and dispersed cases are outside this result."
+
+[[activities]]
+activity_id = "PROP.3.TANK.01.A01"
+calculation = "sourced_sizing"
+expected_activity = "Tank geometry and liquid-volume calculations."
+artifact = "Source mass, liquid-volume and ullage budget"
+coverage = "Sizing-source arithmetic. CAD geometry, component boundaries and mass allocations still require reconciliation."
+
+[[activities]]
+activity_id = "PROP.3.TANK.02.A01"
+calculation = "sourced_sizing"
+expected_activity = "Ullage and loaded-liquid volume calculations."
+artifact = "Source mass, liquid-volume and ullage budget"
+coverage = "Sizing-source arithmetic. CAD geometry, component boundaries and mass allocations still require reconciliation."
+
+[[activities]]
+activity_id = "PROP.3.STG1.01.A01"
+calculation = "flight_summary"
+expected_activity = "First-stage propellant-to-wet-mass calculation."
+artifact = "Rigid-body flight, loads and control report"
+coverage = "Nominal rigid-body ascent with simulated state and assumed actuator limits. Flexible modes, estimator errors, hardware response and dispersed cases are outside this result."
+
+[[activities]]
+activity_id = "PROP.3.STG2.01.A01"
+calculation = "flight_summary"
+expected_activity = "Upper-stage propellant-to-wet-mass calculation."
+artifact = "Rigid-body flight, loads and control report"
+coverage = "Nominal rigid-body ascent with simulated state and assumed actuator limits. Flexible modes, estimator errors, hardware response and dispersed cases are outside this result."

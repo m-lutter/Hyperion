@@ -102,8 +102,8 @@ class OutputTests(unittest.TestCase):
     def test_same_baseline_retains_sections_and_exports_honest_status(self):
         self.save_study()
         requirement = {"id": "T.01", "domain": "test", "activities": ["calculate"], "open_parameters": [], "source_ref": "test!A1"}
-        results = pd.DataFrame([{"activity_id": "T.01.A01", "requirement_id": "T.01", "status": "SCREEN_PASS", "detail": "criterion passed"}])
-        with patch("model.verification.load_requirements", return_value=[requirement]), patch.object(outputs, "activity_index", return_value=results), patch.object(outputs, "input_contracts", return_value=pd.DataFrame({"calculation": ["test"]})):
+        results = pd.DataFrame([{"activity_id": "T.01.A01", "requirement_id": "T.01", "status": "SCREEN_PASS", "detail": "criterion passed", "kernel": "test", "artifact": "Assigned analysis", "coverage": "Numerical screen only"}])
+        with patch("model.verification.load_requirements", return_value=[requirement]), patch("model.verification.activities", return_value=results), patch.object(outputs, "activity_index", return_value=results), patch.object(outputs, "input_contracts", return_value=pd.DataFrame({"calculation": ["test"]})):
             outputs.save_verification(results, {"T.01.A01": {"value": 1}}, output_dir=self.folder, expected_inputs=self.identity)
         manifest = json.loads((self.folder / "run_manifest.json").read_text())
         self.assertEqual(set(manifest["sections"]), {"engineering", "verification"})
@@ -112,6 +112,29 @@ class OutputTests(unittest.TestCase):
         self.assertTrue((self.folder / "inputs_used/choices.csv").exists())
         self.assertTrue((self.folder / "tables/activities.csv").exists())
         self.assertIn("Only complete, current, reviewed evidence", (self.folder / "summary.md").read_text(encoding="utf-8"))
+
+    def test_verification_summary_limits_claims_to_assignments_and_shows_failed_values(self):
+        requirement = {"id": "T.01", "domain": "test", "activities": ["calculate", "inspect"], "open_parameters": [], "source_ref": "test!A1"}
+        assigned = pd.DataFrame([{"activity_id": "T.01.A01", "requirement_id": "T.01", "status": "SCREEN_FAIL", "detail": "numerical limit", "kernel": "test", "artifact": "Load report", "coverage": "Rigid-body acceleration only"}])
+        unrelated = assigned.assign(activity_id="OTHER.A01", requirement_id="OTHER", detail="outside this assignment")
+        results = pd.concat([assigned, unrelated], ignore_index=True)
+        details = {"T.01.A01": {"load_g": 7}, "OTHER.A01": {"load_g": 99}}
+        checks = {"test": {"acceptance": [{"metric": "load_g", "operator": "<=", "limit": 6, "units": "g", "source": "T.01"}]}}
+        with patch("model.verification.load_requirements", return_value=[requirement]), patch("model.verification.activities", return_value=assigned), patch.object(outputs, "activity_index", return_value=assigned), patch.object(outputs, "input_contracts", return_value=pd.DataFrame({"calculation": ["test"]})), patch.object(outputs, "load_checks", return_value=checks):
+            outputs.save_verification(results, details, output_dir=self.folder, expected_inputs=self.identity)
+        summary = (self.folder / "summary.md").read_text(encoding="utf-8")
+        self.assertIn("1 assigned activities", summary)
+        self.assertIn("load_g: 7 g; required <= 6", summary)
+        self.assertIn("Rigid-body acceleration only", summary)
+        self.assertIn("inputs_used/verification.toml", summary)
+        self.assertIn("inputs_used/verification_gaps.csv", summary)
+        self.assertNotIn("OTHER.A01", summary)
+        saved = json.loads((self.folder / "tables/calculation_results.json").read_text())
+        self.assertEqual(set(saved), {"T.01.A01"})
+        coverage = pd.read_csv(self.folder / "tables/requirement_status.csv")
+        self.assertEqual(coverage.assigned_activities.tolist(), [1])
+        self.assertEqual(coverage.expected_activities.tolist(), [2])
+        self.assertFalse(coverage.complete_activity_set.iloc[0])
 
     def test_full_identity_includes_evidence_without_circular_baseline(self):
         # The evidence record may contain its reviewed baseline ID, but that

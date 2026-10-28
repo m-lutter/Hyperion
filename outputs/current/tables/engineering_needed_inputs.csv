@@ -1,7 +1,0 @@
-Calculation,Purpose,Missing shared inputs
-thermal_network,C dT/dt=sum Gij(Tj-Ti)+Q+H(Tamb-T)+eps*A*sigma(Tamb^4-T^4).,"times_s, heat_capacity_j_k, conductance_w_k, initial_temperature_k, heat_input_w, ambient_temperature_k, ambient_conductance_w_k, emissivity_area_m2"
-relative_separation,Propagate both released bodies with equal/opposite impulse and gravity.,"position_a_m, velocity_a_m_s, position_b_m, velocity_b_m_s, mass_a_kg, mass_b_kg, impulse_on_a_N_s, duration_s, required_center_clearance_m"
-systems_actuator,"First-order, rate/position-limited actuator with zero-order-held commands; times s, positions/commands in common units.","time_s, command, initial_position, time_constant_s, rate_limit_per_s, lower_limit, upper_limit"
-systems_power_energy,"Electrical energy budget; loads contain power_w, duration_s, duty_fraction; capacity Wh, transfer times s.","loads, capacity_wh, usable_fraction, distribution_efficiency, reserve_fraction, transfer_time_s, allowed_transfer_time_s"
-systems_rf_link,"Free-space RF link and ground antenna visibility; positions ECEF m, gains dBi, losses dB.","tx_positions_m, rx_position_m, frequency_hz, tx_power_w, tx_gain_dbi, rx_gain_dbi, loss_db, noise_temperature_k, bit_rate_bps, required_ebn0_db, minimum_elevation_deg"
-systems_state_machine,"Evaluate explicit transition/guard logic; events {time_s,event,signals}, transitions {from,event,to,guards}.","initial_state, events, transitions, forbidden_states"

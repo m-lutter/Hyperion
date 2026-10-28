@@ -2,15 +2,19 @@
 
 **Edit inputs → review choices → run a notebook → inspect outputs.**
 
-Hyperion's shared 6DOF/RK45 model follows the rocket through ascent, coast,
-restart, and departure. The engineering and verification notebooks use the same
-saved settings and flight model.
+Hyperion provides **19 assigned numerical analyses through five shared calculation
+routes**. Its 6DOF/RK45 model follows the rocket through ascent, coast, restart,
+and departure. All three notebooks use the same saved settings and flight model.
+
+The complete verification workbook on the shared drive remains authoritative.
+This repository imports the source records needed for its assigned analyses;
+it does not maintain or verify the entire workbook.
 
 | Open | What you can do |
 |---|---|
 | [01 · Simulation](01_Simulation.ipynb) | Review the vehicle and flight settings; plot the trajectory, Mach, loads, and control margins |
-| [02 · Engineering checks](02_Engineering_Checks.ipynb) | Use the flight loads, compare tank thicknesses, and inspect subsystem work |
-| [03 · Verification](03_Verification.ipynb) | Find failed checks, missing inputs, and evidence needed for each requirement |
+| [02 · Engineering checks](02_Engineering_Checks.ipynb) | Check tank ullage, mass allocations, installed thrust, and supplied launch-window cases |
+| [03 · Verification](03_Verification.ipynb) | Review the 19 assignments, their results, coverage limits, and named follow-up work |
 | [Current results](outputs/current/summary.md) | Read the latest saved findings and follow links to plots and tables |
 
 Each notebook follows **Inputs → Choices and assumptions → Run → Outputs →
@@ -23,9 +27,11 @@ are displayed before calculation; assumed or unresolved choices stay visible.
 |---|---|
 | [vehicle.toml](inputs/vehicle.toml) | Dimensions, masses, engines, tanks, and mass-model assumptions |
 | [flight.toml](inputs/flight.toml) | Launch, atmosphere, guidance, throttle, staging, and departure |
-| [checks.toml](inputs/checks.toml) | Engineering study inputs and verification acceptance rules |
+| [checks.toml](inputs/checks.toml) | Engineering analysis inputs and acceptance rules |
+| [verification.toml](inputs/verification.toml) | The exact assigned activity IDs, calculation routes, artifacts, and coverage |
+| [verification_gaps.csv](inputs/verification_gaps.csv) | Six bounded follow-up groups, with semester and later-development limits |
 | [aerodynamics.csv](inputs/aerodynamics.csv) | Mach/AoA lookup table |
-| [requirements/](inputs/requirements/) | Imported requirement wording, source references, and orbital state data |
+| [requirements/](inputs/requirements/) | Selected source requirements, import references, and orbital state data |
 | [evidence/](inputs/evidence/README.md) | Reviewed test, inspection, demonstration, and analysis records |
 
 TOML files are plain text with section headings and comments. Units appear in the
@@ -34,10 +40,30 @@ input file; change that original value once instead of copying it into each stud
 The notebooks explain and display the saved design rather than keeping separate
 physical settings in code cells. Rerun after editing an input.
 
-Source inputs and requirements were last reconciled with OneDrive on
-**28 October 2026**. The selected fairing length, CP datum, aerodynamic reference
-geometry, and actuator capability still need confirmation. The notebook choices
-tables show the active values and their basis.
+The notebook choices tables show active values and their basis. The selected
+fairing length, CP datum, aerodynamic reference geometry, and actuator capability
+still need confirmation. The first-stage thrust threshold follows the updated
+workbook value of **6.765 MN**, which remains marked TBR.
+
+## Assigned work and coverage
+
+`inputs/verification.toml` owns the assignment list. Each entry names one source
+activity, its calculation, the expected artifact, and what the analysis covers.
+Changing an acceptance rule does not add an assignment.
+
+| Shared calculation | What it supplies |
+|---|---|
+| `flight_summary` | Nominal rigid-body flight, loads, control margins, and propellant use |
+| `integrated_tmi` | Ascent continuation through coast, restart, and finite-burn departure |
+| `lambert_window` | Departure geometry for three supplied Earth–Mars state pairs |
+| `sourced_sizing` | Source mass allocations, liquid volumes, and tank ullage |
+| `thrust_sum` | Installed stage thrust from the saved engine inputs |
+
+The [follow-up list](inputs/verification_gaps.csv) keeps the semester work bounded:
+mission margins, selected wind and sensitivity cases, primary/backup launch
+opportunities, GNC assumptions, and critical stability/accuracy budgets.
+Comprehensive Monte Carlo campaigns, operational optimization and detailed
+software or flexible-body validation belong to later development.
 
 ## Outputs: see what ran
 
@@ -47,8 +73,9 @@ identifies the calculation version. Cached flight histories are reused only whil
 their inputs, model, and saved files still match.
 
 A passing calculation does **not** close a requirement. The verification notebook
-separates calculation results from reviewed evidence and keeps unresolved TBD/TBR
-values visible. Examples in `model/examples/` are excluded from the design checks.
+reports the assigned activities and their actual failed checks, with links to
+coverage and follow-up work. Parent-requirement coverage is retained separately:
+other source activities and unresolved TBD/TBR values still prevent closure.
 
 ## Install and run
 
@@ -69,7 +96,7 @@ python -m pip install -r requirements.txt
 python -m jupyterlab
 ```
 
-To generate the integrated simulation and verification results without Jupyter:
+To generate the integrated simulation and the 19 assigned activity results without Jupyter:
 
 ```sh
 python -m model.verify
@@ -93,8 +120,12 @@ python model/tools/import_requirements.py "path/to/Verification Plan.xlsx"
 python -m model.verify
 ```
 
-The importer reads the source workbook without changing it. It does not sync
-OneDrive or update vehicle inputs; reconcile those changes in `inputs/` first.
+The importer reads the source workbook without changing it and imports only the
+records needed by `inputs/verification.toml`. It checks exact activity wording;
+review changed assignments against the workbook before accepting them. Other
+activities on those source requirements are retained only as closure context.
+The importer does not sync OneDrive or update vehicle inputs; reconcile those
+changes in `inputs/` first.
 
 To validate the activity-to-code index without changing saved results:
 

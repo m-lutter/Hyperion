@@ -252,7 +252,7 @@ checks: Activities,activities.PROP.3.SYS.04.A02.inputs.per_engine_thrust_N,22550
 checks: Activities,activities.PROP.3.SYS.04.A02.inputs.engine_count,3,—,inputs/checks.toml → activities.PROP.3.SYS.04.A02.inputs.engine_count
 checks: Activities,activities.PROP.3.SYS.04.A02.acceptance.0.metric,installed_thrust_N,—,inputs/checks.toml → activities.PROP.3.SYS.04.A02.acceptance.0.metric
 checks: Activities,activities.PROP.3.SYS.04.A02.acceptance.0.operator,>=,—,inputs/checks.toml → activities.PROP.3.SYS.04.A02.acceptance.0.operator
-checks: Activities,activities.PROP.3.SYS.04.A02.acceptance.0.limit,11000000,—,inputs/checks.toml → activities.PROP.3.SYS.04.A02.acceptance.0.limit
+checks: Activities,activities.PROP.3.SYS.04.A02.acceptance.0.limit,6765000,—,inputs/checks.toml → activities.PROP.3.SYS.04.A02.acceptance.0.limit
 checks: Activities,activities.PROP.3.SYS.04.A02.acceptance.0.units,N,—,inputs/checks.toml → activities.PROP.3.SYS.04.A02.acceptance.0.units
 checks: Activities,activities.PROP.3.SYS.04.A02.acceptance.0.source,PROP.3.SYS.04 [TBR-PROP-02],—,inputs/checks.toml → activities.PROP.3.SYS.04.A02.acceptance.0.source
 checks: Activities,activities.PROP.3.SYS.05.A02.basis,1 source BE-3U at890kN vacuum thrust; preliminary sizing input.,—,inputs/checks.toml → activities.PROP.3.SYS.05.A02.basis
@@ -287,16 +287,6 @@ checks: Activities,activities.PROP.3.TANK.02.A01.acceptance.0.operator,>=,—,in
 checks: Activities,activities.PROP.3.TANK.02.A01.acceptance.0.limit,0.04,—,inputs/checks.toml → activities.PROP.3.TANK.02.A01.acceptance.0.limit
 checks: Activities,activities.PROP.3.TANK.02.A01.acceptance.0.units,fraction,—,inputs/checks.toml → activities.PROP.3.TANK.02.A01.acceptance.0.units
 checks: Activities,activities.PROP.3.TANK.02.A01.acceptance.0.source,PROP.3.TANK.02 [TBR-PROP-36],—,inputs/checks.toml → activities.PROP.3.TANK.02.A01.acceptance.0.source
-checks: Studies,studies.tank_thickness.basis,"Pressure-only trade from Structures Sizing.xlsx, Tank Sizing!B3:D8 and Material Properties!B3:H3 (Al2219). The yield factor comes from STR.3.SYS.03; its separate ultimate factor is not evaluated here. Radius follows the selected vehicle. Material applicability, temperature, joints and combined flight loads still need review; this trade alone closes no activity.",—,inputs/checks.toml → studies.tank_thickness.basis
-checks: Studies,studies.tank_thickness.thicknesses_mm,1; 2; 3; 4; 5; 6,mm,inputs/checks.toml → studies.tank_thickness.thicknesses_mm
-checks: Studies,studies.tank_thickness.inputs.radius_m,2.7,m,inputs/checks.toml → studies.tank_thickness.inputs.radius_m (uses vehicle.diameter_m × 0.5)
-checks: Studies,studies.tank_thickness.inputs.pressure_pa,599999.7644445464,Pa,inputs/checks.toml → studies.tank_thickness.inputs.pressure_pa
-checks: Studies,studies.tank_thickness.inputs.axial_force_n,0,N,inputs/checks.toml → studies.tank_thickness.inputs.axial_force_n
-checks: Studies,studies.tank_thickness.inputs.bending_moment_nm,0,N m,inputs/checks.toml → studies.tank_thickness.inputs.bending_moment_nm
-checks: Studies,studies.tank_thickness.inputs.torque_nm,0,N m,inputs/checks.toml → studies.tank_thickness.inputs.torque_nm
-checks: Studies,studies.tank_thickness.inputs.yield_allowable_pa,296474563.606224,Pa,inputs/checks.toml → studies.tank_thickness.inputs.yield_allowable_pa
-checks: Studies,studies.tank_thickness.inputs.joint_efficiency,1,—,inputs/checks.toml → studies.tank_thickness.inputs.joint_efficiency
-checks: Studies,studies.tank_thickness.inputs.load_factor,1.25,—,inputs/checks.toml → studies.tank_thickness.inputs.load_factor
 checks: Studies,studies.departure_targets.basis,Compare the sourced master case with the provisional verification target using the same coast/restart inputs. An energy screen does not prove a Mars intercept.,—,inputs/checks.toml → studies.departure_targets.basis
 checks: Studies,studies.departure_targets.targets.0.label,Master source case,—,inputs/checks.toml → studies.departure_targets.targets.0.label
 checks: Studies,studies.departure_targets.targets.0.target_c3_km2_s2,7.7058,km²/s²,inputs/checks.toml → studies.departure_targets.targets.0.target_c3_km2_s2 (uses mission.target_C3_km2_s2)

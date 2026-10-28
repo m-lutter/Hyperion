@@ -3,24 +3,24 @@
     "notebook": "01_Simulation.ipynb",
     "code_cells": 10,
     "figures": 6,
-    "seconds": 14.97,
+    "seconds": 15.1,
     "errors": 0,
-    "baseline_id": "cd2bd6e7315dd45ab4e37afe92f4f024d12459a074629a79319e9809b605d83d"
+    "baseline_id": "9b8188a97312a3aa76956feb72ae1307eed4de4e605fe21f7af52c4a7be25e34"
   },
   {
     "notebook": "02_Engineering_Checks.ipynb",
-    "code_cells": 10,
+    "code_cells": 8,
     "figures": 1,
-    "seconds": 3.44,
+    "seconds": 3.54,
     "errors": 0,
-    "baseline_id": "cd2bd6e7315dd45ab4e37afe92f4f024d12459a074629a79319e9809b605d83d"
+    "baseline_id": "9b8188a97312a3aa76956feb72ae1307eed4de4e605fe21f7af52c4a7be25e34"
   },
   {
     "notebook": "03_Verification.ipynb",
-    "code_cells": 7,
+    "code_cells": 8,
     "figures": 0,
-    "seconds": 10.15,
+    "seconds": 9.62,
     "errors": 0,
-    "baseline_id": "cd2bd6e7315dd45ab4e37afe92f4f024d12459a074629a79319e9809b605d83d"
+    "baseline_id": "9b8188a97312a3aa76956feb72ae1307eed4de4e605fe21f7af52c4a7be25e34"
   }
 ]

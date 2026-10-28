@@ -1,0 +1,3 @@
+Activity ID,Installed thrust (kN),Criterion,Result
+PROP.3.SYS.04.A02,6765.0,installed_thrust_N >= 6.765e+06 N,Meets saved criteria
+PROP.3.SYS.05.A02,890.0,installed_thrust_N >= 890000 N,Meets saved criteria

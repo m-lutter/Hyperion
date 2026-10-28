@@ -12,4 +12,3 @@ Actuator response,actuator_time_constant_s: 0.15 s,Assumed first-order response;
 Separation,delay_s: 2.0 s; upper_delta_v_m_s: 0.5 m/s; impulse_duration_s: 0.5 s,"Rigid-body impulse screen only; shock, flex, collision and returned-stage trajectories need separate work."
 Parking orbit,target_altitude_m: 200000.0 m,Provisional circular ascent target.
 Angle of attack goal,max_qalpha_aoa_deg: 4.0 deg; aoa_command_limit_deg: 2 deg,The first value is the user goal at peak Qalpha; the second is the guidance command cap.
-Tank thickness trade,pressure_pa: 599999.7644445464 Pa; yield_allowable_pa: 296474563.606224 Pa; load_factor: 1.25,"Source pressure/material values from Structures Sizing.xlsx; yield factor from STR.3.SYS.03. Pressure-only yield screen, conditional on material and joint applicability."

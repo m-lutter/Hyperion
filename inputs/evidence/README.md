@@ -1,17 +1,20 @@
 # Add verification evidence
 
-Use this folder for reviewed tests, inspections, demonstrations, and specialist
-analyses. A simulation example is not a hardware test result.
+Use this folder for reviewed evidence supporting Hyperion's assigned analyses.
+The assignment list is [verification.toml](../verification.toml); the complete
+verification workbook on the shared drive remains authoritative. The six
+[follow-up groups](../verification_gaps.csv) identify work still to be developed.
+A calculated result alone is not reviewed hardware evidence.
 
 ## Add a record
 
-1. Find the activity ID and exact wording in [activities.csv](../../outputs/current/tables/activities.csv).
+1. Find the assigned activity ID, exact wording, artifact, and coverage in [activities.csv](../../outputs/current/tables/activities.csv).
 2. Put the evidence file in this folder. Include its procedure, conditions, results,
    and acceptance limits. For external FEA/CFD, include model assumptions and
    convergence checks.
 3. Add an entry keyed by that activity ID to [records.json](records.json), using
    the fields below.
-4. Run the [Verification register](../../03_Verification.ipynb) again.
+4. Run the [Verification notebook](../../03_Verification.ipynb) again.
 
 | Field | What to enter |
 |---|---|
@@ -38,8 +41,11 @@ print("File hash:", sha256(Path("inputs/evidence/test-report.pdf").read_bytes())
 
 The checker validates the record, file hash, activity wording, and version. It
 cannot judge the quality of the engineering review. Changed evidence becomes
-invalid or stale; a passing record covers only its named activity. A requirement
-stays open until all its activities pass review and its TBD/TBR values are resolved.
+invalid or stale; a passing record covers only its named assigned activity.
+`assigned_reviewed_complete` means the assigned subset has reviewed evidence.
+It does not close the parent requirement: all source activities and unresolved
+TBD/TBR values still count toward whole-requirement closure. Record that broader
+verification in the authoritative shared-drive workbook.
 
 ## Check measured values
 

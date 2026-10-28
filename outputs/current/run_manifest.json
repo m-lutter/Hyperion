@@ -1,29 +1,29 @@
 {
   "identity": {
-    "baseline_id": "cd2bd6e7315dd45ab4e37afe92f4f024d12459a074629a79319e9809b605d83d",
+    "baseline_id": "9b8188a97312a3aa76956feb72ae1307eed4de4e605fe21f7af52c4a7be25e34",
     "files": {
       "inputs/aerodynamics.csv": "b03cc689500b6ad4ef51363f2d834387956e3cb10256e796426c582c51af8236",
-      "inputs/checks.toml": "06616d1b507f9a2964c0deeee4fd3ad64180f62cc510576951baf2d746ac7ca5",
+      "inputs/checks.toml": "1b5de75dc92c415203bca48b64b54a533c89cb889dc2aa894a1b66d4dab6fb03",
       "inputs/evidence/measurement_template.csv": "24ca17c6cebe9e933650d1eb2366a223041c4d29f9dca4dc73f851ab4380c6b7",
-      "inputs/evidence/README.md": "6c64e2613cada9f08d46c299be77bf6f706685678feafe9f20749ac9a91cebb8",
+      "inputs/evidence/README.md": "8e58289ac8444208bd6b60c6e20f025e546f4b1ea1165d26e9f92f02745849ec",
       "inputs/evidence/records.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
       "inputs/flight.toml": "89a9a34e57ca81517b39b7531f9703a437245300761e6af5930e1f5d9d39523e",
       "inputs/requirements/mission_cases.json": "bf1733ea62eb7cc68bcc04ce6ea6c3e73e9840e56fc280774d69625379a775fe",
-      "inputs/requirements/requirements.json": "78bd1f44aea53f7a7126b754cb31a97486e32ac7737cef868b13835a9b00fe49",
-      "inputs/requirements/source_manifest.json": "82fcad5f16542a4e1a6b0cc73551a93283a31df2d7efc360041fd5f514dd609e",
-      "inputs/requirements/source_requirements.json": "ff17fb4a7c7f101ee0fd422797e249b017328d601ab0b24e7fc867a1aa21d8f5",
-      "inputs/requirements/tbd_tracker.json": "c61b45a39eb4408baf795728ea0e6a5fcd34a16e90b429726c04339e87fb4d0d",
-      "inputs/vehicle.toml": "35c82dc0b20947ce35576a6d370b3b5b96976e4e4285da302ddffd40ed180ae6"
+      "inputs/requirements/requirements.json": "a5cc8545069347be6169b6207b480285c41e1449f44454c6a3c34c26abe925eb",
+      "inputs/requirements/source_manifest.json": "5e036829179b98ce7be3c14aee646db09abf48791fc9e9597005a4b848beb3bd",
+      "inputs/vehicle.toml": "35c82dc0b20947ce35576a6d370b3b5b96976e4e4285da302ddffd40ed180ae6",
+      "inputs/verification.toml": "b97f7814e69cdf18441ee3196c24679a07f1f2865a39d69c07b29ed80ecca510",
+      "inputs/verification_gaps.csv": "92c59fd000146abd5edf772ed1fcb376a773b9ea06c0d233d172a3c8ac2ae7b2"
     },
     "selected_aerodynamics": {
       "path": "inputs/aerodynamics.csv",
       "sha256": "b03cc689500b6ad4ef51363f2d834387956e3cb10256e796426c582c51af8236"
     },
-    "input_id": "5631aeb89905c5afa278610f2f38533195006c8655139db5453c818a75cf291a"
+    "input_id": "da3dc23bca0b79d8ed6e8afdf87aad341055aaf40865eb1294556923e5d1e165"
   },
   "sections": {
     "flight": {
-      "saved_utc": "2026-10-28T21:24:56.337607+00:00",
+      "saved_utc": "2026-10-28T22:11:56.501667+00:00",
       "files": {
         "tables/flight_history.csv": "f4ce2c90edcd6d6256bad9bf75ea1c0e358d7953a27db69920301a8b27385f0e",
         "tables/flight_key_results.csv": "44bc2e01a3b9715b5d73decc923b7cffda16a7f09ee1f5bf39035e70658bd43f",
@@ -46,46 +46,45 @@
       "summary": "| Quantity | Value | Unit | Limit | Result |\n| --- | --- | --- | --- | --- |\n| AoA at max-Qalpha | 2.17696 | deg | 4 | SCREEN_PASS |\n| Maximum axial acceleration | 5.68841 | g | 6 | SCREEN_PASS |\n| Maximum lateral acceleration | 0.0178868 | g | 2 | SCREEN_PASS |\n| Maximum dynamic pressure | 17886.4 | Pa | \u2014 | CALCULATED |\n| Maximum Qalpha | 31724.3 | Pa deg | \u2014 | CALCULATED |\n| Steering loss | 1410.82 | m/s | \u2014 | CALCULATED |\n| Minimum powered control margin | 253760 | N m | >= 0 | SCREEN_PASS |\n| Minimum all-phase control margin | -12766 | N m | >= 0 | SCREEN_FAIL |\n\n[Flight history](tables/flight_history.csv) \u00b7 [Correlated load cases](tables/flight_load_cases.csv) \u00b7 [Events](tables/flight_events.csv)\n\nControl results depend on the saved actuator, aerodynamic and geometry assumptions. Coast and roll authority must be supported separately.\n\nDeparture ended with **residual_propellant_limit**. C3 = -12.254 km\u00b2/s\u00b2; target = 9.800 km\u00b2/s\u00b2. This energy screen does not establish a planetary encounter."
     },
     "engineering": {
-      "saved_utc": "2026-10-28T21:25:00.103845+00:00",
+      "saved_utc": "2026-10-28T22:12:00.339547+00:00",
       "files": {
         "tables/engineering_tank_ullage.csv": "9c8e01a046c72318c59c9ddb6d7b18d610c0e55e1f5c6df7474f9792adf543be",
         "tables/engineering_mass_allocation.csv": "cf73524c5f2af80c8ab256cc1b03c40a80ed8486053312cd70d6acb76f4afcea",
+        "tables/engineering_installed_thrust.csv": "d1b727b6fca91a46a8387d8d6974075fcfe12d544d48934e390be08726c64bf5",
         "tables/engineering_load_cases.csv": "eb70baa94af36a00abdb9e9ece95859bbfc99a155c7553f6a48952af54ea8918",
-        "tables/engineering_control_demand.csv": "fdd5e18fe70d5d2ea35df982ef5565855a4002689dc1728f39ca511aac1edecf",
-        "tables/engineering_tank_thickness.csv": "07b1ba4e21c143974a7c80f4bb5562fad9e4f0ed824f1daa61006f9cd2549b47",
+        "tables/engineering_control_demand.csv": "f6f167df7d1299ce2d22e459ade5b58d15ce7e5ec97ce6b737224dcb9d930743",
         "tables/engineering_mission_window.csv": "dcaf259e0749706399bea1a608286653f614afba287c87dd37e2bd0bbc58bf40",
-        "tables/engineering_needed_inputs.csv": "bb307b9788d2e939535c12161b6115efe3de4e1c3da2554c1b39ffac6cd31182",
-        "plots/engineering_tank_thickness.png": "64b4ef3191d3982ae428755ff659be806f8c8ecb53b45d6d159150cba8688997"
+        "plots/engineering_tank_ullage.png": "f621462dc5b3805eff775018126f0743798060ad480c8acfb6d6cdc301f65b74"
       },
-      "summary": "Saved studies:\n\n- [tank ullage](tables/engineering_tank_ullage.csv) \u2014 4 rows\n- [mass allocation](tables/engineering_mass_allocation.csv) \u2014 2 rows\n- [load cases](tables/engineering_load_cases.csv) \u2014 9 rows\n- [control demand](tables/engineering_control_demand.csv) \u2014 5 rows\n- [tank thickness](tables/engineering_tank_thickness.csv) \u2014 6 rows\n- [mission window](tables/engineering_mission_window.csv) \u2014 3 rows\n- [needed inputs](tables/engineering_needed_inputs.csv) \u2014 6 rows\n\nStudy results use the assumptions displayed in the notebook and saved inputs. Missing inputs and failed checks remain open in Verification."
+      "summary": "Saved studies:\n\n- [tank ullage](tables/engineering_tank_ullage.csv) \u2014 4 rows\n- [mass allocation](tables/engineering_mass_allocation.csv) \u2014 2 rows\n- [installed thrust](tables/engineering_installed_thrust.csv) \u2014 2 rows\n- [load cases](tables/engineering_load_cases.csv) \u2014 9 rows\n- [control demand](tables/engineering_control_demand.csv) \u2014 5 rows\n- [mission window](tables/engineering_mission_window.csv) \u2014 3 rows\n\nStudy results use the assumptions displayed in the notebook and saved inputs. Missing inputs and failed checks remain open in Verification."
     },
     "verification": {
-      "saved_utc": "2026-10-28T21:25:10.170065+00:00",
+      "saved_utc": "2026-10-28T22:12:09.933548+00:00",
       "files": {
-        "tables/activity_results.csv": "3441d5c808bcd9c3f6058053073df5eb202a5871996e8b065d2ec1cf14c98585",
-        "tables/requirement_status.csv": "6000d491e3d4bdf495d190570a73cb8f571937ec963040fed707797c4b6aeb88",
+        "tables/activity_results.csv": "b3ed050f094c9e15d3bb1b34358e5ce3d573e03561cf3fa3405b05948679abbe",
+        "tables/requirement_status.csv": "7c4876e6fb3575e653bf05a41c1588692ccca198e2ffe41aac20326ac87b4e9a",
         "tables/calculation_results.json": "13682e7848894121cc87f1e325336cd373183ff60eb6a304dda4638ea41f50ec",
-        "tables/activities.csv": "92fa5a4a877e313396d56474eb4ab1903186e341b4e25b3c95372c0098bcca63",
-        "tables/calculation_inputs.csv": "617a0c84e4390859ce5521297d68c8241e17b3be88803d5a0c417778b4de0b69",
+        "tables/activities.csv": "efef516cd4ddadee603e8a73083e0d1599d729e81848ca22d6e586c3c737d71e",
+        "tables/calculation_inputs.csv": "df1b86bbb13c9005dc212364204ad9e4f9b380bd563abc14914853db402b9e1e",
         "tables/histories/59f5cbfd5bca.csv": "1391054ed69fe6d52bf39eea09efa80858ea190723108bfc9fe0371cb7de84d2"
       },
-      "summary": "| Activity status | Count |\n| --- | --- |\n| EVIDENCE_REQUIRED | 431 |\n| MISSING_INPUTS | 227 |\n| CALCULATED | 7 |\n| SCREEN_FAIL | 6 |\n| SCREEN_PASS | 6 |\n\n| Requirement status | Count |\n| --- | --- |\n| OPEN | 367 |\n| FAILED_OR_INVALID | 6 |\n\n[All activity results](tables/activity_results.csv) \u00b7 [Requirement status](tables/requirement_status.csv)\n\nFailed or invalid activities:\n\n| activity_id | status | detail |\n| --- | --- | --- |\n| MIS.0.01.A01 | SCREEN_FAIL | The saved coast and restart debit are screening assumptions. Shared 6DOF prograde TMI; no Mars encounter targeting. |\n| SYS.1.02.A01 | SCREEN_FAIL | The saved coast and restart debit are screening assumptions. Shared 6DOF prograde TMI; no Mars encounter targeting. |\n| SYS.1.09.A02 | SCREEN_FAIL | The saved coast and restart debit are screening assumptions. Shared 6DOF prograde TMI; no Mars encounter targeting. |\n| PERF.2.13.A02 | SCREEN_FAIL | Requirement numeric screen only; model-validation and open source conflicts remain. |\n| PROP.3.SYS.04.A02 | SCREEN_FAIL | 3 source Raptor3 engines at2255kN each; source sea-level basis remains to be substantiated. |\n| PROP.3.TANK.02.A01 | SCREEN_FAIL | Current Mlox-Hlox Vehicle Sizing G4:H5,F19:G20,B31:C32; Vehicle Mass E29/E44 totals plus fairing2155.27825kg and adapter replacement845\u2212431.976225kg. Bottom-up totals retained to source precision. |\n\nSCREEN_PASS means the stated calculation criterion passed. Only complete, current, reviewed evidence can produce REVIEWED_COMPLETE. Missing or stale evidence never passes."
+      "summary": "**19 assigned activities \u00b7 5 calculation routes.** Results saved for 19 of those activities. This is Hyperion's assigned numerical contribution; the complete shared-drive workbook remains authoritative.\n\n[Assignment manifest](inputs_used/verification.toml) \u00b7 [Activity coverage and code routes](tables/activities.csv) \u00b7 [Results](tables/activity_results.csv) \u00b7 [Named follow-up work](inputs_used/verification_gaps.csv)\n\n| Activity status | Count |\n| --- | --- |\n| CALCULATED | 7 |\n| SCREEN_PASS | 7 |\n| SCREEN_FAIL | 5 |\n\nFailed or invalid assigned activities:\n\n| Activity | Status | Result |\n| --- | --- | --- |\n| MIS.0.01.A01 | SCREEN_FAIL | C3_margin_km2_s2: -22.0537 km^2/s^2; required >= 0 |\n| SYS.1.02.A01 | SCREEN_FAIL | C3_margin_km2_s2: -22.0537 km^2/s^2; required >= 0 |\n| SYS.1.09.A02 | SCREEN_FAIL | C3_margin_km2_s2: -22.0537 km^2/s^2; required >= 0 |\n| PERF.2.13.A02 | SCREEN_FAIL | minimum_control_ratio_margin_Nm: -12766 N m; required >= 0 |\n| PROP.3.TANK.02.A01 | SCREEN_FAIL | minimum_ullage_fraction: 0.0161675 fraction; required >= 0.04 |\n\nAssigned analysis coverage:\n\n| Artifact | Activities | Coverage |\n| --- | --- | --- |\n| Integrated ascent, coast and TMI simulation model | 3 | Finite-burn departure energy and propellant screen. Prograde guidance does not establish an Earth\u2013Mars encounter or injection-vector accuracy. |\n| Lambert launch-window and departure-geometry model | 1 | Three supplied state pairs. A daily launch-window sweep, launch-site access and optimization remain planned. |\n| Rigid-body flight, loads and control report | 10 | Nominal rigid-body ascent with simulated state and assumed actuator limits. Flexible modes, estimator errors, hardware response and dispersed cases are outside this result. Departure attitude/control histories are reported separately in Simulation. Whole-mission control verification remains partial. |\n| Source mass, liquid-volume and ullage budget | 3 | Sizing-source arithmetic. CAD geometry, component boundaries and mass allocations still require reconciliation. |\n| Installed stage thrust calculation | 2 | Nominal installed-thrust arithmetic using saved engine inputs. Engine-cycle/nozzle performance and supplier acceptance remain separate. |\n\n[Parent-requirement coverage](tables/requirement_status.csv) records assigned coverage separately from all source activities. SCREEN_PASS means the stated calculation criterion passed. Only complete, current, reviewed evidence for every source activity, with open parameters resolved, can produce REVIEWED_COMPLETE. Missing or stale evidence never passes."
     }
   },
   "snapshot_files": {
     "inputs_used/aerodynamics.csv": "b03cc689500b6ad4ef51363f2d834387956e3cb10256e796426c582c51af8236",
-    "inputs_used/checks.toml": "06616d1b507f9a2964c0deeee4fd3ad64180f62cc510576951baf2d746ac7ca5",
-    "inputs_used/choices.csv": "39f0dde6973a09818447da729fdeb6cb066e15ca762e2f1357f295ca616af7c8",
+    "inputs_used/checks.toml": "1b5de75dc92c415203bca48b64b54a533c89cb889dc2aa894a1b66d4dab6fb03",
+    "inputs_used/choices.csv": "ba779790b749f90cc5a4ebba44cc3d952823e942e878c1a4e04e71a78b21c48f",
     "inputs_used/evidence/measurement_template.csv": "24ca17c6cebe9e933650d1eb2366a223041c4d29f9dca4dc73f851ab4380c6b7",
-    "inputs_used/evidence/README.md": "6c64e2613cada9f08d46c299be77bf6f706685678feafe9f20749ac9a91cebb8",
+    "inputs_used/evidence/README.md": "8e58289ac8444208bd6b60c6e20f025e546f4b1ea1165d26e9f92f02745849ec",
     "inputs_used/evidence/records.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
     "inputs_used/flight.toml": "89a9a34e57ca81517b39b7531f9703a437245300761e6af5930e1f5d9d39523e",
-    "inputs_used/inputs.csv": "719bcbed0c3d80be4f6631c8fc86933d2615e302baa0461c01f76bc1971f6551",
+    "inputs_used/inputs.csv": "0329497c08988c67a41befa5307df798d5baabdf3b2bc27360ac4b973f6eb894",
     "inputs_used/requirements/mission_cases.json": "bf1733ea62eb7cc68bcc04ce6ea6c3e73e9840e56fc280774d69625379a775fe",
-    "inputs_used/requirements/requirements.json": "78bd1f44aea53f7a7126b754cb31a97486e32ac7737cef868b13835a9b00fe49",
-    "inputs_used/requirements/source_manifest.json": "82fcad5f16542a4e1a6b0cc73551a93283a31df2d7efc360041fd5f514dd609e",
-    "inputs_used/requirements/source_requirements.json": "ff17fb4a7c7f101ee0fd422797e249b017328d601ab0b24e7fc867a1aa21d8f5",
-    "inputs_used/requirements/tbd_tracker.json": "c61b45a39eb4408baf795728ea0e6a5fcd34a16e90b429726c04339e87fb4d0d",
-    "inputs_used/vehicle.toml": "35c82dc0b20947ce35576a6d370b3b5b96976e4e4285da302ddffd40ed180ae6"
+    "inputs_used/requirements/requirements.json": "a5cc8545069347be6169b6207b480285c41e1449f44454c6a3c34c26abe925eb",
+    "inputs_used/requirements/source_manifest.json": "5e036829179b98ce7be3c14aee646db09abf48791fc9e9597005a4b848beb3bd",
+    "inputs_used/vehicle.toml": "35c82dc0b20947ce35576a6d370b3b5b96976e4e4285da302ddffd40ed180ae6",
+    "inputs_used/verification.toml": "b97f7814e69cdf18441ee3196c24679a07f1f2865a39d69c07b29ed80ecca510",
+    "inputs_used/verification_gaps.csv": "92c59fd000146abd5edf772ed1fcb376a773b9ea06c0d233d172a3c8ac2ae7b2"
   }
 }
