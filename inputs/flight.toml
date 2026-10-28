@@ -1,10 +1,10 @@
 # FLIGHT: launch conditions, guidance, control, limits and integration.
-# Edit these saved settings, then rerun 01_Simulation.ipynb.
+# Edit these saved settings, then rerun Hyperion.ipynb.
 # Mission values retain the master source case. The departure section is the
 # active coast/restart case, shared by Simulation and Verification.
 
 description = "Hyperion 28 Oct 2026 synced sizing geometry; selected low-AoA 6DOF RK45 guidance."
-input_audit = "inputs/requirements/source_manifest.json"
+input_audit = "inputs/reference.json"
 assumptions = [
   "Full-vehicle aero export geometry/reference area is unverified. CP inches from nose is inferred from RASAero and tentative user confirmation.",
   "Gimbal cone, rate, actuator response and all engines gimballed are design assumptions, not approved hardware capabilities.",

@@ -1,6 +1,0 @@
-calculation,required_inputs,description
-integrated_tmi,"coast_duration_s, restart_propellant_kg, target_c3_km2_s2, max_burn_duration_s","Reuse or run the ascent, then continue from its actual orbital-speed cutoff."
-lambert_window,"cases, central_mu_m3_s2",Evaluate supplied ephemeris/date pairs; no fabricated planet ephemerides.
-flight_summary,context,Extract requirement-facing measurements from one shared trajectory run.
-sourced_sizing,"context, tanks, component_mass_kg, allocated_mass_kg",Recompute tank volumes/ullage and bottom-up dry mass against allocations.
-thrust_sum,"per_engine_thrust_N, engine_count",Installed thrust in N for identical engines at the supplied operating point.

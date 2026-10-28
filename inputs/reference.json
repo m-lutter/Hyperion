@@ -1,0 +1,614 @@
+{
+  "requirements": [
+    {
+      "id": "MIS.0.01",
+      "domain": "Tier 0",
+      "statement": "The LV shall deliver the Martian and Helios spacecraft from Earth to a TMI trajectory no later than 2034, using the selected 2033 [TBR-MIS-01] Mars departure opportunity as the design reference.",
+      "methods": [
+        "Analysis"
+      ],
+      "activities": [
+        "Integrated trajectory simulation from launch to TMI.",
+        "Earth-Mars Lambert launch-window sweep."
+      ],
+      "environment": "Selected launch opportunity and vehicle configuration.",
+      "considerations": "2033 date remains under review; current GitHub model stops in parking orbit. Window sweep and TMI extension are needed.",
+      "expected_artifacts": "Vehicle Stage Mass and Sizing/delta V.ipynb\n01_Simulation.ipynb (GitHub, nominal rigid-body flight)\nIntegrated ascent, coast and TMI simulation model\nSRR Submission/Trajectory Code/tmi_porkchop_2033.ipynb\nLambert launch-window and departure-geometry model\n03_Verification.ipynb (GitHub assigned analysis A01, A02)",
+      "parent_requirements": "LV-001\nLV-002",
+      "notes": "Professor feedback permits departure before 2034. Slide 16 selects April 28, 2033 as the preliminary design-reference date; confirm the final departure date before closing TBR-MIS-01.",
+      "open_parameters": [
+        "TBR-MIS-01"
+      ],
+      "source_ref": "Tier 0!H5",
+      "statement_ref": "Tier 0!C5",
+      "source_file": "AE 443 Team A Requirements - Verification Plan.xlsx",
+      "source_sha256": "264a82fd98cf26e65aa648d7091bac686cff4e2df43c39e2e834accff84148a0"
+    },
+    {
+      "id": "SYS.1.02",
+      "domain": "1 LV Functional",
+      "statement": "The LV shall deliver the Martian and Helios spacecraft from the launch pad into the TMI trajectory.",
+      "methods": [
+        "Analysis"
+      ],
+      "activities": [
+        "Integrated ascent, coast and finite-burn TMI simulation."
+      ],
+      "environment": "Selected mission, launch site, mass and engine configuration.",
+      "considerations": "The GitHub model covers parking-orbit ascent; finite TMI and mission targeting require extension.",
+      "expected_artifacts": "01_Simulation.ipynb (GitHub, nominal rigid-body flight)\nVehicle Stage Mass and Sizing/delta V.ipynb\nIntegrated ascent, coast and TMI simulation model\n03_Verification.ipynb (GitHub assigned analysis A01)",
+      "parent_requirements": "MIS.0.01",
+      "notes": null,
+      "open_parameters": [],
+      "source_ref": "1 LV Functional!H6",
+      "statement_ref": "1 LV Functional!C6",
+      "source_file": "AE 443 Team A Requirements - Verification Plan.xlsx",
+      "source_sha256": "264a82fd98cf26e65aa648d7091bac686cff4e2df43c39e2e834accff84148a0"
+    },
+    {
+      "id": "SYS.1.08",
+      "domain": "1 LV Functional",
+      "statement": "The LV shall fly autonomously.",
+      "methods": [
+        "Analysis",
+        "Demonstration"
+      ],
+      "activities": [
+        "Six-DOF closed-loop flight simulation.",
+        "Autonomous flight-sequence demonstration."
+      ],
+      "environment": "Nominal and off-nominal flight; executable mission sequence.",
+      "considerations": "Ascent uses true state; estimator, fault handling, coast control and TMI extensions are needed.",
+      "expected_artifacts": "01_Simulation.ipynb (GitHub, nominal rigid-body flight)\nClosed-loop GNC simulation model\nGNC software-in-the-loop test plan\nFlight-event state and timing model\nFlight-event software test plan\n03_Verification.ipynb (GitHub assigned analysis A01)",
+      "parent_requirements": "MIS.0.01",
+      "notes": null,
+      "open_parameters": [],
+      "source_ref": "1 LV Functional!H12",
+      "statement_ref": "1 LV Functional!C12",
+      "source_file": "AE 443 Team A Requirements - Verification Plan.xlsx",
+      "source_sha256": "264a82fd98cf26e65aa648d7091bac686cff4e2df43c39e2e834accff84148a0"
+    },
+    {
+      "id": "SYS.1.09",
+      "domain": "1 LV Functional",
+      "statement": "The LV shall provide the propulsive capability to deliver the Kairos payload to Earth-departure conditions enabling Mars transfer.",
+      "methods": [
+        "Analysis"
+      ],
+      "activities": [
+        "Rocket-equation stage and propellant sizing.",
+        "Integrated finite-burn trajectory simulation."
+      ],
+      "environment": "Current vehicle configuration and selected Earth-departure conditions.",
+      "considerations": "Sizing and trajectory tools need common masses and engine inputs; coast, restart and TMI are not integrated.",
+      "expected_artifacts": "Vehicle Stage Mass and Sizing/Mlox-Hlox.xlsx\n01_Simulation.ipynb (GitHub, nominal rigid-body flight)\nIntegrated ascent, coast and TMI simulation model\n03_Verification.ipynb (GitHub assigned analysis A02)",
+      "parent_requirements": "SYS.1.02",
+      "notes": null,
+      "open_parameters": [],
+      "source_ref": "1 LV Functional!H13",
+      "statement_ref": "1 LV Functional!C13",
+      "source_file": "AE 443 Team A Requirements - Verification Plan.xlsx",
+      "source_sha256": "264a82fd98cf26e65aa648d7091bac686cff4e2df43c39e2e834accff84148a0"
+    },
+    {
+      "id": "SYS.1.16",
+      "domain": "1 LV Functional",
+      "statement": "The LV shall control its attitude throughout ascent, staging, and TMI.",
+      "methods": [
+        "Analysis",
+        "Test"
+      ],
+      "activities": [
+        "Six-DOF closed-loop attitude simulation.",
+        "Controller-actuator interface and response-time tests."
+      ],
+      "environment": "Ascent, staging, coast and TMI; controller and actuator bench.",
+      "considerations": "Gimbal limits are assumed; coast control and TMI remain gaps. Controller/actuator tests are proposed.",
+      "expected_artifacts": "01_Simulation.ipynb (GitHub, nominal rigid-body flight)\nClosed-loop GNC simulation model\nGNC software-in-the-loop test plan\nFlexible-vehicle eigenvalue and frequency-response model\nController-actuator interface and response-time test plan\n03_Verification.ipynb (GitHub assigned analysis A01)",
+      "parent_requirements": "SYS.1.08",
+      "notes": null,
+      "open_parameters": [],
+      "source_ref": "1 LV Functional!H20",
+      "statement_ref": "1 LV Functional!C20",
+      "source_file": "AE 443 Team A Requirements - Verification Plan.xlsx",
+      "source_sha256": "264a82fd98cf26e65aa648d7091bac686cff4e2df43c39e2e834accff84148a0"
+    },
+    {
+      "id": "PERF.2.05",
+      "domain": "2 LV Performance",
+      "statement": "The LV shall have a liftoff thrust to weight ratio of at least 1.2.",
+      "methods": [
+        "Analysis",
+        "Test"
+      ],
+      "activities": [
+        "Installed-thrust and liftoff-weight balance.",
+        "Engine hot-fire thrust-performance tests."
+      ],
+      "environment": "Selected liftoff conditions; instrumented engine test stand.",
+      "considerations": "Engine count and sea-level thrust must match sizing; engine hot-fire evidence is not in the shared drive.",
+      "expected_artifacts": "Vehicle Stage Mass and Sizing/Mlox-Hlox.xlsx\n01_Simulation.ipynb (GitHub, nominal rigid-body flight)\nSelected-engine performance data and acceptance records\n03_Verification.ipynb (GitHub assigned analysis A01)",
+      "parent_requirements": "SYS.1.09",
+      "notes": null,
+      "open_parameters": [],
+      "source_ref": "2 LV Performance!H9",
+      "statement_ref": "2 LV Performance!C9",
+      "source_file": "AE 443 Team A Requirements - Verification Plan.xlsx",
+      "source_sha256": "264a82fd98cf26e65aa648d7091bac686cff4e2df43c39e2e834accff84148a0"
+    },
+    {
+      "id": "PERF.2.06",
+      "domain": "2 LV Performance",
+      "statement": "The LV shall limit quasi-static axial acceleration at the payload interface to 6.0 g.",
+      "methods": [
+        "Analysis"
+      ],
+      "activities": [
+        "Rigid-body axial acceleration simulation.",
+        "Coupled-load axial-response calculations."
+      ],
+      "environment": "Powered flight through TMI; staging and thrust transients.",
+      "considerations": "Current rigid-body acceleration is partial evidence; coupled response and TMI cases are proposed.",
+      "expected_artifacts": "01_Simulation.ipynb (GitHub, nominal rigid-body flight)\nLOADS/loads_v2.xlsx\nIntegrated ascent, coast and TMI simulation model\nVehicle finite-element and coupled-load model\n03_Verification.ipynb (GitHub assigned analysis A01)",
+      "parent_requirements": "SYS.1.11\nMIS.0.11\nICD-A3",
+      "notes": null,
+      "open_parameters": [],
+      "source_ref": "2 LV Performance!H10",
+      "statement_ref": "2 LV Performance!C10",
+      "source_file": "AE 443 Team A Requirements - Verification Plan.xlsx",
+      "source_sha256": "264a82fd98cf26e65aa648d7091bac686cff4e2df43c39e2e834accff84148a0"
+    },
+    {
+      "id": "PERF.2.13",
+      "domain": "2 LV Performance",
+      "statement": "The LV shall maintain a controllability ratio of at least 2.",
+      "methods": [
+        "Inspection",
+        "Analysis"
+      ],
+      "activities": [
+        "Actuator limit and mass-property inspection.",
+        "Control and aerodynamic moment balance."
+      ],
+      "environment": "Powered and engine-off conditions across the flight envelope.",
+      "considerations": "Ratio: available control torque / destabilizing aerodynamic torque. Check each axis and zero-torque cases; gimbal limits remain assumed.",
+      "expected_artifacts": "01_Simulation.ipynb (GitHub, nominal rigid-body flight)\nHyperion Master Sheet.xlsx\nFlexible-vehicle eigenvalue and frequency-response model\n03_Verification.ipynb (GitHub assigned analysis A02)",
+      "parent_requirements": "SYS.1.16",
+      "notes": null,
+      "open_parameters": [],
+      "source_ref": "2 LV Performance!H14",
+      "statement_ref": "2 LV Performance!C14",
+      "source_file": "AE 443 Team A Requirements - Verification Plan.xlsx",
+      "source_sha256": "264a82fd98cf26e65aa648d7091bac686cff4e2df43c39e2e834accff84148a0"
+    },
+    {
+      "id": "PERF.2.32",
+      "domain": "2 LV Performance",
+      "statement": "Each stage's dry mass shall not exceed its allocation in the LV mass budget.",
+      "methods": [
+        "Inspection",
+        "Analysis"
+      ],
+      "activities": [
+        "Component mass and allocation inspection.",
+        "Stage dry-mass rollup."
+      ],
+      "environment": "Current stage configurations, including support and separation hardware.",
+      "considerations": "Predicted masses and growth allowances require consistent allocation; adapter estimates differ across current sources.",
+      "expected_artifacts": "Vehicle Stage Mass and Sizing/Mlox-Hlox.xlsx\nHyperion Master Sheet.xlsx\nCAD/Hyperion V1 CAD/00_Assembly/00_Hyperion_ASSEMBLY.prt\n03_Verification.ipynb (GitHub assigned analysis A02)",
+      "parent_requirements": "PERF.2.02\nLV-016\nLV-012",
+      "notes": null,
+      "open_parameters": [],
+      "source_ref": "2 LV Performance!H31",
+      "statement_ref": "2 LV Performance!C31",
+      "source_file": "AE 443 Team A Requirements - Verification Plan.xlsx",
+      "source_sha256": "264a82fd98cf26e65aa648d7091bac686cff4e2df43c39e2e834accff84148a0"
+    },
+    {
+      "id": "PERF.2.35",
+      "domain": "2 LV Performance",
+      "statement": "The LV shall have a fineness ratio within a range of 10 to 20.",
+      "methods": [
+        "Inspection",
+        "Analysis"
+      ],
+      "activities": [
+        "CAD vehicle-dimension inspection.",
+        "Vehicle length-to-diameter calculation."
+      ],
+      "environment": "Specified integrated launch configuration.",
+      "considerations": "CAD and sizing dimensions must agree; the fineness-ratio definition must use the same vehicle boundary.",
+      "expected_artifacts": "CAD/Hyperion V1 CAD/00_Assembly/00_Hyperion_ASSEMBLY.prt\nVehicle Stage Mass and Sizing/Mlox-Hlox.xlsx\n03_Verification.ipynb (GitHub assigned analysis A02)",
+      "parent_requirements": "SYS.1.14",
+      "notes": null,
+      "open_parameters": [],
+      "source_ref": "2 LV Performance!H34",
+      "statement_ref": "2 LV Performance!C34",
+      "source_file": "AE 443 Team A Requirements - Verification Plan.xlsx",
+      "source_sha256": "264a82fd98cf26e65aa648d7091bac686cff4e2df43c39e2e834accff84148a0"
+    },
+    {
+      "id": "PROP.3.SYS.03",
+      "domain": "3 Propulsion",
+      "statement": "The first-stage propulsion system shall generate sufficient sea-level thrust to satisfy the liftoff thrust-to-weight requirement.",
+      "methods": [
+        "Analysis"
+      ],
+      "activities": [
+        "Sea-level thrust-to-weight calculation."
+      ],
+      "environment": "Launch-ready mass and rated sea-level thrust.",
+      "considerations": "Sea-level thrust basis and launch mass require consistency with the parent requirement.",
+      "expected_artifacts": "Vehicle Stage Mass and Sizing/Mlox-Hlox.xlsx — Vehicle Sizing (sizing inputs)\nVehicle Stage Mass and Sizing/Mlox-Hlox.xlsx — Vehicle Mass (mass estimate)\nLiftoff thrust-to-weight calculation\n03_Verification.ipynb (GitHub assigned analysis A01)",
+      "parent_requirements": "PERF.2.05",
+      "notes": null,
+      "open_parameters": [],
+      "source_ref": "3 Propulsion!I7",
+      "statement_ref": "3 Propulsion!D7",
+      "source_file": "AE 443 Team A Requirements - Verification Plan.xlsx",
+      "source_sha256": "264a82fd98cf26e65aa648d7091bac686cff4e2df43c39e2e834accff84148a0"
+    },
+    {
+      "id": "PROP.3.SYS.04",
+      "domain": "3 Propulsion",
+      "statement": "The first-stage propulsion system shall generate at least 6,765 kN of sea-level thrust at liftoff [TBR-PROP-02].",
+      "methods": [
+        "Analysis"
+      ],
+      "activities": [
+        "Engine-cycle and nozzle-expansion calculations.",
+        "First-stage engine thrust summation."
+      ],
+      "environment": "Selected engine count and sea-level operating point.",
+      "considerations": "TBR-PROP-02 remains under review. Current sizing and the selected linked requirement are 6,765 kN. Confirm the sea-level basis and supplier capability.",
+      "expected_artifacts": "Vehicle Stage Mass and Sizing/Mlox-Hlox.xlsx — Vehicle Sizing (sizing inputs)\nFirst-stage engine-cycle and sea-level thrust model\n03_Verification.ipynb (GitHub assigned analysis A02)",
+      "parent_requirements": "PERF.2.05\nPERF.2.36\nSYS.1.09",
+      "notes": null,
+      "open_parameters": [
+        "TBR-PROP-02"
+      ],
+      "source_ref": "3 Propulsion!I8",
+      "statement_ref": "3 Propulsion!D8",
+      "source_file": "AE 443 Team A Requirements - Verification Plan.xlsx",
+      "source_sha256": "264a82fd98cf26e65aa648d7091bac686cff4e2df43c39e2e834accff84148a0"
+    },
+    {
+      "id": "PROP.3.SYS.05",
+      "domain": "3 Propulsion",
+      "statement": "The second-stage propulsion system shall generate at least 890 kN of vacuum thrust [TBR-PROP-03].",
+      "methods": [
+        "Analysis"
+      ],
+      "activities": [
+        "Engine-cycle and nozzle-expansion calculations.",
+        "Upper-stage engine thrust summation."
+      ],
+      "environment": "Selected engine count and vacuum operating point.",
+      "considerations": "890 kN is a sizing input; source conditions and TBR-PROP-03 need confirmation.",
+      "expected_artifacts": "Vehicle Stage Mass and Sizing/Mlox-Hlox.xlsx — Vehicle Sizing (sizing inputs)\nUpper-stage engine-cycle and vacuum thrust model\n03_Verification.ipynb (GitHub assigned analysis A02)",
+      "parent_requirements": "PERF.2.36\nSYS.1.09",
+      "notes": null,
+      "open_parameters": [
+        "TBR-PROP-03"
+      ],
+      "source_ref": "3 Propulsion!I9",
+      "statement_ref": "3 Propulsion!D9",
+      "source_file": "AE 443 Team A Requirements - Verification Plan.xlsx",
+      "source_sha256": "264a82fd98cf26e65aa648d7091bac686cff4e2df43c39e2e834accff84148a0"
+    },
+    {
+      "id": "PROP.3.SYS.16",
+      "domain": "3 Propulsion",
+      "statement": "The first stage propulsion system shall provide powered flight for a duration of at least [TBD-PROP-06] seconds.",
+      "methods": [
+        "Analysis",
+        "Test"
+      ],
+      "activities": [
+        "First-stage propellant-consumption integration.",
+        "Full-duration first-stage hot-fire tests."
+      ],
+      "environment": "First-stage burn profile; instrumented stage hot-fire stand.",
+      "considerations": "TBD-PROP-06 remains open; 206.9 s is modeled duration, not engine endurance evidence. Tests planned.",
+      "expected_artifacts": "Vehicle Stage Mass and Sizing/Mlox-Hlox.xlsx — Ascent Profile (burn estimate)\nVehicle Stage Mass and Sizing/Mlox-Hlox.xlsx — Vehicle Sizing (sizing inputs)\n01_Simulation.ipynb (GitHub, nominal rigid-body flight)\nFirst-stage burn-duration calculation\nStage hot-fire duration and throttle test plan\n03_Verification.ipynb (GitHub assigned analysis A01)",
+      "parent_requirements": "SYS.1.09\nPERF.2.36",
+      "notes": null,
+      "open_parameters": [
+        "TBD-PROP-06"
+      ],
+      "source_ref": "3 Propulsion!I15",
+      "statement_ref": "3 Propulsion!D15",
+      "source_file": "AE 443 Team A Requirements - Verification Plan.xlsx",
+      "source_sha256": "264a82fd98cf26e65aa648d7091bac686cff4e2df43c39e2e834accff84148a0"
+    },
+    {
+      "id": "PROP.3.TANK.01",
+      "domain": "3 Propulsion",
+      "statement": "The propulsion system shall store the launch-ready required volume of both oxidizer and fuel including ullage.",
+      "methods": [
+        "Analysis",
+        "Test"
+      ],
+      "activities": [
+        "Tank geometry and liquid-volume calculations.",
+        "Calibrated tank fill-volume tests."
+      ],
+      "environment": "Launch-ready densities/geometry; calibrated tank-filling setup.",
+      "considerations": "F14 uses ideal oxygen mass; loaded inventory, temperature shrinkage and CAD volume need reconciliation. Tests planned.",
+      "expected_artifacts": "Vehicle Stage Mass and Sizing/Mlox-Hlox.xlsx — Vehicle Sizing (sizing inputs)\nVehicle Stage Mass and Sizing/Mlox-Hlox.xlsx — Tank Geometry (geometry estimate)\nLaunch-ready tank volume budget\nTank fill-volume and residual-inventory test plan\n03_Verification.ipynb (GitHub assigned analysis A01)",
+      "parent_requirements": "SYS.1.09\nPERF.2.36",
+      "notes": null,
+      "open_parameters": [],
+      "source_ref": "3 Propulsion!I62",
+      "statement_ref": "3 Propulsion!D62",
+      "source_file": "AE 443 Team A Requirements - Verification Plan.xlsx",
+      "source_sha256": "264a82fd98cf26e65aa648d7091bac686cff4e2df43c39e2e834accff84148a0"
+    },
+    {
+      "id": "PROP.3.TANK.02",
+      "domain": "3 Propulsion",
+      "statement": "The propellant tanks shall reserve at least 4% [TBR-PROP-36] of internal volume for ullage.",
+      "methods": [
+        "Analysis",
+        "Test"
+      ],
+      "activities": [
+        "Ullage and loaded-liquid volume calculations.",
+        "Calibrated tank fill-level tests."
+      ],
+      "environment": "Launch-ready inventory/temperature; calibrated tank-level setup.",
+      "considerations": "TBR-PROP-36 remains open; current 4% uses liquid volume rather than tank volume; temperature shrinkage also matters. Tests planned.",
+      "expected_artifacts": "Vehicle Stage Mass and Sizing/Mlox-Hlox.xlsx — Vehicle Sizing (sizing inputs)\nVehicle Stage Mass and Sizing/Mlox-Hlox.xlsx — Tank Geometry (geometry estimate)\nTank ullage fraction calculation\nTank fill-volume and residual-inventory test plan\n03_Verification.ipynb (GitHub assigned analysis A01)",
+      "parent_requirements": "PROP.3.TANK.01",
+      "notes": null,
+      "open_parameters": [
+        "TBR-PROP-36"
+      ],
+      "source_ref": "3 Propulsion!I63",
+      "statement_ref": "3 Propulsion!D63",
+      "source_file": "AE 443 Team A Requirements - Verification Plan.xlsx",
+      "source_sha256": "264a82fd98cf26e65aa648d7091bac686cff4e2df43c39e2e834accff84148a0"
+    },
+    {
+      "id": "PROP.3.STG1.01",
+      "domain": "3 Propulsion",
+      "statement": "The propulsion system shall achieve a propellant mass fraction of at least [TBD-PROP-39]% for the first stage.",
+      "methods": [
+        "Analysis"
+      ],
+      "activities": [
+        "First-stage propellant-to-wet-mass calculation."
+      ],
+      "environment": "Launch-ready first-stage mass boundary.",
+      "considerations": "TBD-PROP-39 remains open; loaded/usable propellant and exclusion of carried upper-stage mass need definition.",
+      "expected_artifacts": "Vehicle Stage Mass and Sizing/Mlox-Hlox.xlsx — Vehicle Sizing (sizing inputs)\nVehicle Stage Mass and Sizing/Mlox-Hlox.xlsx — Vehicle Mass (mass estimate)\nVehicle Stage Mass and Sizing/Mlox-Hlox.xlsx — GLOM (sizing estimate)\nFirst-stage propellant mass-fraction calculation\n03_Verification.ipynb (GitHub assigned analysis A01)",
+      "parent_requirements": "PERF.2.STAGE.01\nPERF.2.02\nLV-016",
+      "notes": null,
+      "open_parameters": [
+        "TBD-PROP-39"
+      ],
+      "source_ref": "3 Propulsion!I65",
+      "statement_ref": "3 Propulsion!D65",
+      "source_file": "AE 443 Team A Requirements - Verification Plan.xlsx",
+      "source_sha256": "264a82fd98cf26e65aa648d7091bac686cff4e2df43c39e2e834accff84148a0"
+    },
+    {
+      "id": "PROP.3.STG2.01",
+      "domain": "3 Propulsion",
+      "statement": "The propulsion system shall achieve a propellant mass fraction of at least [TBD-PROP-40]% for the second stage.",
+      "methods": [
+        "Analysis"
+      ],
+      "activities": [
+        "Upper-stage propellant-to-wet-mass calculation."
+      ],
+      "environment": "Launch-ready upper-stage mass boundary.",
+      "considerations": "TBD-PROP-40 remains open; C17 includes payload and is not a stage-only denominator.",
+      "expected_artifacts": "Vehicle Stage Mass and Sizing/Mlox-Hlox.xlsx — Vehicle Sizing (sizing inputs)\nVehicle Stage Mass and Sizing/Mlox-Hlox.xlsx — Vehicle Mass (mass estimate)\nVehicle Stage Mass and Sizing/Mlox-Hlox.xlsx — GLOM (sizing estimate)\nUpper-stage propellant mass-fraction calculation\n03_Verification.ipynb (GitHub assigned analysis A01)",
+      "parent_requirements": "PERF.2.STAGE.01\nPERF.2.02\nLV-016",
+      "notes": null,
+      "open_parameters": [
+        "TBD-PROP-40"
+      ],
+      "source_ref": "3 Propulsion!I66",
+      "statement_ref": "3 Propulsion!D66",
+      "source_file": "AE 443 Team A Requirements - Verification Plan.xlsx",
+      "source_sha256": "264a82fd98cf26e65aa648d7091bac686cff4e2df43c39e2e834accff84148a0"
+    }
+  ],
+  "mission_cases": {
+    "central_mu_m3_s2": 1.32712440018e+20,
+    "mu_source": "Shared tmi_porkchop_2033.ipynb MU_SUN constant",
+    "source_provenance": {
+      "earth": {
+        "filename": "earth_2033_2038_horizons.txt",
+        "sha256": "12cc656891f1cd628654631812fbe01dc6e50a7a0ec3e0d56d2579258ef1a702",
+        "target": "earth",
+        "center": "Sun (10)",
+        "frame": "ICRF (equatorial; no ecliptic-to-equatorial rotation required)",
+        "units_in_source": "KM-S",
+        "time_scale": "TDB",
+        "ephemeris": "DE441",
+        "output_type": "GEOMETRIC cartesian states"
+      },
+      "mars": {
+        "filename": "mars_2033_2038_horizons.txt",
+        "sha256": "48d7170987281feb57757da7dc528ea9deb342fb7b3240fdf5660184a99212e0",
+        "target": "mars",
+        "center": "Sun (10)",
+        "frame": "ICRF (equatorial; no ecliptic-to-equatorial rotation required)",
+        "units_in_source": "KM-S",
+        "time_scale": "TDB",
+        "ephemeris": "DE441",
+        "output_type": "GEOMETRIC cartesian states"
+      }
+    },
+    "frame_note": "Input vectors are already equatorial ICRF. A fixed J2000 ecliptic north vector is used only to select the prograde transfer branch; no state rotation was performed.",
+    "branch_selection_obliquity_deg": 23.4392911,
+    "scope": "Three daily departure samples at fixed 274 day TOF, not a comprehensive launch-window optimization.",
+    "cases": [
+      {
+        "departure_label": "2033-04-27 00:00 TDB",
+        "arrival_label": "2034-01-26 00:00 TDB",
+        "time_of_flight_s": 23673600.0,
+        "departure_position_m": [
+          -120881146339.1056,
+          -82360653324.81117,
+          -35699389120.235855
+        ],
+        "arrival_position_m": [
+          151893899759.2209,
+          144802306802.2028,
+          62324284364.44935
+        ],
+        "departure_planet_velocity_m_s": [
+          17276.96831291071,
+          -22058.20300105831,
+          -9560.256841566952
+        ],
+        "arrival_planet_velocity_m_s": [
+          -16526.05562522464,
+          17003.911452690558,
+          8244.829125552214
+        ],
+        "long_way": true,
+        "source_earth_row": "2463714.500000000, A.D. 2033-Apr-27 00:00:00.0000, -1.208811463391056E+08, -8.236065332481118E+07, -3.569938912023585E+07,  1.727696831291071E+01, -2.205820300105831E+01, -9.560256841566952E+00,",
+        "source_mars_row": "2463988.500000000, A.D. 2034-Jan-26 00:00:00.0000,  1.518938997592209E+08,  1.448023068022028E+08,  6.232428436444935E+07, -1.652605562522464E+01,  1.700391145269056E+01,  8.244829125552215E+00,"
+      },
+      {
+        "departure_label": "2033-04-28 00:00 TDB",
+        "arrival_label": "2034-01-27 00:00 TDB",
+        "time_of_flight_s": 23673600.0,
+        "departure_position_m": [
+          -119370813413.366,
+          -84254414543.13576,
+          -36520162482.794304
+        ],
+        "arrival_position_m": [
+          150458905343.8867,
+          146264590226.7991,
+          63033686087.3923
+        ],
+        "departure_planet_velocity_m_s": [
+          17683.50867559237,
+          -21777.70867336663,
+          -9438.6406931885
+        ],
+        "arrival_planet_velocity_m_s": [
+          -16691.07727971451,
+          16845.042694224412,
+          8176.406796012781
+        ],
+        "long_way": true,
+        "source_earth_row": "2463715.500000000, A.D. 2033-Apr-28 00:00:00.0000, -1.193708134133660E+08, -8.425441454313576E+07, -3.652016248279431E+07,  1.768350867559237E+01, -2.177770867336663E+01, -9.438640693188500E+00,",
+        "source_mars_row": "2463989.500000000, A.D. 2034-Jan-27 00:00:00.0000,  1.504589053438867E+08,  1.462645902267991E+08,  6.303368608739230E+07, -1.669107727971451E+01,  1.684504269422441E+01,  8.176406796012781E+00,"
+      },
+      {
+        "departure_label": "2033-04-29 00:00 TDB",
+        "arrival_label": "2034-01-28 00:00 TDB",
+        "time_of_flight_s": 23673600.0,
+        "departure_position_m": [
+          -117825602232.5327,
+          -86123644454.27283,
+          -37330303323.45541
+        ],
+        "arrival_position_m": [
+          149009738820.9819,
+          147713096082.764,
+          63737150274.37844
+        ],
+        "departure_planet_velocity_m_s": [
+          18084.279774699058,
+          -21490.37916018203,
+          -9314.146618485838
+        ],
+        "arrival_planet_velocity_m_s": [
+          -16854.1124230503,
+          16684.99005098613,
+          8107.387878252636
+        ],
+        "long_way": true,
+        "source_earth_row": "2463716.500000000, A.D. 2033-Apr-29 00:00:00.0000, -1.178256022325327E+08, -8.612364445427282E+07, -3.733030332345541E+07,  1.808427977469906E+01, -2.149037916018203E+01, -9.314146618485838E+00,",
+        "source_mars_row": "2463990.500000000, A.D. 2034-Jan-28 00:00:00.0000,  1.490097388209819E+08,  1.477130960827640E+08,  6.373715027437844E+07, -1.685411242305030E+01,  1.668499005098613E+01,  8.107387878252636E+00,"
+      }
+    ]
+  },
+  "sources": {
+    "files": [
+      {
+        "file": "AE 443 Team A Requirements - Verification Plan.xlsx",
+        "bytes": 550136,
+        "sha256": "264a82fd98cf26e65aa648d7091bac686cff4e2df43c39e2e834accff84148a0"
+      },
+      {
+        "file": "Hyperion Master Sheet.xlsx",
+        "bytes": 787682,
+        "sha256": "b34180086c54f2b196ffae95a212b998767e47139ecef945e0bd768e7e38bc71"
+      },
+      {
+        "file": "loads_v2.xlsx",
+        "bytes": 261780,
+        "sha256": "92dc9ec3c454e023121480fc191573540de3292b2a1a901fac7b6ca1c5b9676f"
+      },
+      {
+        "file": "Mlox-Hlox.xlsx",
+        "bytes": 942923,
+        "sha256": "b8df2e606e9b65e955302c26a2760b93b4631b5dde670d7bb887d80712ca5e31"
+      }
+    ],
+    "selection": "Verification Plan governs requirements. New Mlox-Hlox geometry selected; source conflicts are retained explicitly.",
+    "conflicts": [
+      "Fairing length: Mlox-Hlox Vehicle Sizing K9=11.5m vs master Payload D35=14m. Select sizing11.5m; total58.763012739m.",
+      "PERF.2.01 C3=9.8km²/s²[TBR] vs master Trajectory&Orbit K8=7.7058. Evaluate both; neither is silently closed.",
+      "Top-down stage dry mass unchanged; bottom-up component masses changed. Do not use stale cached allocation margins.",
+      "Source bottom-up first-stage total excludes fairing. Source upper total includes431.976225kg PAF versus845kg master hardware sum.",
+      "Master available delta-v14.09993km/s vs current sizing13.4888334km/s vs requirement13.91473km/s[TBR]. Use integrated finite-burn state and explicit reserve accounting.",
+      "CP inches/nose datum, aerodynamic reference geometry, actuator capability and distributed mass stations remain provisional."
+    ],
+    "design_inputs_synchronized_at": "2026-10-28 approximately14:25 America/Chicago",
+    "design_input_sync_evidence": "Native OneDrive status: Backed up and synced. Workbooks available on this device; post-sync hashes matched frozen copies.",
+    "requirements_import": {
+      "date": "2026-10-28",
+      "file": "AE 443 Team A Requirements - Verification Plan.xlsx",
+      "sha256": "264a82fd98cf26e65aa648d7091bac686cff4e2df43c39e2e834accff84148a0",
+      "requirements_imported": 18,
+      "assigned_activities": 19,
+      "authority": "Shared requirements workbook, updated after verification planning chat finished",
+      "scope_file": "inputs/verification.toml",
+      "scope_bounds": "RFP and milestone-based semester contributions. Detailed qualification and comprehensive validation remain later DDT&E."
+    }
+  },
+  "reviewed_evidence": {},
+  "follow_up": [
+    {
+      "Artifact": "Payload and performance margins",
+      "Workbook activities": "SYS.1.10.A01, SYS.1.10.A02, PERF.2.01.A01, PERF.2.02.A01",
+      "Remaining work": "Semester: close mission energy/propellant margins and a few bounding payload, mass-growth and reserve cases. Extensive Monte Carlo campaigns are later development."
+    },
+    {
+      "Artifact": "Selected wind and aerodynamic cases",
+      "Workbook activities": "PERF.2.07.A01, PERF.2.08.A01, PERF.2.11.A01, PERF.2.33.A01",
+      "Remaining work": "Semester: selected bounding wind cases, Q/Qalpha histories and explicit unresolved limits. Operational envelopes and validated dispersion populations are later work."
+    },
+    {
+      "Artifact": "Primary and backup launch opportunities",
+      "Workbook activities": "PERF.2.03.A01, PERF.2.04.A01",
+      "Remaining work": "Semester: substantiate primary/backup opportunities and launch-site/azimuth feasibility. Full operational window optimization is later work."
+    },
+    {
+      "Artifact": "TMI closure and key sensitivities",
+      "Workbook activities": "PERF.2.18.A01, PERF.2.18.A02, PERF.2.19.A01, PERF.2.19.A02, PERF.2.34.A01, PROP.3.SYS.11.A01",
+      "Remaining work": "Semester: departure feasibility, target definition and a few cutoff/reserve sensitivities. Extensive injection-error campaigns and test correlation are later work."
+    },
+    {
+      "Artifact": "GNC assumptions and selected cases",
+      "Workbook activities": "AVI.3.GNC.01.A01, AVI.3.GNC.02.A01, AVI.3.GNC.03.A01, AVI.3.GNC.04.A01, AVI.3.GNC.05.A01, AVI.3.GNC.06.A01, AVI.3.GNC.07.A01",
+      "Remaining work": "Semester: mission coverage, supported actuator assumptions, coast/roll authority and selected recovery cases. Complete estimator/control software and SIL/HIL qualification are later work."
+    },
+    {
+      "Artifact": "Stability and accuracy budgets",
+      "Workbook activities": "AVI.3.GNC.09.A01, AVI.3.GNC.10.A01, PERF.2.26.A01",
+      "Remaining work": "Semester: discipline-supplied critical mode/stability and navigation-accuracy budgets. Detailed flexible-body validation and sensor qualification are outside this repository baseline."
+    }
+  ]
+}

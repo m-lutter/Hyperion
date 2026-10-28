@@ -1,8 +1,8 @@
 # VEHICLE: edit physical hardware, mass, geometry and aerodynamic interpretation here.
 # Units are in each key. SI is used internally; angles labeled deg are degrees.
-# Source: inputs/requirements/source_manifest.json, synced 28 Oct 2026.
+# Source: inputs/reference.json, synced 28 Oct 2026.
 # Values retain source precision so the baseline flight does not change.
-# The notebooks show all values and the choices below before running.
+# The notebook shows all values and the choices below before running.
 
 
 # Stage 1 dry mass excludes the separately modeled fairing.
