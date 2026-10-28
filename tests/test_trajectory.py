@@ -398,19 +398,21 @@ class TrajectoryRegression(unittest.TestCase):
         for key, values in EXPECTED["peaks"].items():
             for field, expected in values.items():
                 actual = self.summary["peaks"][key][field]
-                self.assertAlmostEqual(
-                    actual,
-                    expected,
-                    delta=max(1e-6, abs(expected) * 2e-8),
-                    msg=f"{key}.{field}",
-                )
+                with self.subTest(peak=key, field=field):
+                    self.assertAlmostEqual(
+                        actual,
+                        expected,
+                        delta=max(1e-6, abs(expected) * 2e-8),
+                        msg=f"{key}.{field}",
+                    )
         for field, expected in EXPECTED["cutoff_state"].items():
-            self.assertAlmostEqual(
-                self.summary["cutoff_state"][field],
-                expected,
-                delta=max(1e-5, abs(expected) * 2e-8),
-                msg=field,
-            )
+            with self.subTest(cutoff=field):
+                self.assertAlmostEqual(
+                    self.summary["cutoff_state"][field],
+                    expected,
+                    delta=max(1e-5, abs(expected) * 2e-8),
+                    msg=field,
+                )
         self.assertEqual(self.summary["checks"], EXPECTED["checks"])
         actual_events = self.simulation.events
         self.assertEqual(
@@ -418,7 +420,8 @@ class TrajectoryRegression(unittest.TestCase):
             [e["event"] for e in EXPECTED["events"]],
         )
         for actual, expected in zip(actual_events, EXPECTED["events"]):
-            self.assertAlmostEqual(actual["t_s"], expected["t_s"], delta=1e-5)
+            with self.subTest(event=actual["event"]):
+                self.assertAlmostEqual(actual["t_s"], expected["t_s"], delta=1e-5)
 
     def test_state_integrity_and_engineering_limitations(self):
         frame = self.trajectory
