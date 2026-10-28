@@ -384,6 +384,34 @@ BASELINE_CONFIG = {
 }
 
 
+# Full-flight extrema and orbital elements amplify small adaptive-step differences.
+# These dimensional bounds cover the measured Windows/Linux spread and a local
+# RK45 refinement check. They are regression tolerances, not physical acceptance
+# limits or a global accuracy claim. Unlisted fields retain the original bounds;
+# independent frame/atmosphere checks and the frozen expected values stay strict.
+PEAK_ABSOLUTE_TOLERANCES = {
+    "q_Pa": 0.05,
+    "qalpha_Pa_deg": 0.15,
+    "alpha_deg": 5e-5,
+    "normal_force_N": 0.1,
+    "axial_aero_force_N": 0.2,
+    "aero_moment_Nm": 5.0,
+    "required_moment_Nm": 10.0,
+}
+CUTOFF_ABSOLUTE_TOLERANCES = {
+    "t_s": 1e-4,
+    "vertical_speed_m_s": 2e-4,
+    "osculating_perigee_m": 0.2,
+    "osculating_apogee_m": 0.2,
+    "prop2_kg": 0.01,
+    "ideal_dv_m_s": 0.002,
+    "steering_loss_m_s": 0.005,
+    "drag_loss_m_s": 0.0002,
+    "gravity_loss_m_s": 0.002,
+}
+EVENT_TIME_TOLERANCE_S = 0.001  # Still 200 times smaller than the output spacing.
+
+
 class TrajectoryRegression(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -402,7 +430,8 @@ class TrajectoryRegression(unittest.TestCase):
                     self.assertAlmostEqual(
                         actual,
                         expected,
-                        delta=max(1e-6, abs(expected) * 2e-8),
+                        delta=max(1e-6, abs(expected) * 2e-8,
+                                  PEAK_ABSOLUTE_TOLERANCES.get(field, 0)),
                         msg=f"{key}.{field}",
                     )
         for field, expected in EXPECTED["cutoff_state"].items():
@@ -410,7 +439,8 @@ class TrajectoryRegression(unittest.TestCase):
                 self.assertAlmostEqual(
                     self.summary["cutoff_state"][field],
                     expected,
-                    delta=max(1e-5, abs(expected) * 2e-8),
+                    delta=max(1e-5, abs(expected) * 2e-8,
+                              CUTOFF_ABSOLUTE_TOLERANCES.get(field, 0)),
                     msg=field,
                 )
         self.assertEqual(self.summary["checks"], EXPECTED["checks"])
@@ -421,7 +451,8 @@ class TrajectoryRegression(unittest.TestCase):
         )
         for actual, expected in zip(actual_events, EXPECTED["events"]):
             with self.subTest(event=actual["event"]):
-                self.assertAlmostEqual(actual["t_s"], expected["t_s"], delta=1e-5)
+                self.assertAlmostEqual(actual["t_s"], expected["t_s"],
+                                       delta=EVENT_TIME_TOLERANCE_S)
 
     def test_state_integrity_and_engineering_limitations(self):
         frame = self.trajectory
